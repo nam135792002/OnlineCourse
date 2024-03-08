@@ -1,5 +1,7 @@
 package com.springboot.courses.service;
 
-public interface UserService {
+import com.springboot.courses.payload.UserDto;
 
+public interface UserService {
+    UserDto createUser(UserDto userDto);
 }
