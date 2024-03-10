@@ -1,16 +1,20 @@
 package com.springboot.courses.payload;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springboot.courses.entity.Role;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Setter
@@ -18,6 +22,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
+
     private Integer id;
 
     @NotEmpty(message = "Họ và tên không được để trống")
@@ -38,12 +43,16 @@ public class UserDto {
 
     @NotEmpty(message = "Mật khẩu không được để trống")
     @Length(min = 8, max = 30, message = "Mật khẩu phải có từ 8 - 30 ký tự")
-    @JsonProperty("pass_word")
     private String password;
 
     private String photo;
 
+    @JsonProperty("created_time")
     private Date createdTime;
 
-    private Role role;
+    private boolean enabled;
+
+    @JsonProperty("role_name")
+    private String roleName;
+
 }
