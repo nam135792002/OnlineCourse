@@ -1,10 +1,6 @@
 package com.springboot.courses.payload;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.springboot.courses.entity.Role;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -13,15 +9,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UserRequest {
 
     private Integer id;
 
@@ -51,8 +45,5 @@ public class UserDto {
     private Date createdTime;
 
     private boolean enabled;
-
-    @JsonProperty("role_name")
-    private String roleName;
 
 }

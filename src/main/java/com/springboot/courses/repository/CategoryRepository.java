@@ -10,6 +10,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     boolean existsCategoriesByName(String name);
 
+    boolean existsCategoriesBySlug(String slug);
+
     @Query("select c from Category c where c.name like %?1%")
     Page<Category> search(String keyword, Pageable pageable);
 }

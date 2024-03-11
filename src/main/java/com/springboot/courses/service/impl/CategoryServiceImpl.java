@@ -1,12 +1,10 @@
 package com.springboot.courses.service.impl;
 
 import com.springboot.courses.entity.Category;
-import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.CategoryDto;
 import com.springboot.courses.payload.ClassResponse;
-import com.springboot.courses.payload.UserDto;
 import com.springboot.courses.repository.CategoryRepository;
 import com.springboot.courses.service.CategoryService;
 import com.springboot.courses.utils.Utils;
@@ -31,8 +29,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
 
+        // check duplicate category name.
         if(categoryRepository.existsCategoriesByName(categoryDto.getName())){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category name have existed!");
+        }
+
+        // check duplicate category slug
+        if(categoryRepository.existsCategoriesBySlug(categoryDto.getSlug())){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category slug have existed!");
         }
 
         Category category = modelMapper.map(categoryDto, Category.class);

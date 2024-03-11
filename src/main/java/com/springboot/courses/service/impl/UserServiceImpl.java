@@ -4,8 +4,9 @@ import com.springboot.courses.entity.Role;
 import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
-import com.springboot.courses.payload.UserDto;
+import com.springboot.courses.payload.UserRequest;
 import com.springboot.courses.payload.ClassResponse;
+import com.springboot.courses.payload.UserResponse;
 import com.springboot.courses.repository.RoleRepository;
 import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.UserService;
@@ -32,25 +33,25 @@ public class UserServiceImpl implements UserService {
     @Autowired private UploadImage uploadImage;
 
     @Override
-    public UserDto createUser(UserDto userDto, MultipartFile img) {
+    public UserResponse createUser(UserRequest userRequest, MultipartFile img) {
         // check exists email
-        if (userRepository.existsUserByEmail(userDto.getEmail())){
+        if (userRepository.existsUserByEmail(userRequest.getEmail())){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Email đã từng tồn tại");
         }
 
         // check exists phone number
-        if (userRepository.existsUserByPhoneNumber(userDto.getPhoneNumber())){
+        if (userRepository.existsUserByPhoneNumber(userRequest.getPhoneNumber())){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Số điện thoại đã từng tồn tại");
         }
 
         // upload image on the cloudinary
         if(img != null){
             String url = uploadImage.uploadImageOnCloudinary(img);
-            userDto.setPhoto(url);
+            userRequest.setPhoto(url);
         }
 
         // convert user dto to user entity
-        User user = modelMapper.map(userDto, User.class);
+        User user = modelMapper.map(userRequest, User.class);
 
         // create time for user
         user.setCreatedTime(new Date());
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
         List<User> listUsers = users.getContent();
 
-        List<UserDto> content = listUsers.stream().map(this::convertToDto).toList();
+        List<UserResponse> content = listUsers.stream().map(this::convertToDto).toList();
 
         ClassResponse classResponse = new ClassResponse();
         classResponse.setContent(content);
@@ -95,13 +96,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto get(Integer userId) {
+    public UserResponse get(Integer userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         return convertToDto(user);
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto, Integer userId, MultipartFile img){
+    public UserResponse updateUser(UserRequest userRequest, Integer userId, MultipartFile img){
         // Get user in database
         User userInDB = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
@@ -115,13 +116,13 @@ public class UserServiceImpl implements UserService {
         }
 
         // Change password
-        if(!userDto.getPassword().equals("Unknown password")){
-            userInDB.setPassword(userDto.getPassword());
+        if(!userRequest.getPassword().equals("Unknown password")){
+            userInDB.setPassword(userRequest.getPassword());
         }
 
-        userInDB.setFullName(userDto.getFullName());
-        userInDB.setEmail(userDto.getEmail());
-        userInDB.setPhoneNumber(userDto.getPhoneNumber());
+        userInDB.setFullName(userRequest.getFullName());
+        userInDB.setEmail(userRequest.getEmail());
+        userInDB.setPhoneNumber(userRequest.getPhoneNumber());
 //        userInDB.setEnabled(userDto.isEnabled());
 
         User savedUser = userRepository.save(userInDB);
@@ -142,11 +143,11 @@ public class UserServiceImpl implements UserService {
         return "Delete user successfully!";
     }
 
-    private UserDto convertToDto(User user){
-        UserDto userDto = new UserDto();
-        userDto = modelMapper.map(user, UserDto.class);
-        userDto.setPassword(null);
-        userDto.setRoleName(user.getRole().getName());
-        return userDto;
+    private UserResponse convertToDto(User user){
+        UserResponse userResponse = new UserResponse();
+
+        userResponse = modelMapper.map(user, UserResponse.class);
+        userResponse.setRoleName(user.getRole().getName());
+        return userResponse;
     }
 }

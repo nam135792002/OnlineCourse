@@ -1,12 +1,12 @@
 package com.springboot.courses.controller;
 
-import com.springboot.courses.payload.UserDto;
+import com.springboot.courses.payload.UserRequest;
 import com.springboot.courses.payload.ClassResponse;
+import com.springboot.courses.payload.UserResponse;
 import com.springboot.courses.service.UserService;
 import com.springboot.courses.utils.AppConstants;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,9 +20,9 @@ public class UserController {
     @Autowired private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestPart(value = "userDto") @Valid UserDto userDto,
-                                             @RequestParam(value = "img", required = false) MultipartFile image){
-        UserDto savedUser = userService.createUser(userDto, image);
+    public ResponseEntity<UserResponse> createUser(@RequestPart(value = "userDto") @Valid UserRequest userRequest,
+                                                   @RequestParam(value = "img", required = false) MultipartFile image){
+        UserResponse savedUser = userService.createUser(userRequest, image);
         URI uri = URI.create("/api/users/" + savedUser.getId());
         return ResponseEntity.created(uri).body(savedUser);
     }
@@ -44,15 +44,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable(value = "id") Integer userId){
+    public ResponseEntity<UserResponse> getUser(@PathVariable(value = "id") Integer userId){
         return ResponseEntity.ok(userService.get(userId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@RequestPart(value = "userDto") @Valid UserDto userDto,
-                                              @PathVariable(value = "id") Integer userId,
-                                              @RequestParam(value = "img", required = false) MultipartFile img) {
-        return ResponseEntity.ok(userService.updateUser(userDto, userId, img));
+    public ResponseEntity<UserResponse> updateUser(@RequestPart(value = "userDto") @Valid UserRequest userRequest,
+                                                  @PathVariable(value = "id") Integer userId,
+                                                  @RequestParam(value = "img", required = false) MultipartFile img) {
+        return ResponseEntity.ok(userService.updateUser(userRequest, userId, img));
     }
 
     @DeleteMapping("/{id}")
