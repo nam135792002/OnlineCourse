@@ -1,4 +1,4 @@
-package com.springboot.courses.payload;
+package com.springboot.courses.payload.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

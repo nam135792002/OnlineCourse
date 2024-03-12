@@ -1,8 +1,8 @@
 package com.springboot.courses.service;
 
-import com.springboot.courses.payload.UserRequest;
+import com.springboot.courses.payload.user.UserRequest;
 import com.springboot.courses.payload.ClassResponse;
-import com.springboot.courses.payload.UserResponse;
+import com.springboot.courses.payload.user.UserResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {

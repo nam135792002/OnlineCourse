@@ -38,7 +38,7 @@ public class Courses {
     @Column(name = "student_count")
     private int studentCount;
 
-    @Column(name = "published_at", nullable = false)
+    @Column(name = "published_at")
     private Date publishedAt;
 
     @Column(name = "is_coming_soon")

@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,19 +28,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired private ModelMapper modelMapper;
 
     @Override
-    public CategoryDto createCategory(CategoryDto categoryDto) {
+    public CategoryDto createCategory(CategoryDto categoryRequest) {
 
         // check duplicate category name.
-        if(categoryRepository.existsCategoriesByName(categoryDto.getName())){
+        if(categoryRepository.existsCategoriesByName(categoryRequest.getName())){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category name have existed!");
         }
 
         // check duplicate category slug
-        if(categoryRepository.existsCategoriesBySlug(categoryDto.getSlug())){
+        if(categoryRepository.existsCategoriesBySlug(categoryRequest.getSlug())){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category slug have existed!");
         }
 
-        Category category = modelMapper.map(categoryDto, Category.class);
+        Category category = modelMapper.map(categoryRequest, Category.class);
 
         // code convert name to slug
         String slug = Utils.removeVietnameseAccents(category.getName());
@@ -69,15 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<CategoryDto> content = listCategories.stream().map(category -> modelMapper.map(category, CategoryDto.class)).collect(Collectors.toList());
 
-        ClassResponse classResponse = new ClassResponse();
-        classResponse.setContent(content);
-        classResponse.setPageNo(categories.getNumber());
-        classResponse.setPageSize(categories.getSize());
-        classResponse.setTotalElements(categories.getTotalElements());
-        classResponse.setTotalPage(categories.getTotalPages());
-        classResponse.setLast(categories.isLast());
-
-        return classResponse;
+        return ClassResponse.convertToClassResponse(categories, content);
     }
 
     @Override
@@ -89,11 +82,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto update(Integer categoryId, CategoryDto categoryDto) {
+    public CategoryDto update(Integer categoryId, CategoryDto categoryRequest) {
         Category categoryInDB = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
 
-        String name = categoryDto.getName();
+        Category category = categoryRepository.findByNameOrSlug(categoryRequest.getName(), categoryRequest.getSlug());
+        if(!Objects.equals(category.getId(), categoryInDB.getId())){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category name/slug have been existed!");
+        }
+
+        String name = categoryRequest.getName();
         categoryInDB.setName(name);
         categoryInDB.setSlug(Utils.removeVietnameseAccents(name));
         Category updatedCategory = categoryRepository.save(categoryInDB);

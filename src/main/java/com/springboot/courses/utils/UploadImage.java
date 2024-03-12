@@ -26,12 +26,11 @@ public class UploadImage {
         }
     }
 
-    public void deleteImageInCloudinary(User user){
+    public void deleteImageInCloudinary(String url){
         try {
-            String urlTemp = user.getPhoto();
-            int lastSlashIndex = urlTemp.lastIndexOf('/');
-            int lastDotIndex = urlTemp.lastIndexOf('.');
-            String fileName = urlTemp.substring(lastSlashIndex + 1, lastDotIndex);
+            int lastSlashIndex = url.lastIndexOf('/');
+            int lastDotIndex = url.lastIndexOf('.');
+            String fileName = url.substring(lastSlashIndex + 1, lastDotIndex);
             cloudinary.uploader().destroy(fileName, ObjectUtils.asMap("resource_type","image"));
         } catch (IOException e) {
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Change image failed!");

@@ -4,9 +4,9 @@ import com.springboot.courses.entity.Role;
 import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
-import com.springboot.courses.payload.UserRequest;
+import com.springboot.courses.payload.user.UserRequest;
 import com.springboot.courses.payload.ClassResponse;
-import com.springboot.courses.payload.UserResponse;
+import com.springboot.courses.payload.user.UserResponse;
 import com.springboot.courses.repository.RoleRepository;
 import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.UserService;
@@ -84,15 +84,7 @@ public class UserServiceImpl implements UserService {
 
         List<UserResponse> content = listUsers.stream().map(this::convertToDto).toList();
 
-        ClassResponse classResponse = new ClassResponse();
-        classResponse.setContent(content);
-        classResponse.setPageNo(users.getNumber());
-        classResponse.setPageSize(users.getSize());
-        classResponse.setTotalElements(users.getTotalElements());
-        classResponse.setTotalPage(users.getTotalPages());
-        classResponse.setLast(users.isLast());
-
-        return classResponse;
+        return ClassResponse.convertToClassResponse(users, content);
     }
 
     @Override
@@ -109,7 +101,7 @@ public class UserServiceImpl implements UserService {
         // Change image avatar of user
         if(img != null){
             if(userInDB.getPhoto() != null){
-                uploadImage.deleteImageInCloudinary(userInDB);
+                uploadImage.deleteImageInCloudinary(userInDB.getPhoto());
             }
             String url = uploadImage.uploadImageOnCloudinary(img);
             userInDB.setPhoto(url);
@@ -136,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
         // delete avatar in cloudinary
         if(userInDB.getPhoto() != null){
-            uploadImage.deleteImageInCloudinary(userInDB);
+            uploadImage.deleteImageInCloudinary(userInDB.getPhoto());
         }
 
         userRepository.delete(userInDB);

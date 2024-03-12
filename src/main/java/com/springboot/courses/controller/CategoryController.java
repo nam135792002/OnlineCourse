@@ -17,15 +17,15 @@ public class CategoryController {
 
     @Autowired private CategoryService categoryService;
 
-    @PostMapping
-    public ResponseEntity<CategoryDto> add(@RequestBody @Valid CategoryDto categoryDto){
-        CategoryDto savedCategory = categoryService.createCategory(categoryDto);
+    @PostMapping("/create")
+    public ResponseEntity<CategoryDto> add(@RequestBody @Valid CategoryDto categoryRequest){
+        CategoryDto savedCategory = categoryService.createCategory(categoryRequest);
         URI uri = URI.create("/api/categories/" + savedCategory.getId());
 
         return ResponseEntity.created(uri).body(savedCategory);
     }
 
-    @GetMapping
+    @GetMapping("/list-all")
     public ResponseEntity<ClassResponse> listAllCategories(
         @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
         @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -40,18 +40,18 @@ public class CategoryController {
         return ResponseEntity.ok(classResponse);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<CategoryDto> get(@PathVariable(value = "id") Integer categoryId){
         return ResponseEntity.ok(categoryService.get(categoryId));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<CategoryDto> updatedCategory(@PathVariable(value = "id") Integer categoryId,
-                                                       @RequestBody @Valid CategoryDto categoryDto){
-        return ResponseEntity.ok(categoryService.update(categoryId, categoryDto));
+                                                       @RequestBody @Valid CategoryDto categoryRequest){
+        return ResponseEntity.ok(categoryService.update(categoryId, categoryRequest));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable(value = "id") Integer categoryId){
         return ResponseEntity.ok(categoryService.delete(categoryId));
     }
