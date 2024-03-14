@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -45,4 +46,7 @@ public class CourseResponse {
     private boolean isPublished;
 
     private CategoryDto category;
+
+    @JsonProperty("info_list")
+    private List<CourseInfoResponse> infoList;
 }

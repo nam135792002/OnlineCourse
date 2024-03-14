@@ -3,7 +3,10 @@ package com.springboot.courses.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -50,4 +53,30 @@ public class Courses {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseInfo> infoList = new ArrayList<>();
+
+    public void addInfoList(String value, InformationType type){
+        this.infoList.add(new CourseInfo(value, type, this));
+    }
+
+    public void setInfoList(List<CourseInfo> infoList) {
+        if(infoList != null && !infoList.isEmpty()){
+            this.infoList.clear();
+            this.infoList.addAll(infoList);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Courses courses)) return false;
+        return Objects.equals(getId(), courses.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

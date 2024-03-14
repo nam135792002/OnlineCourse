@@ -53,6 +53,7 @@ public class CourseController {
     public ResponseEntity<CourseResponse> updateCourse(@PathVariable(value = "id") Integer courseId,
                                                        @RequestPart(value = "course") @Valid CoursesRequest coursesRequest,
                                                        @RequestParam(value = "img", required = false) MultipartFile img){
+        System.out.println(coursesRequest.getInfoList().size());
         return ResponseEntity.ok(coursesService.update(courseId, coursesRequest, img));
     }
 

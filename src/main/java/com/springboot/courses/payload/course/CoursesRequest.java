@@ -2,6 +2,7 @@ package com.springboot.courses.payload.course;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springboot.courses.entity.Category;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -53,4 +55,9 @@ public class CoursesRequest {
     @NotNull(message = "Category ID can not be null")
     @JsonProperty("category_id")
     private Integer categoryId;
+
+    @NotEmpty(message = "Course info can not be empty")
+    @Valid
+    @JsonProperty("info_list")
+    private List<CourseInfoRequest> infoList;
 }
