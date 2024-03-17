@@ -10,7 +10,7 @@ import com.springboot.courses.payload.user.UserResponse;
 import com.springboot.courses.repository.RoleRepository;
 import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.UserService;
-import com.springboot.courses.utils.UploadImage;
+import com.springboot.courses.utils.UploadFile;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Autowired private UserRepository userRepository;
     @Autowired private RoleRepository roleRepository;
     @Autowired private ModelMapper modelMapper;
-    @Autowired private UploadImage uploadImage;
+    @Autowired private UploadFile uploadFile;
 
     @Override
     public UserResponse createUser(UserRequest userRequest, MultipartFile img) {
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
         // upload image on the cloudinary
         if(img != null){
-            String url = uploadImage.uploadImageOnCloudinary(img);
+            String url = uploadFile.uploadFileOnCloudinary(img);
             userRequest.setPhoto(url);
         }
 
@@ -101,9 +101,9 @@ public class UserServiceImpl implements UserService {
         // Change image avatar of user
         if(img != null){
             if(userInDB.getPhoto() != null){
-                uploadImage.deleteImageInCloudinary(userInDB.getPhoto());
+                uploadFile.deleteImageInCloudinary(userInDB.getPhoto());
             }
-            String url = uploadImage.uploadImageOnCloudinary(img);
+            String url = uploadFile.uploadFileOnCloudinary(img);
             userInDB.setPhoto(url);
         }
 
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
         // delete avatar in cloudinary
         if(userInDB.getPhoto() != null){
-            uploadImage.deleteImageInCloudinary(userInDB.getPhoto());
+            uploadFile.deleteImageInCloudinary(userInDB.getPhoto());
         }
 
         userRepository.delete(userInDB);

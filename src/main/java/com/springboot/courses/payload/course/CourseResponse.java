@@ -3,6 +3,7 @@ package com.springboot.courses.payload.course;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.springboot.courses.payload.CategoryDto;
+import com.springboot.courses.payload.ChapterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,4 +50,13 @@ public class CourseResponse {
 
     @JsonProperty("info_list")
     private List<CourseInfoResponse> infoList;
+
+    @JsonProperty("chapter_list")
+    private List<ChapterDto> chapterList;
+
+    @JsonProperty("total_chapter")
+    private int totalChapter;
+
+    @JsonProperty("total_lesson")
+    private int totalLesson;
 }

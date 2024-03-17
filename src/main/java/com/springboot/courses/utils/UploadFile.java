@@ -2,7 +2,6 @@ package com.springboot.courses.utils;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,16 +12,16 @@ import java.io.IOException;
 import java.util.Map;
 
 @Component
-public class UploadImage {
+public class UploadFile {
     @Autowired private Cloudinary cloudinary;
 
-    public String uploadImageOnCloudinary(MultipartFile image) {
+    public String uploadFileOnCloudinary(MultipartFile file) {
         try {
-            Map r = cloudinary.uploader().upload(image.getBytes(),
+            Map r = cloudinary.uploader().upload(file.getBytes(),
                     ObjectUtils.asMap("resource_type","auto"));
             return (String) r.get("secure_url");
         } catch (IOException e) {
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Upload image failed!");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Upload file failed!");
         }
     }
 
@@ -31,9 +30,20 @@ public class UploadImage {
             int lastSlashIndex = url.lastIndexOf('/');
             int lastDotIndex = url.lastIndexOf('.');
             String fileName = url.substring(lastSlashIndex + 1, lastDotIndex);
-            cloudinary.uploader().destroy(fileName, ObjectUtils.asMap("resource_type","image"));
+            cloudinary.uploader().destroy(fileName, ObjectUtils.asMap("resource_type","img"));
         } catch (IOException e) {
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Change image failed!");
+        }
+    }
+
+    public void deleteVideoInCloudinary(String url){
+        try {
+            int lastSlashIndex = url.lastIndexOf('/');
+            int lastDotIndex = url.lastIndexOf('.');
+            String fileName = url.substring(lastSlashIndex + 1, lastDotIndex);
+            cloudinary.uploader().destroy(fileName, ObjectUtils.asMap("resource_type","video"));
+        } catch (IOException e) {
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Change video failed!");
         }
     }
 }

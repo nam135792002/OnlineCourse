@@ -13,7 +13,7 @@ import com.springboot.courses.payload.course.CoursesRequest;
 import com.springboot.courses.repository.CategoryRepository;
 import com.springboot.courses.repository.CoursesRepository;
 import com.springboot.courses.service.CoursesService;
-import com.springboot.courses.utils.UploadImage;
+import com.springboot.courses.utils.UploadFile;
 import com.springboot.courses.utils.Utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -35,7 +36,7 @@ public class CoursesServiceImpl implements CoursesService {
 
     @Autowired private CoursesRepository coursesRepository;
     @Autowired private ModelMapper modelMapper;
-    @Autowired private UploadImage uploadImage;
+    @Autowired private UploadFile uploadFile;
     @Autowired private CategoryRepository categoryRepository;
 
     @Override
@@ -56,7 +57,7 @@ public class CoursesServiceImpl implements CoursesService {
         
         convertSomeAttributeToEntity(courses, coursesRequest);
 
-        String thumbnail = uploadImage.uploadImageOnCloudinary(image);
+        String thumbnail = uploadFile.uploadFileOnCloudinary(image);
         courses.setThumbnail(thumbnail);
 
         courses.setCategory(category);
@@ -119,13 +120,15 @@ public class CoursesServiceImpl implements CoursesService {
 
         Courses courses = coursesRepository.findByTitleOrSlug(coursesRequest.getTitle(), coursesRequest.getSlug());
 
-        if(!Objects.equals(courses.getId(), courseInDB.getId())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Title/Slug have been duplicated!");
+        if(courses != null){
+            if(!Objects.equals(courses.getId(), courseInDB.getId())){
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Title/Slug have been duplicated!");
+            }
         }
 
         if(img != null){
-            uploadImage.deleteImageInCloudinary(courseInDB.getThumbnail());
-            String url = uploadImage.uploadImageOnCloudinary(img);
+            uploadFile.deleteImageInCloudinary(courseInDB.getThumbnail());
+            String url = uploadFile.uploadFileOnCloudinary(img);
             courseInDB.setThumbnail(url);
         }
 
@@ -158,7 +161,7 @@ public class CoursesServiceImpl implements CoursesService {
         Courses courseInDB = coursesRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
 
-        uploadImage.deleteImageInCloudinary(courseInDB.getThumbnail());
+        uploadFile.deleteImageInCloudinary(courseInDB.getThumbnail());
 
         coursesRepository.delete(courseInDB);
 
@@ -176,7 +179,7 @@ public class CoursesServiceImpl implements CoursesService {
         courses.setComingSoon(request.isComingSoon());
         courses.setPublished(request.isPublished());
         if(request.isPublished()){
-            courses.setPublishedAt(request.getPublishedAt());
+            courses.setPublishedAt(new Date());
         }
     }
 }

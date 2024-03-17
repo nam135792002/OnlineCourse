@@ -87,8 +87,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
 
         Category category = categoryRepository.findByNameOrSlug(categoryRequest.getName(), categoryRequest.getSlug());
-        if(!Objects.equals(category.getId(), categoryInDB.getId())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category name/slug have been existed!");
+
+        if(category != null){
+            if(!Objects.equals(category.getId(), categoryInDB.getId())){
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category name/slug have been existed!");
+            }
         }
 
         String name = categoryRequest.getName();
