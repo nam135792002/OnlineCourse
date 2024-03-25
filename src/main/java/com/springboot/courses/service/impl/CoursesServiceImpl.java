@@ -26,6 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -222,6 +223,7 @@ public class CoursesServiceImpl implements CoursesService {
 
     private void sortChapterAndLesson(CourseReturnDetailPageResponse response){
         int totalLessonInCourse = 0;
+        Duration duration = Duration.ZERO;
 
         List<ChapterReturnDetailResponse> chapterList = response.getChapterList().stream().map(chapter ->
                         modelMapper.map(chapter, ChapterReturnDetailResponse.class)).collect(Collectors.toList());
@@ -237,15 +239,30 @@ public class CoursesServiceImpl implements CoursesService {
                     lesson.setVideoId(lessonInDB.getVideo().getId());
                     Video video = videoRepository.findById(lessonInDB.getVideo().getId()).get();
                     lesson.setDuration(video.getDuration());
+
+                    duration = duration.plus(
+                            Duration.ofMinutes(video.getDuration().getMinute())
+                                    .plusSeconds(video.getDuration().getSecond())
+                    );
                 }else{
                     LocalTime time = LocalTime.of(0,1,0);
                     lesson.setDuration(time);
+                    duration= duration.plus(
+                            Duration.ofMinutes(1)
+                    );
                 }
             }
             totalLessonInCourse += listLesson.size();
             chapter.setTotalLesson(listLesson.size());
         }
 
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes(); // Lấy tổng số phút
+        long seconds = duration.minusMinutes(minutes).getSeconds(); // Lấy số giây còn lại sau khi lấy tổng số phút
+
+        // Tạo LocalTime từ số phút và số giây
+        LocalTime localTime = LocalTime.of((int) hours, (int) minutes, (int) seconds);
+        response.setTotalTime(localTime);
         response.setTotalLesson(totalLessonInCourse);
     }
 }

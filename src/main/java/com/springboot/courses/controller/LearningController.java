@@ -14,6 +14,11 @@ public class LearningController {
 
     @Autowired private VideoService videoService;
 
+    @GetMapping("/courses/{id}")
+    public ResponseEntity<?> getDetailInLearningPage(@PathVariable(value = "id") Integer courseId){
+        return null;
+    }
+
     @GetMapping("/courses/video/{id}")
     public ResponseEntity<?> getVideoInDetailCourse(@PathVariable(value = "id") Integer videoId){
         return ResponseEntity.ok(videoService.getVideo(videoId));

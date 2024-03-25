@@ -17,4 +17,5 @@ public interface CoursesService {
     String delete(Integer courseId);
     List<CourseReturnHomePageResponse> getCourseIntoHomePage(Integer categoryId);
     CourseReturnDetailPageResponse getCourseDetail(Integer courseId);
+
 }
