@@ -1,12 +1,15 @@
-package com.springboot.courses.payload;
+package com.springboot.courses.payload.chapter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.springboot.courses.payload.lesson.LessonResponse;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -21,4 +24,8 @@ public class ChapterDto {
 
     @JsonProperty("total_lesson")
     private int totalLesson;
+
+    private List<LessonResponse> lessonList;
+
+    private int orders;
 }

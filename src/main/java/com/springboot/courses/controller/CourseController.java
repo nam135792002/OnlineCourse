@@ -1,6 +1,7 @@
 package com.springboot.courses.controller;
 
 import com.springboot.courses.payload.ClassResponse;
+import com.springboot.courses.payload.course.CourseReturnHomePageResponse;
 import com.springboot.courses.payload.course.CourseResponse;
 import com.springboot.courses.payload.course.CoursesRequest;
 import com.springboot.courses.service.CoursesService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -47,6 +49,20 @@ public class CourseController {
     @GetMapping("/get/{id}")
     public ResponseEntity<CourseResponse> getCourseById(@PathVariable(value = "id") Integer courseId){
         return ResponseEntity.ok(coursesService.get(courseId));
+    }
+
+    @GetMapping("/home-page")
+    public ResponseEntity<?> getCourseReturnHomePage(@RequestParam(value = "categoryId", required = false) Integer categoryId){
+        List<CourseReturnHomePageResponse> listCourses = coursesService.getCourseIntoHomePage(categoryId);
+        if(listCourses.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(listCourses);
+    }
+
+    @GetMapping("/get-detail/{id}")
+    public ResponseEntity<?> getCourseDetailById(@PathVariable(value = "id") Integer courseId){
+        return ResponseEntity.ok(coursesService.getCourseDetail(courseId));
     }
 
     @PutMapping("/update/{id}")

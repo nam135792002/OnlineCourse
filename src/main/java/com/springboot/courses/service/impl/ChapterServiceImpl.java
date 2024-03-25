@@ -4,7 +4,7 @@ import com.springboot.courses.entity.Chapter;
 import com.springboot.courses.entity.Courses;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
-import com.springboot.courses.payload.ChapterDto;
+import com.springboot.courses.payload.chapter.ChapterDto;
 import com.springboot.courses.repository.ChapterRepository;
 import com.springboot.courses.repository.CoursesRepository;
 import com.springboot.courses.service.ChapterService;
@@ -37,11 +37,8 @@ public class ChapterServiceImpl implements ChapterService {
         chapter.setName(chapterDto.getName());
         chapter.setCourse(course);
 
-        int totalChapter = course.getTotalChapter() + 1;
-        course.setTotalChapter(totalChapter);
-        coursesRepository.save(course);
-
         Chapter savedChapter = chapterRepository.save(chapter);
+
         return modelMapper.map(savedChapter, ChapterDto.class);
     }
 

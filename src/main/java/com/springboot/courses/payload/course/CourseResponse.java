@@ -3,7 +3,7 @@ package com.springboot.courses.payload.course;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.springboot.courses.payload.CategoryDto;
-import com.springboot.courses.payload.ChapterDto;
+import com.springboot.courses.payload.chapter.ChapterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,9 +1,6 @@
 package com.springboot.courses.service.impl;
 
-import com.springboot.courses.entity.Chapter;
-import com.springboot.courses.entity.Lesson;
-import com.springboot.courses.entity.LessonType;
-import com.springboot.courses.entity.Video;
+import com.springboot.courses.entity.*;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.lesson.LessonRequest;
@@ -35,16 +32,21 @@ public class LessonServiceImpl implements LessonService {
         Chapter chapter = chapterRepository.findById(lessonRequest.getChapterId())
                 .orElseThrow(() -> new ResourceNotFoundException("Chapter", "id", lessonRequest.getChapterId()));
 
-        Video video = videoRepository.findById(lessonRequest.getVideoId())
-                .orElseThrow(() -> new ResourceNotFoundException("Video", "id", lessonRequest.getVideoId()));
+        Video video = null;
+        if(lessonRequest.getVideoId() != null){
+            video = videoRepository.findById(lessonRequest.getVideoId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Video", "id", lessonRequest.getVideoId()));
+
+            if(lessonRepository.existsLessonByVideo(video)){
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Video have existed!");
+            }
+
+        }
 
         if(lessonRepository.existsLessonByNameAndChapter(lessonRequest.getName(),chapter)){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Lesson name have existed in this chapter.");
         }
 
-        if(lessonRepository.existsLessonByVideo(video)){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Video have existed!");
-        }
 
         Lesson lesson = new Lesson();
         lesson.setName(lessonRequest.getName());
@@ -54,6 +56,7 @@ public class LessonServiceImpl implements LessonService {
         lesson.setVideo(video);
 
         Lesson savedLesson = lessonRepository.save(lesson);
+
         return convertToResponse(savedLesson);
     }
 
@@ -71,8 +74,11 @@ public class LessonServiceImpl implements LessonService {
         Chapter chapter = chapterRepository.findById(lessonRequest.getChapterId())
                 .orElseThrow(() -> new ResourceNotFoundException("Chapter", "id", lessonRequest.getChapterId()));
 
-        Video video = videoRepository.findById(lessonRequest.getVideoId())
-                .orElseThrow(() -> new ResourceNotFoundException("Video", "id", lessonRequest.getVideoId()));
+        Video video = null;
+        if(lessonRequest.getVideoId() != null){
+            video = videoRepository.findById(lessonRequest.getVideoId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Video", "id", lessonRequest.getVideoId()));
+        }
 
         Lesson lessonInDB = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
@@ -99,6 +105,8 @@ public class LessonServiceImpl implements LessonService {
         uploadFile.deleteVideoInCloudinary(url);
 
         lessonRepository.delete(lessonInDB);
+
+
 
         return "Delete lesson successfully!";
     }

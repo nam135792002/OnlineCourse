@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface CoursesRepository extends JpaRepository<Courses, Integer> {
 
     boolean existsCoursesByTitle(String title);
@@ -23,4 +25,7 @@ public interface CoursesRepository extends JpaRepository<Courses, Integer> {
     @Query("select c from Courses c where c.category.id = ?1")
     Page<Courses> findAllInCategory(Integer categoryId, Pageable pageable);
     Courses findByTitleOrSlug(String title, String slug);
+
+    @Query("select c from Courses c where c.category.id = ?1")
+    List<Courses> findAllByCategoryId(Integer categoryId);
 }

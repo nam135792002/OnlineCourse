@@ -1,6 +1,6 @@
 package com.springboot.courses.controller;
 
-import com.springboot.courses.payload.VideoDto;
+import com.springboot.courses.payload.video.VideoDto;
 import com.springboot.courses.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

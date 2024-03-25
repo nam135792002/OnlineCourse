@@ -1,6 +1,6 @@
 package com.springboot.courses.service;
 
-import com.springboot.courses.payload.ChapterDto;
+import com.springboot.courses.payload.chapter.ChapterDto;
 
 public interface ChapterService {
     ChapterDto createChapter(Integer courseId, ChapterDto chapterDto);

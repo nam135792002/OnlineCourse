@@ -1,4 +1,4 @@
-package com.springboot.courses.payload;
+package com.springboot.courses.payload.video;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

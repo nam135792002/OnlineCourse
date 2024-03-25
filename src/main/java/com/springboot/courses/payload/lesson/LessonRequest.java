@@ -35,7 +35,8 @@ public class LessonRequest {
     @JsonProperty("chapter_id")
     private Integer chapterId;
 
-    @NotNull(message = "Video id can not be null")
     @JsonProperty("video_id")
     private Integer videoId;
+
+    private int orders;
 }

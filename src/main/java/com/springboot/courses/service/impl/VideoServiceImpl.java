@@ -3,7 +3,8 @@ package com.springboot.courses.service.impl;
 import com.springboot.courses.entity.Video;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
-import com.springboot.courses.payload.VideoDto;
+import com.springboot.courses.payload.video.VideoDto;
+import com.springboot.courses.payload.video.VideoReturnResponse;
 import com.springboot.courses.repository.VideoRepository;
 import com.springboot.courses.service.VideoService;
 import com.springboot.courses.utils.UploadFile;
@@ -52,6 +53,13 @@ public class VideoServiceImpl implements VideoService {
 
         videoRepository.delete(videoDB);
         return "Delete video successfully!";
+    }
+
+    @Override
+    public VideoReturnResponse getVideo(Integer videoId) {
+        Video videoInDB = videoRepository.findById(videoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Video", "id", videoId));
+        return modelMapper.map(videoInDB, VideoReturnResponse.class);
     }
 
     private VideoDto savedVideoIntoDB(MultipartFile videoFile, Video video){

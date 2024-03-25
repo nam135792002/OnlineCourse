@@ -1,6 +1,6 @@
 package com.springboot.courses.controller;
 
-import com.springboot.courses.payload.ChapterDto;
+import com.springboot.courses.payload.chapter.ChapterDto;
 import com.springboot.courses.service.ChapterService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -60,12 +60,6 @@ public class Courses {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chapter> chapterList = new ArrayList<>();
 
-    @JoinColumn(name = "total_chapter")
-    private int totalChapter;
-
-    @JoinColumn(name = "total_lesson")
-    private int totalLesson;
-
     public void addInfoList(String value, InformationType type){
         this.infoList.add(new CourseInfo(value, type, this));
     }
