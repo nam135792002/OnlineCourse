@@ -236,7 +236,6 @@ public class CoursesServiceImpl implements CoursesService {
             for (LessonReturnDetailResponse lesson : listLesson){
                 if (lesson.getLessonType().equals(LessonType.VIDEO)){
                     Lesson lessonInDB = lessonRepository.findById(lesson.getId()).get();
-                    lesson.setVideoId(lessonInDB.getVideo().getId());
                     Video video = videoRepository.findById(lessonInDB.getVideo().getId()).get();
                     lesson.setDuration(video.getDuration());
 

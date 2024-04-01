@@ -25,7 +25,4 @@ public class LessonReturnDetailResponse {
     private int orders;
 
     private LocalTime duration;
-
-    @JsonProperty("video_id")
-    private Integer videoId;
 }

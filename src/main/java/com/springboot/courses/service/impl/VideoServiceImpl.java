@@ -55,13 +55,6 @@ public class VideoServiceImpl implements VideoService {
         return "Delete video successfully!";
     }
 
-    @Override
-    public VideoReturnResponse getVideo(Integer videoId) {
-        Video videoInDB = videoRepository.findById(videoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Video", "id", videoId));
-        return modelMapper.map(videoInDB, VideoReturnResponse.class);
-    }
-
     private VideoDto savedVideoIntoDB(MultipartFile videoFile, Video video){
         String url = uploadFile.uploadFileOnCloudinary(videoFile);
         video.setUrl(url);

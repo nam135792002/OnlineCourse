@@ -5,8 +5,10 @@ import com.springboot.courses.payload.ClassResponse;
 import com.springboot.courses.payload.user.UserResponse;
 import com.springboot.courses.service.UserService;
 import com.springboot.courses.utils.AppConstants;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,5 +60,23 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable(value = "id") Integer userId){
         return ResponseEntity.ok(userService.delete(userId));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registration(@RequestPart(value = "user") @Valid UserRequest userRequest,
+                                          @RequestParam(value = "img", required = false) MultipartFile img,
+                                          HttpServletRequest request){
+        return new ResponseEntity<>(userService.createCustomer(userRequest, img, request), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<?> verify(@RequestParam(value = "code") String verification){
+        boolean verify = userService.verify(verification);
+        URI uri = URI.create("/api/users/register/" + (verify?"success":"failed"));
+        if(verify){
+            return ResponseEntity.ok().body(uri);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(uri);
+        }
     }
 }

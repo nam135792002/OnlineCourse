@@ -3,7 +3,10 @@ package com.springboot.courses;
 import com.springboot.courses.entity.CourseInfo;
 import com.springboot.courses.entity.Courses;
 import com.springboot.courses.entity.InformationType;
+import com.springboot.courses.entity.User;
 import com.springboot.courses.repository.CoursesRepository;
+import com.springboot.courses.repository.UserRepository;
+import com.springboot.courses.utils.UploadFile;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -16,6 +19,8 @@ import org.springframework.test.annotation.Rollback;
 public class CourseRepositoryTests {
 
     @Autowired private CoursesRepository coursesRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private UploadFile uploadFile;
 
     @Test
     public void addCourse(){
@@ -30,5 +35,13 @@ public class CourseRepositoryTests {
         courses.getInfoList().add(info3);
 
         coursesRepository.save(courses);
+    }
+
+    @Test
+    public void testDeleteUser(){
+        User user = userRepository.findById(2).get();
+        uploadFile.deleteImageInCloudinary(user.getPhoto());
+        userRepository.delete(user);
+
     }
 }

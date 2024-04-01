@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Setter
@@ -24,6 +25,9 @@ public class ChapterReturnDetailResponse {
 
     @JsonProperty("total_lesson")
     private int totalLesson;
+
+    @JsonProperty("duration_chapter")
+    private LocalTime durationChapter;
 
     @JsonProperty("lesson_list")
     private List<LessonReturnDetailResponse> lessonList;

@@ -8,5 +8,4 @@ public interface VideoService {
     VideoDto saveVideo(MultipartFile videoFile);
     VideoDto updateVideo(Integer videoId, MultipartFile videoFile);
     String deleteVideo(Integer videoId);
-    VideoReturnResponse getVideo(Integer videoId);
 }
