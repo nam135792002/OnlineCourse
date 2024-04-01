@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CoursesRepository extends JpaRepository<Courses, Integer> {
 
@@ -28,4 +29,6 @@ public interface CoursesRepository extends JpaRepository<Courses, Integer> {
 
     @Query("select c from Courses c where c.category.id = ?1")
     List<Courses> findAllByCategoryId(Integer categoryId);
+
+    Optional<Courses> findCoursesBySlug(String slug);
 }

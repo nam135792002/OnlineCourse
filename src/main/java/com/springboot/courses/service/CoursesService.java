@@ -16,6 +16,6 @@ public interface CoursesService {
     CourseResponse update(Integer courseId, CoursesRequest coursesRequest, MultipartFile img);
     String delete(Integer courseId);
     List<CourseReturnHomePageResponse> getCourseIntoHomePage(Integer categoryId);
-    CourseReturnDetailPageResponse getCourseDetail(Integer courseId);
+    CourseReturnDetailPageResponse getCourseDetail(String slug);
 
 }

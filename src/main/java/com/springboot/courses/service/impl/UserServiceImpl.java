@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse createUser(UserRequest userRequest, MultipartFile img) {
         // get role-admin for user
-        Role role = roleRepository.findByName("Admin").get();
+        Role role = roleRepository.findByName("ROLE_ADMIN").get();
 
         User user = checkValid(userRequest, role, img);
         user.setEnabled(true);
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse createCustomer(UserRequest userRequest, MultipartFile img, HttpServletRequest request) {
-        Role role = roleRepository.findByName("Customer").get();
+        Role role = roleRepository.findByName("ROLE_CUSTOMER").get();
         User user = checkValid(userRequest, role, img);
         String randomCode = RandomString.make(64);
         user.setVerificationCode(randomCode);

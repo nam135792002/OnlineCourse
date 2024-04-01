@@ -60,9 +60,9 @@ public class CourseController {
         return ResponseEntity.ok(listCourses);
     }
 
-    @GetMapping("/get-detail/{id}")
-    public ResponseEntity<?> getCourseDetailById(@PathVariable(value = "id") Integer courseId){
-        return ResponseEntity.ok(coursesService.getCourseDetail(courseId));
+    @GetMapping("/get-detail/{slug}")
+    public ResponseEntity<?> getCourseDetailById(@PathVariable(value = "slug") String slug){
+        return ResponseEntity.ok(coursesService.getCourseDetail(slug));
     }
 
     @PutMapping("/update/{id}")

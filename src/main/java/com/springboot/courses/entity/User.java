@@ -50,7 +50,7 @@ public class User {
     @Column(name = "reset_password_token", length = 30)
     private String resetPasswordToken;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 

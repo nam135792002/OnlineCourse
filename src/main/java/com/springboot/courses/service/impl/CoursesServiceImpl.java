@@ -91,6 +91,9 @@ public class CoursesServiceImpl implements CoursesService {
             courses = coursesRepository.findAllInCategory(categoryId, pageable);
         }
 
+        if(keyword == null && categoryId == null){
+            courses = coursesRepository.findAll(pageable);
+        }
         List<Courses> listCourses = courses.getContent();
 
         List<CourseResponse> content = listCourses.stream().map(course -> modelMapper.map(course, CourseResponse.class)).collect(Collectors.toList());
@@ -183,9 +186,9 @@ public class CoursesServiceImpl implements CoursesService {
     }
 
     @Override
-    public CourseReturnDetailPageResponse getCourseDetail(Integer courseId) {
-        Courses course = coursesRepository.findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+    public CourseReturnDetailPageResponse getCourseDetail(String slug) {
+        Courses course = coursesRepository.findCoursesBySlug(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "slug", slug));
 
         CourseReturnDetailPageResponse response = modelMapper.map(course, CourseReturnDetailPageResponse.class);
         sortChapterAndLesson(response);
