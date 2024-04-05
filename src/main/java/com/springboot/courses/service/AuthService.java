@@ -14,7 +14,7 @@ import java.util.List;
 public interface AuthService {
     JWTAuthResponse login(LoginDto loginDto);
     List<CheckValidateCustomerResponse> checkInfoOfCustomer(CheckValidateCustomerRequest request);
-    UserResponse register(UserRequest userRequest, MultipartFile img, HttpServletRequest request);
+    UserResponse register(UserRequest userRequest, MultipartFile img);
     boolean verify(String verification);
     void updateResetPasswordToken(String email, HttpServletRequest request);
     UserResponse findByResetPasswordToken(String token);

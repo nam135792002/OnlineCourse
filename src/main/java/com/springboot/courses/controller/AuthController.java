@@ -30,23 +30,22 @@ public class AuthController {
         return ResponseEntity.ok(jwtAuthResponse);
     }
 
-    @GetMapping("/validate")
+    @PostMapping ("/validate")
     public ResponseEntity<?> validateFormSignUp(@RequestBody @Valid CheckValidateCustomerRequest request){
         List<CheckValidateCustomerResponse> listResponses = authService.checkInfoOfCustomer(request);
         if (listResponses.isEmpty()){
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(listResponses);
+        return ResponseEntity.ok(listResponses);
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registration(@RequestPart(value = "user") @Valid UserRequest userRequest,
-                                          @RequestParam(value = "img", required = false) MultipartFile img,
-                                          HttpServletRequest request){
-        return new ResponseEntity<>(authService.register(userRequest, img, request), HttpStatus.CREATED);
+                                          @RequestParam(value = "img", required = false) MultipartFile img){
+        return new ResponseEntity<>(authService.register(userRequest, img), HttpStatus.CREATED);
     }
 
-    @GetMapping("/verify")
+    @PostMapping("/verify")
     public ResponseEntity<?> verify(@RequestParam(value = "code") String verification){
         boolean verify = authService.verify(verification);
         URI uri = URI.create("/api/users/register/" + (verify?"success":"failed"));
@@ -64,9 +63,8 @@ public class AuthController {
         return ResponseEntity.ok("We have sent a reset password link to your email. Please check!");
     }
 
-    @GetMapping("/reset-password")
+    @PostMapping ("/handle/reset-password")
     public ResponseEntity<String> showResetForm(@RequestParam(value = "token") String token){
-        System.out.println(token);
         UserResponse response = authService.findByResetPasswordToken(token);
         if(response != null){
             return ResponseEntity.ok(token);

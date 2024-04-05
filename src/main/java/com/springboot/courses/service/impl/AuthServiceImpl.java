@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserResponse register(UserRequest userRequest, MultipartFile img, HttpServletRequest request) {
+    public UserResponse register(UserRequest userRequest, MultipartFile img) {
         Role role = roleRepository.findByName("ROLE_CUSTOMER").get();
         String randomCode = RandomString.make(64);
 
@@ -109,9 +109,7 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        String siteURL = request.getRequestURL().toString();
-        siteURL =  siteURL.replace(request.getServletPath(),"");
-        String verifyURL = siteURL + "/api/auth/verify?code=" + user.getVerificationCode();
+        String verifyURL = "http://localhost:5173/api/auth/verify?code=" + user.getVerificationCode();
 
         Utils.sendEmail(verifyURL, AppConstants.SUBJECT_REGISTER, AppConstants.CONTENT_REGISTER, user);
         User savedUser = userRepository.save(user);
@@ -129,9 +127,7 @@ public class AuthServiceImpl implements AuthService {
 
         String token = RandomString.make(30);
         user.setResetPasswordToken(token);
-        String siteURL = request.getRequestURL().toString();
-        siteURL =  siteURL.replace(request.getServletPath(),"");
-        String url = siteURL + "/api/auth/reset-password?token=" + token;
+        String url = "http://localhost:5173/api/auth/reset-password?token=" + token;
         Utils.sendEmail(url, AppConstants.SUBJECT_RESET, AppConstants.CONTENT_RESET, user);
         userRepository.save(user);
     }
