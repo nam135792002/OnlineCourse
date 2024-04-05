@@ -12,4 +12,6 @@ public interface UserService {
     UserResponse get(Integer userId);
     UserResponse updateUser(UserRequest userRequest, Integer userId, MultipartFile img);
     String delete(Integer userId);
+    String changePasswordInCustomer(String password, HttpServletRequest request);
+    UserResponse updateInfoCustomer(String fullName, MultipartFile img, HttpServletRequest request);
 }

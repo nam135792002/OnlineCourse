@@ -81,7 +81,12 @@ public class OrderServiceImpl implements OrderService {
     public String deleteOrder(Integer orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "id", orderId));
+        Integer courseId = order.getCourses().getId();
         orderRepository.delete(order);
+        Courses courses = coursesRepository.findById(courseId).get();
+        int totalStudent = courses.getStudentCount() - 1;
+        courses.setStudentCount(totalStudent);
+        coursesRepository.save(courses);
         return "Delete order successfully ";
     }
 

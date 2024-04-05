@@ -18,29 +18,30 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasRole('CUSTOMER')")
 @RequestMapping("/api/learning")
 public class LearningController {
 
     @Autowired private LearningService learningService;
     @Autowired private LessonService lessonService;
 
-    @GetMapping("/courses/{id}")
-    public ResponseEntity<?> getDetailInLearningPage(@PathVariable(value = "id") Integer courseId){
-        return ResponseEntity.ok(learningService.getCourseReturnLearningPage(courseId));
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/courses/{slug}")
+    public ResponseEntity<?> getDetailInLearningPage(@PathVariable(value = "slug") String slug){
+        return ResponseEntity.ok(learningService.getCourseReturnLearningPage(slug));
     }
 
-    @GetMapping("/courses/{courseId}/lesson/{lessonId}")
-    public ResponseEntity<?> getVideoInDetailCourse(@PathVariable(value = "lessonId") Integer lessonId,
-                                                    @PathVariable(value = "courseId") Integer courseId){
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/courses/{slug}/lesson/{lessonId}")
+    public ResponseEntity<?> getVideoInDetailCourse(@PathVariable(value = "slug") String slug,
+                                                    @PathVariable(value = "lessonId") Integer lessonId){
         LessonResponse lessonResponse = lessonService.get(lessonId);
         switch (lessonResponse.getLessonType()){
             case VIDEO -> {
-                return ResponseEntity.ok(learningService.getVideo(courseId, lessonId));
+                return ResponseEntity.ok(learningService.getVideo(slug, lessonId));
             }
 
             case QUIZ -> {
-                return ResponseEntity.ok(learningService.getQuiz(courseId, lessonId));
+                return ResponseEntity.ok(learningService.getQuiz(slug, lessonId));
             }
 
             default -> {
@@ -49,6 +50,7 @@ public class LearningController {
         }
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/my/course/list-all")
     public ResponseEntity<?> getListAllCourseMyLearning(HttpServletRequest request){
         List<CourseReturnMyLearning> listCourse = learningService.listAllCourseRegisteredByCustomer(request);
@@ -57,5 +59,11 @@ public class LearningController {
         }
 
         return ResponseEntity.ok(listCourse);
+    }
+
+    @GetMapping("/check/exist-course/{slug}")
+    public ResponseEntity<?> checkExistRegisterCourse(@PathVariable(value = "slug") String slug,
+                                                      HttpServletRequest request){
+        return ResponseEntity.ok(learningService.isRegisterInThisCourse(slug, request));
     }
 }

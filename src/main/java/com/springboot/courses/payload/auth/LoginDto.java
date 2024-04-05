@@ -16,10 +16,8 @@ public class LoginDto {
 
     @Email(message = "Email is invalid")
     @NotEmpty(message = "Email can not be empty")
-    @Length(min = 15, max = 64, message = "Email must have 15 - 64 characters")
     private String email;
 
     @NotEmpty(message = "Password can not be empty")
-    @Length(min = 8, max = 30, message = "Password must have 8 - 30 characters")
     private String password;
 }

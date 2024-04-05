@@ -62,4 +62,17 @@ public class UserController {
     public ResponseEntity<String> delete(@PathVariable(value = "id") Integer userId){
         return ResponseEntity.ok(userService.delete(userId));
     }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestParam(value = "password") String newPassword,
+                                                 HttpServletRequest request){
+        return ResponseEntity.ok(userService.changePasswordInCustomer(newPassword, request));
+    }
+
+    @PostMapping("/change-info")
+    public ResponseEntity<UserResponse> updateInfoCustomer(@RequestParam(value = "full_name", required = false) String fullName,
+                                                           @RequestParam(value = "img", required = false) MultipartFile img,
+                                                           HttpServletRequest request){
+        return ResponseEntity.ok(userService.updateInfoCustomer(fullName, img, request));
+    }
 }

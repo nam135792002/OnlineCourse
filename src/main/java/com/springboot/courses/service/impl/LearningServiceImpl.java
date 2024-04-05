@@ -8,10 +8,7 @@ import com.springboot.courses.payload.course.CourseReturnMyLearning;
 import com.springboot.courses.payload.lesson.LessonReturnDetailResponse;
 import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
 import com.springboot.courses.payload.video.VideoReturnResponse;
-import com.springboot.courses.repository.CoursesRepository;
-import com.springboot.courses.repository.LessonRepository;
-import com.springboot.courses.repository.UserRepository;
-import com.springboot.courses.repository.VideoRepository;
+import com.springboot.courses.repository.*;
 import com.springboot.courses.service.LearningService;
 import com.springboot.courses.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,11 +30,12 @@ public class LearningServiceImpl implements LearningService {
     @Autowired private LessonRepository lessonRepository;
     @Autowired private VideoRepository videoRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private OrderRepository orderRepository;
 
     @Override
-    public CourseReturnLearningPageResponse getCourseReturnLearningPage(Integer courseId) {
-        Courses coursesInDB = coursesRepository.findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+    public CourseReturnLearningPageResponse getCourseReturnLearningPage(String slug) {
+        Courses coursesInDB = coursesRepository.findCoursesBySlug(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "slug", slug));
 
         CourseReturnLearningPageResponse course = modelMapper.map(coursesInDB, CourseReturnLearningPageResponse.class);
         sortChapterAndLesson(course);
@@ -45,9 +43,9 @@ public class LearningServiceImpl implements LearningService {
     }
 
     @Override
-    public VideoReturnResponse getVideo(Integer courseId, Integer lessonId) {
-        Courses courses = coursesRepository.findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+    public VideoReturnResponse getVideo(String slug, Integer lessonId) {
+        Courses courses = coursesRepository.findCoursesBySlug(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "slug", slug));
 
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
@@ -61,9 +59,9 @@ public class LearningServiceImpl implements LearningService {
     }
 
     @Override
-    public List<QuizReturnLearningPage> getQuiz(Integer courseId, Integer lessonId) {
-        Courses courses = coursesRepository.findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+    public List<QuizReturnLearningPage> getQuiz(String slug, Integer lessonId) {
+        Courses courses = coursesRepository.findCoursesBySlug(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "slug", slug));
 
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
@@ -88,6 +86,23 @@ public class LearningServiceImpl implements LearningService {
         }
 
         return listCourses;
+    }
+
+    @Override
+    public boolean isRegisterInThisCourse(String slug, HttpServletRequest request) {
+        String email = Utils.getEmailOfAuthenticatedCustomer(request);
+        if(email != null){
+            System.out.println(email);
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new ResourceNotFoundException("User","email", email));
+
+            Courses courses = coursesRepository.findCoursesBySlug(slug)
+                    .orElseThrow(() -> new ResourceNotFoundException("Course", "slug", slug));
+
+            return orderRepository.existsOrderByCoursesAndUser(courses, user);
+
+        }
+        return false;
     }
 
     private void sortChapterAndLesson(CourseReturnLearningPageResponse course) {

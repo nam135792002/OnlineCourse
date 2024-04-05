@@ -6,6 +6,5 @@ import com.springboot.courses.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
-
     boolean existsOrderByCoursesAndUser(Courses courses, User user);
 }

@@ -11,6 +11,8 @@ import com.springboot.courses.repository.RoleRepository;
 import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.UserService;
 import com.springboot.courses.utils.UploadFile;
+import com.springboot.courses.utils.Utils;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,5 +159,39 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return user;
+    }
+
+    @Override
+    public UserResponse updateInfoCustomer(String fullName, MultipartFile img, HttpServletRequest request) {
+        String email = Utils.getEmailOfAuthenticatedCustomer(request);
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+
+        if(fullName != null){
+            user.setFullName(fullName);
+        }
+
+        if(img != null){
+            String urlImage = uploadFile.uploadFileOnCloudinary(img);
+            user.setPhoto(urlImage);
+        }
+
+        User savedUser = userRepository.save(user);
+        UserResponse userResponse = modelMapper.map(savedUser, UserResponse.class);
+        userResponse.setRoleName(savedUser.getRole().getName());
+
+        return userResponse;
+    }
+
+    @Override
+    public String changePasswordInCustomer(String password, HttpServletRequest request) {
+        String email = Utils.getEmailOfAuthenticatedCustomer(request);
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+        return "Change your password successfully!";
     }
 }
