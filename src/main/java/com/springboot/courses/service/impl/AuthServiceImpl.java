@@ -92,17 +92,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserResponse register(UserRequest userRequest, MultipartFile img) {
+    public UserResponse register(UserRequest userRequest) {
         Role role = roleRepository.findByName("ROLE_CUSTOMER").get();
         String randomCode = RandomString.make(64);
 
         User user = modelMapper.map(userRequest, User.class);
 
-        if(img != null){
-            String url = uploadFile.uploadFileOnCloudinary(img);
-            user.setPhoto(url);
-        }
-
+        user.setPhoto("https://res.cloudinary.com/dqnoopa0x/image/upload/v1712324249/qzgfbxrrtmbdnkatoznv.jpg");
         user.setVerificationCode(randomCode);
         user.setCreatedTime(new Date());
         user.setRole(role);

@@ -40,9 +40,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registration(@RequestPart(value = "user") @Valid UserRequest userRequest,
-                                          @RequestParam(value = "img", required = false) MultipartFile img){
-        return new ResponseEntity<>(authService.register(userRequest, img), HttpStatus.CREATED);
+    public ResponseEntity<?> registration(@RequestPart(value = "user") @Valid UserRequest userRequest){
+        return new ResponseEntity<>(authService.register(userRequest), HttpStatus.CREATED);
     }
 
     @PostMapping("/verify")
