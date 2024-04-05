@@ -26,11 +26,9 @@ public class CourseRepositoryTests {
     public void addCourse(){
         Courses courses = coursesRepository.findById(4).get();
 
-        CourseInfo info1 = new CourseInfo("aaaaaaa", InformationType.DETAIL, courses);
         CourseInfo info2 = new CourseInfo("bbbbbbb", InformationType.TARGET, courses);
         CourseInfo info3 = new CourseInfo("ccccccc", InformationType.REQUIREMENT, courses);
 
-        courses.getInfoList().add(info1);
         courses.getInfoList().add(info2);
         courses.getInfoList().add(info3);
 

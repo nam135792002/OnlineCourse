@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -54,4 +56,6 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> listOrders = new ArrayList<>();
 }

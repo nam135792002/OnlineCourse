@@ -202,7 +202,6 @@ public class CoursesServiceImpl implements CoursesService {
         courses.setDescription(request.getDescription());
         courses.setPrice(request.getPrice());
         courses.setDiscount(request.getDiscount());
-        courses.setStudentCount(request.getStudentCount());
         courses.setComingSoon(request.isComingSoon());
         courses.setPublished(request.isPublished());
         if(request.isPublished()){

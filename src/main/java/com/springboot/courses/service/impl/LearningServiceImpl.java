@@ -4,19 +4,24 @@ import com.springboot.courses.entity.*;
 import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.chapter.ChapterReturnDetailResponse;
 import com.springboot.courses.payload.course.CourseReturnLearningPageResponse;
+import com.springboot.courses.payload.course.CourseReturnMyLearning;
 import com.springboot.courses.payload.lesson.LessonReturnDetailResponse;
 import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
 import com.springboot.courses.payload.video.VideoReturnResponse;
 import com.springboot.courses.repository.CoursesRepository;
 import com.springboot.courses.repository.LessonRepository;
+import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.repository.VideoRepository;
 import com.springboot.courses.service.LearningService;
+import com.springboot.courses.utils.Utils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -27,6 +32,7 @@ public class LearningServiceImpl implements LearningService {
     @Autowired private ModelMapper modelMapper;
     @Autowired private LessonRepository lessonRepository;
     @Autowired private VideoRepository videoRepository;
+    @Autowired private UserRepository userRepository;
 
     @Override
     public CourseReturnLearningPageResponse getCourseReturnLearningPage(Integer courseId) {
@@ -64,6 +70,24 @@ public class LearningServiceImpl implements LearningService {
 
         List<Quiz> quizzes = lesson.getQuizList();
         return quizzes.stream().map(quiz -> modelMapper.map(quiz, QuizReturnLearningPage.class)).toList();
+    }
+
+    @Override
+    public List<CourseReturnMyLearning> listAllCourseRegisteredByCustomer(HttpServletRequest request) {
+        String email = Utils.getEmailOfAuthenticatedCustomer(request);
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+
+        List<Order> listOrders = user.getListOrders();
+        List<CourseReturnMyLearning> listCourses = new ArrayList<>();
+
+        for(Order order : listOrders){
+            Courses courses = order.getCourses();
+            listCourses.add(modelMapper.map(courses, CourseReturnMyLearning.class));
+        }
+
+        return listCourses;
     }
 
     private void sortChapterAndLesson(CourseReturnLearningPageResponse course) {

@@ -34,17 +34,9 @@ public class CoursesRequest {
     @Size(min = 10, message = "Description must be at least 10 characters")
     private String description;
 
-    private String thumbnail;
-
     private int price;
 
     private float discount;
-
-    @JsonProperty("student_count")
-    private int studentCount;
-
-    @JsonProperty("published_at")
-    private Date publishedAt;
 
     @JsonProperty("is_coming_soon")
     private boolean isComingSoon;

@@ -22,8 +22,8 @@ public class CourseInfoRequest {
 
     @NotEmpty(message = "Course info type can not be empty")
     @Pattern(
-            regexp = "^(TARGET|DETAIL|REQUIREMENT)$",
-            message = "Course info type must be one of: TARGET, DETAIL, REQUIREMENT"
+            regexp = "^(TARGET|REQUIREMENT)$",
+            message = "Course info type must be one of: TARGET, REQUIREMENT"
     )
     private String type;
 }

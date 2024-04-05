@@ -30,7 +30,6 @@ public class UserController {
         return ResponseEntity.created(uri).body(savedUser);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/list-all")
     public ResponseEntity<?> listAllUsers(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -62,23 +61,5 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable(value = "id") Integer userId){
         return ResponseEntity.ok(userService.delete(userId));
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> registration(@RequestPart(value = "user") @Valid UserRequest userRequest,
-                                          @RequestParam(value = "img", required = false) MultipartFile img,
-                                          HttpServletRequest request){
-        return new ResponseEntity<>(userService.createCustomer(userRequest, img, request), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/verify")
-    public ResponseEntity<?> verify(@RequestParam(value = "code") String verification){
-        boolean verify = userService.verify(verification);
-        URI uri = URI.create("/api/users/register/" + (verify?"success":"failed"));
-        if(verify){
-            return ResponseEntity.ok().body(uri);
-        }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(uri);
-        }
     }
 }

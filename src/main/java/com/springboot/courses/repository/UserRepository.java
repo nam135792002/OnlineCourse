@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    boolean existsUserByEmailAndRole(String email, Role role);
-    boolean existsUserByPhoneNumberAndRole(String phoneNumber, Role role);
-    boolean existsUserByUsernameAndRole(String username, Role role);
+    boolean existsUserByEmail(String email);
+    boolean existsUserByPhoneNumber(String phoneNumber);
+    boolean existsUserByUsername(String username);
     @Query("select u from User u where u.fullName like %?1%" +
             "or u.phoneNumber like %?1%" +
             "or u.email like %?1%")
@@ -23,4 +23,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("update User u set u.enabled = true, u.verificationCode = null where u.id = ?1")
     void enable(Integer id);
     Optional<User> findByEmail(String email);
+    User findUserByResetPasswordToken(String token);
 }

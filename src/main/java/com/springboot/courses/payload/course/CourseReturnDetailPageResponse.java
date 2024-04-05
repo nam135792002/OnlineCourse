@@ -22,6 +22,10 @@ public class CourseReturnDetailPageResponse {
 
     private String description;
 
+    private int price;
+
+    private float discount;
+
     @JsonProperty("info_list")
     private List<CourseInfoResponse> infoList;
 

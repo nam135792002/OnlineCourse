@@ -12,6 +12,4 @@ public interface UserService {
     UserResponse get(Integer userId);
     UserResponse updateUser(UserRequest userRequest, Integer userId, MultipartFile img);
     String delete(Integer userId);
-    UserResponse createCustomer(UserRequest userRequest, MultipartFile img, HttpServletRequest request);
-    boolean verify(String verification);
 }
