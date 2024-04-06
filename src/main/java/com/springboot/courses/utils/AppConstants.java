@@ -2,7 +2,7 @@ package com.springboot.courses.utils;
 
 public class AppConstants {
     public static final String DEFAULT_PAGE_NUMBER = "0";
-    public static final String DEFAULT_PAGE_SIZE = "5";
+    public static final String DEFAULT_PAGE_SIZE = "100000";
     public static final String DEFAULT_SORT_BY = "id";
     public static final String DEFAULT_SORT_DIRECTION = "asc";
     public static final String SUBJECT_REGISTER = "Please verify your registration to continue";
@@ -26,4 +26,5 @@ public class AppConstants {
             "<br>" +
             "<p>Ignore this email if you do remember your password, " +
             "or you have not made the request.</p>";
+    public static final String LOCALHOST = "http://localhost:5173";
 }

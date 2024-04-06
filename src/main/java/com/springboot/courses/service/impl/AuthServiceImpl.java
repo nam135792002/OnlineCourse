@@ -105,7 +105,7 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        String verifyURL = "http://localhost:5173/api/auth/verify?code=" + user.getVerificationCode();
+        String verifyURL = AppConstants.LOCALHOST + "/auth/verify?code=" + user.getVerificationCode();
 
         Utils.sendEmail(verifyURL, AppConstants.SUBJECT_REGISTER, AppConstants.CONTENT_REGISTER, user);
         User savedUser = userRepository.save(user);
@@ -117,25 +117,27 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void updateResetPasswordToken(String email, HttpServletRequest request) {
+    public void requestPassword(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
 
         String token = RandomString.make(30);
         user.setResetPasswordToken(token);
-        String url = "http://localhost:5173/api/auth/reset-password?token=" + token;
+        String url = AppConstants.LOCALHOST + "/auth/request-password?token=" + token;
         Utils.sendEmail(url, AppConstants.SUBJECT_RESET, AppConstants.CONTENT_RESET, user);
         userRepository.save(user);
     }
 
     @Override
-    public boolean verify(String verification) {
+    public String verify(String verification) {
         User user = userRepository.findUserByVerificationCode(verification);
-        if(user == null || user.isEnabled()){
-            return false;
-        }else{
+        if(user == null){
+            return "Sai mã kích hoạt.";
+        } else if (user.isEnabled()) {
+            return "Mã đã được kích hoạt.";
+        } else{
             userRepository.enable(user.getId());
-            return true;
+            return "Kích hoạt tài khoản thành công.";
         }
     }
 

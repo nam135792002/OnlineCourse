@@ -15,8 +15,8 @@ public interface AuthService {
     JWTAuthResponse login(LoginDto loginDto);
     List<CheckValidateCustomerResponse> checkInfoOfCustomer(CheckValidateCustomerRequest request);
     UserResponse register(UserRequest userRequest);
-    boolean verify(String verification);
-    void updateResetPasswordToken(String email, HttpServletRequest request);
+    String verify(String verification);
+    void requestPassword(String email);
     UserResponse findByResetPasswordToken(String token);
     void updatePassword(String token, String password);
 }

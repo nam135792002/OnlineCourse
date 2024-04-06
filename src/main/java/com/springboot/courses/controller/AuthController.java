@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.util.List;
@@ -46,20 +45,13 @@ public class AuthController {
 
     @PostMapping("/verify")
     public ResponseEntity<?> verify(@RequestParam(value = "code") String verification){
-        boolean verify = authService.verify(verification);
-        URI uri = URI.create("/api/users/register/" + (verify?"success":"failed"));
-        if(verify){
-            return ResponseEntity.ok().body(uri);
-        }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(uri);
-        }
+        return ResponseEntity.ok(authService.verify(verification));
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> processRequestFormResetPassword(@RequestParam(value = "email") String email,
-                                                                  HttpServletRequest request){
-        authService.updateResetPasswordToken(email, request);
-        return ResponseEntity.ok("We have sent a reset password link to your email. Please check!");
+    public ResponseEntity<String> processRequestFormResetPassword(@RequestParam(value = "email") String email){
+        authService.requestPassword(email);
+        return ResponseEntity.ok("Chúng tôi đã gửi một liên kết đặt lại mật khẩu đến địa chỉ email của bạn. Vui lòng kiểm tra!");
     }
 
     @PostMapping ("/handle/reset-password")
