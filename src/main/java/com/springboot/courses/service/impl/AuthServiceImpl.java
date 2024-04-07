@@ -5,10 +5,12 @@ import com.springboot.courses.entity.Role;
 import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
+import com.springboot.courses.payload.MessageNotice;
 import com.springboot.courses.payload.auth.JWTAuthResponse;
 import com.springboot.courses.payload.auth.LoginDto;
 import com.springboot.courses.payload.user.UserRequest;
 import com.springboot.courses.payload.user.UserResponse;
+import com.springboot.courses.payload.user.UserReturnJwt;
 import com.springboot.courses.payload.validate.CheckValidateCustomerRequest;
 import com.springboot.courses.payload.validate.CheckValidateCustomerResponse;
 import com.springboot.courses.repository.RoleRepository;
@@ -16,31 +18,24 @@ import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.security.JwtTokenProvider;
 import com.springboot.courses.service.AuthService;
 import com.springboot.courses.utils.AppConstants;
-import com.springboot.courses.utils.UploadFile;
 import com.springboot.courses.utils.Utils;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 @Transactional
 @Service
@@ -51,28 +46,31 @@ public class AuthServiceImpl implements AuthService {
     @Autowired private UserRepository userRepository;
     @Autowired private RoleRepository roleRepository;
     @Autowired private ModelMapper modelMapper;
-    @Autowired private UploadFile uploadFile;
     @Autowired private PasswordEncoder passwordEncoder;
 
     @Override
     public JWTAuthResponse login(LoginDto loginDto) {
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenProvider.generateToken(authentication);
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtTokenProvider.generateToken(authentication);
 
-        JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
-        jwtAuthResponse.setAccessToken(token);
+            JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
+            jwtAuthResponse.setAccessToken(token);
 
-        String email = authentication.getName();
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+            String email = authentication.getName();
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
 
-        jwtAuthResponse.setFullName(user.getFullName());
-        jwtAuthResponse.setUsername(user.getUsername());
-        jwtAuthResponse.setThumbnail(user.getPhoto());
+            UserReturnJwt userReturnJwt = modelMapper.map(user, UserReturnJwt.class);
+            userReturnJwt.setRoleName(user.getRole().getName());
+            jwtAuthResponse.setUser(userReturnJwt);
 
-        return jwtAuthResponse;
+            return jwtAuthResponse;
+        }catch (BadCredentialsException e) {
+            throw new BlogApiException(HttpStatus.UNAUTHORIZED, "Email hoặc mật khẩu không chính xác");
+        }
     }
 
     @Override
@@ -98,14 +96,15 @@ public class AuthServiceImpl implements AuthService {
 
         User user = modelMapper.map(userRequest, User.class);
 
-        user.setPhoto("https://res.cloudinary.com/dqnoopa0x/image/upload/v1712324249/qzgfbxrrtmbdnkatoznv.jpg");
+        user.setPhoto("https://res.cloudinary.com/dqnoopa0x/image/upload/v1712482876/ooozzfj7t7p1zokgonni.jpg");
         user.setVerificationCode(randomCode);
+        user.setEnabled(false);
         user.setCreatedTime(new Date());
         user.setRole(role);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        String verifyURL = AppConstants.LOCALHOST + "/auth/verify?code=" + user.getVerificationCode();
+        String verifyURL = AppConstants.LOCALHOST + "/auth/verify?code=" + user.getVerificationCode() + "&email=" + user.getEmail();
 
         Utils.sendEmail(verifyURL, AppConstants.SUBJECT_REGISTER, AppConstants.CONTENT_REGISTER, user);
         User savedUser = userRepository.save(user);
@@ -129,15 +128,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String verify(String verification) {
-        User user = userRepository.findUserByVerificationCode(verification);
-        if(user == null){
-            return "Sai mã kích hoạt.";
-        } else if (user.isEnabled()) {
-            return "Mã đã được kích hoạt.";
-        } else{
-            userRepository.enable(user.getId());
-            return "Kích hoạt tài khoản thành công.";
+    public MessageNotice verify(String verification, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
+
+        if(user.getVerificationCode() == null){
+            return new MessageNotice(false, "Tài khoản đã được kích hoạt");
+        }else{
+            if(user.getVerificationCode().equals(verification)){
+                userRepository.enable(user.getId());
+                return new MessageNotice(true, "Tài khoản kích hoạt thành công");
+            }else{
+                return new MessageNotice(false, "Sai mã kích hoạt");
+            }
         }
     }
 

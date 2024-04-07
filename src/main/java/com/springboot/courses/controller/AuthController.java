@@ -7,14 +7,12 @@ import com.springboot.courses.payload.user.UserResponse;
 import com.springboot.courses.payload.validate.CheckValidateCustomerRequest;
 import com.springboot.courses.payload.validate.CheckValidateCustomerResponse;
 import com.springboot.courses.service.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -44,8 +42,9 @@ public class AuthController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<?> verify(@RequestParam(value = "code") String verification){
-        return ResponseEntity.ok(authService.verify(verification));
+    public ResponseEntity<?> verify(@RequestParam(value = "code") String verification,
+                                    @RequestParam(value = "email") String email){
+        return ResponseEntity.ok(authService.verify(verification, email));
     }
 
     @PostMapping("/forgot-password")

@@ -1,5 +1,6 @@
 package com.springboot.courses.service;
 
+import com.springboot.courses.payload.MessageNotice;
 import com.springboot.courses.payload.auth.JWTAuthResponse;
 import com.springboot.courses.payload.auth.LoginDto;
 import com.springboot.courses.payload.user.UserRequest;
@@ -15,7 +16,7 @@ public interface AuthService {
     JWTAuthResponse login(LoginDto loginDto);
     List<CheckValidateCustomerResponse> checkInfoOfCustomer(CheckValidateCustomerRequest request);
     UserResponse register(UserRequest userRequest);
-    String verify(String verification);
+    MessageNotice verify(String verification, String email);
     void requestPassword(String email);
     UserResponse findByResetPasswordToken(String token);
     void updatePassword(String token, String password);

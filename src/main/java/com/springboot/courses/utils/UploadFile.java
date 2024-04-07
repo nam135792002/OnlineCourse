@@ -30,7 +30,11 @@ public class UploadFile {
             int lastSlashIndex = url.lastIndexOf('/');
             int lastDotIndex = url.lastIndexOf('.');
             String fileName = url.substring(lastSlashIndex + 1, lastDotIndex);
-            cloudinary.uploader().destroy(fileName, ObjectUtils.asMap("resource_type","image"));
+            if(!fileName.equals("ooozzfj7t7p1zokgonni")){
+                cloudinary.uploader().destroy(fileName, ObjectUtils.asMap("resource_type","image"));
+            }else{
+                return;
+            }
         } catch (IOException e) {
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Change image failed!");
         }
