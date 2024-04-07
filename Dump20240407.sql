@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `onlinecourse_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `onlinecourse_db`;
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: onlinecourse_db
@@ -122,7 +124,7 @@ CREATE TABLE `course_informations` (
 
 LOCK TABLES `course_informations` WRITE;
 /*!40000 ALTER TABLE `course_informations` DISABLE KEYS */;
-INSERT INTO `course_informations` VALUES (6,'Develop role-based full-stack applications, covering both back-end and front-end development.','TARGET',18),(8,'80 hours on-demand video','DETAIL',18),(9,'300 exercise regularly','DETAIL',18),(11,'Knowledge about Java 11','REQUIREMENT',18),(14,'Comprehensive Course for Spring and Spring Boot','TARGET',19),(15,'Hands-on Expereince for Developing Role-Based Full-Stack Application (JavaCorner-Admin)','TARGET',19),(16,'Implement Business Layer using Spring Service.','TARGET',19),(17,'Implmenet Intrgration Testing using Test Containers','TARGET',19),(18,'23 hours on-demand video','DETAIL',19),(19,'Certificate of completion','DETAIL',19),(20,'Access on mobile and TV','DETAIL',19),(21,'Knowledge about Java 8','REQUIREMENT',19),(22,'Spring Core Framework (DI and IoC)','REQUIREMENT',19),(23,'Have laptop, internet','REQUIREMENT',19),(29,'Have a personal laptop','REQUIREMENT',18);
+INSERT INTO `course_informations` VALUES (6,'Develop role-based full-stack applications, covering both back-end and front-end development.','TARGET',18),(11,'Knowledge about Java 11','REQUIREMENT',18),(14,'Comprehensive Course for Spring and Spring Boot','TARGET',19),(15,'Hands-on Expereince for Developing Role-Based Full-Stack Application (JavaCorner-Admin)','TARGET',19),(16,'Implement Business Layer using Spring Service.','TARGET',19),(17,'Implmenet Intrgration Testing using Test Containers','TARGET',19),(21,'Knowledge about Java 8','REQUIREMENT',19),(22,'Spring Core Framework (DI and IoC)','REQUIREMENT',19),(23,'Have laptop, internet','REQUIREMENT',19),(29,'Have a personal laptop','REQUIREMENT',18);
 /*!40000 ALTER TABLE `course_informations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +162,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-INSERT INTO `courses` VALUES (1,'Python cơ bản','python-co-ban','Python là một ngôn ngữ bậc cao, thông dịch, ngôn ngữ kịch bản tương tác và hướng đối tượng','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710207811/tg8ty4o9urchx7s8yhea.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',2),(2,'Truyền thông và Mạng máy tính','truyen-thong-va-mang-may-tinh','Khóa học cung cấp cho lập trình viên những kiến thức cơ bản và dễ hiểu về mạng máy tính và truyền thông dữ liệu.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710208416/fpdr6vdbtohfalvrnax5.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',1),(3,'C++ cho người mới bắt đầu','c++-cho-nguoi-moi-bat-dau','Khóa học lập trình C++ cơ bản cho người mới bắt đầu. Khóa học này sẽ cung cấp những kiến thức cơ bản, dễ hiểu nhất về ngôn ngữ lập trình C++.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710209042/zqagnpsgsenejrssbiuv.jpg',900000,0,0,NULL,_binary '\0',_binary '\0',2),(18,'Spring Boot & Angular The Full Stack Developer Guide','spring-boot-&-angular-the-full-stack-developer-guide','Mastering Spring and Spring Boot + Developing Role-Based Full-Stack App (Spring Boot, Angular, JWT, JPA, Rest, MySql)','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710406870/xaqztbqxr3yp8fbytfbs.jpg',499000,0.5,0,NULL,_binary '',_binary '\0',2),(19,'Developing Role Based Full Stack App Spring Boot & Thymeleaf','developing-role-based-full-stack-app-spring-boot-&-thymeleaf','Mastering Spring Boot (Includes Spring Boot 3) + Developing a Role-Based Full-Stack App using Spring Boot + Thymeleaf','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710318814/iytqcbgxtdohlvf6hzjc.jpg',399000,0.25,0,NULL,_binary '\0',_binary '\0',2);
+INSERT INTO `courses` VALUES (1,'Python cơ bản','python-co-ban','Python là một ngôn ngữ bậc cao, thông dịch, ngôn ngữ kịch bản tương tác và hướng đối tượng','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710207811/tg8ty4o9urchx7s8yhea.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',2),(2,'Truyền thông và Mạng máy tính','truyen-thong-va-mang-may-tinh','Khóa học cung cấp cho lập trình viên những kiến thức cơ bản và dễ hiểu về mạng máy tính và truyền thông dữ liệu.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710208416/fpdr6vdbtohfalvrnax5.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',1),(3,'C++ cho người mới bắt đầu','c++-cho-nguoi-moi-bat-dau','Khóa học lập trình C++ cơ bản cho người mới bắt đầu. Khóa học này sẽ cung cấp những kiến thức cơ bản, dễ hiểu nhất về ngôn ngữ lập trình C++.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710209042/zqagnpsgsenejrssbiuv.jpg',900000,0,0,NULL,_binary '\0',_binary '\0',2),(18,'Spring Boot & Angular The Full Stack Developer Guide','spring-boot-&-angular-the-full-stack-developer-guide','Mastering Spring and Spring Boot + Developing Role-Based Full-Stack App (Spring Boot, Angular, JWT, JPA, Rest, MySql)','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710406870/xaqztbqxr3yp8fbytfbs.jpg',499000,0.5,1,'2024-04-03 11:39:24.132000',_binary '',_binary '',2),(19,'Developing Role Based Full Stack App Spring Boot & Thymeleaf','developing-role-based-full-stack-app-spring-boot-&-thymeleaf','Mastering Spring Boot (Includes Spring Boot 3) + Developing a Role-Based Full-Stack App using Spring Boot + Thymeleaf','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710318814/iytqcbgxtdohlvf6hzjc.jpg',399000,0.25,1,'2024-04-03 11:41:02.681000',_binary '',_binary '',2);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,6 +197,36 @@ LOCK TABLES `lesson` WRITE;
 /*!40000 ALTER TABLE `lesson` DISABLE KEYS */;
 INSERT INTO `lesson` VALUES (1,'Overview Spring Framework','VIDEO','2024-03-17 10:53:28.998000',1,6,3),(2,'History of Spring Framework','VIDEO','2024-03-17 10:58:26.589000',1,7,1),(4,'Spring Framework Architecture','VIDEO','2024-03-18 15:54:48.312000',1,8,2),(7,'Exercise IoC Containers Types','QUIZ','2024-03-19 11:13:34.909000',2,NULL,1);
 /*!40000 ALTER TABLE `lesson` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `course_id` int DEFAULT NULL,
+  `customer_id` int DEFAULT NULL,
+  `created_time` datetime(6) NOT NULL,
+  `total_price` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK68snkj0g5gsjxllhjc3v5lm0r` (`course_id`),
+  KEY `FKsjfs85qf6vmcurlx43cnc16gy` (`customer_id`),
+  CONSTRAINT `FK68snkj0g5gsjxllhjc3v5lm0r` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
+  CONSTRAINT `FKsjfs85qf6vmcurlx43cnc16gy` FOREIGN KEY (`customer_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -245,7 +277,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'Admin'),(2,'Customer');
+INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_CUSTOMER');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +306,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `UK_9q63snka3mdh91as4io72espi` (`phone_number`),
   KEY `FKp56c1712k691lhsyewcssf40f` (`role_id`),
   CONSTRAINT `FKp56c1712k691lhsyewcssf40f` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,7 +315,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (4,'Diệp Đại Minh','','minhdiep@gmail.com','0123456787','https://res.cloudinary.com/dqnoopa0x/image/upload/v1709912731/swdonce265xvjppzrjwd.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-08 22:45:31.933000',_binary '',NULL,NULL,1),(5,'Trinh Duy An','','antrinh@gmail.com','0123456786','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710040052/a3wnhhivnyjdlhwedhmb.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-09 08:51:35.622000',_binary '',NULL,NULL,1),(7,'Phan Truong Duy','','duyphan@gmail.com','0123456780','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710042018/spiechns072u2cp2griy.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-10 10:37:42.228000',_binary '',NULL,NULL,1),(9,'Phan Truong Bach','','bachphan@gmail.com','0123456793','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710128315/ttmcsxjccaotdoq0xdgd.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-11 10:34:56.882000',_binary '',NULL,NULL,1),(11,'Phan Truong Dong','','dongphan@gmail.com','0323456743','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710129632/qceyiwmvfovwfu0uqlb4.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-11 11:00:31.875000',_binary '',NULL,NULL,1),(14,'Van Tu Thanh','thanhking','thanhking@gmail.com','0323456749','https://res.cloudinary.com/dqnoopa0x/image/upload/v1711948126/pblrqdiuudc0rpxhreob.jpg','$2a$10$H7wYpbz981GDtaKcICS/YOvr8DdZH55jpoiAvcR6ABCJu7X/CINdi','2024-04-01 12:08:46.488000',_binary '',NULL,NULL,1);
+INSERT INTO `users` VALUES (4,'Diệp Đại Minh','minhdiep','minhdiep@gmail.com','0123456787','https://res.cloudinary.com/dqnoopa0x/image/upload/v1709912731/swdonce265xvjppzrjwd.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-08 22:45:31.933000',_binary '',NULL,NULL,1),(5,'Trinh Duy An','antrinh','antrinh@gmail.com','0123456786','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710040052/a3wnhhivnyjdlhwedhmb.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-09 08:51:35.622000',_binary '',NULL,NULL,1),(7,'Phan Truong Duy','duyphan','duyphan@gmail.com','0123456780','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710042018/spiechns072u2cp2griy.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-10 10:37:42.228000',_binary '',NULL,NULL,1),(9,'Phan Truong Bach','bachphan','bachphan@gmail.com','0123456793','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710128315/ttmcsxjccaotdoq0xdgd.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-11 10:34:56.882000',_binary '',NULL,NULL,1),(11,'Phan Truong Dong','dongphan','dongphan@gmail.com','0323456743','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710129632/qceyiwmvfovwfu0uqlb4.jpg','$2a$10$cCpm1lq/68NA35hZY5Fm.emwE9NZCgbxDTZGnFPDBQGnyYGdOTTdW','2024-03-11 11:00:31.875000',_binary '',NULL,NULL,1),(14,'Van Tu Thanh','thanhking','thanhking@gmail.com','0323456749','https://res.cloudinary.com/dqnoopa0x/image/upload/v1711948126/pblrqdiuudc0rpxhreob.jpg','$2a$10$H7wYpbz981GDtaKcICS/YOvr8DdZH55jpoiAvcR6ABCJu7X/CINdi','2024-04-01 12:08:46.488000',_binary '',NULL,NULL,1),(18,'Luu Ba On','onluu','21h1120046@ut.edu.vn','0323466776','https://res.cloudinary.com/dqnoopa0x/image/upload/v1712119788/ilzlxnetpbhrt5uuzjc8.jpg','$2a$10$XdUElz0EOPKOzj.UHB1g5Oai/KU2tCRKSI4glYa4tgSOwlRc4bmxC','2024-04-03 11:49:45.680000',_binary '',NULL,NULL,2),(19,'Chu Nguyen Chuong','thanhto','nguyenri986@gmail.com','0523466776','https://res.cloudinary.com/dqnoopa0x/image/upload/v1712120001/q1okkd2ydoiagdzkpnfo.jpg','$2a$10$JXXXGS3i6u.vcXekzuINneSuYXxkF.wl8vsdNX7DiLHuUbgseChtS','2024-04-03 11:53:19.511000',_binary '',NULL,NULL,2),(20,'Nguy Trung Hien','trunghien','namnguyenuth12012002@gmail.com','0523469776','https://res.cloudinary.com/dqnoopa0x/image/upload/v1712120216/cln4j496sivf3uobwiz8.jpg','$2a$10$Fa0Ron.NFgDIwBAloEhvAOgG1J9jRD6OysKi.Zf22iQ67CxjKkI/u','2024-04-03 11:56:53.759000',_binary '',NULL,NULL,2),(26,'Nguyen Phuong Nam','ringuyen','phuongnama32112002@gmail.com','0323456776','https://res.cloudinary.com/dqnoopa0x/image/upload/v1712482876/ooozzfj7t7p1zokgonni.jpg','$2a$10$LduKK0/9m.WpEgvAX50f0ev27xsiQoG4jU/rjRl66zd7jZ569O1Ly','2024-04-07 16:48:24.513000',_binary '',NULL,NULL,2);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,4 +353,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-01 16:04:00
+-- Dump completed on 2024-04-07 16:58:39
