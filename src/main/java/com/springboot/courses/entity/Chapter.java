@@ -32,6 +32,9 @@ public class Chapter {
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessonList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TrackCourse> trackCourseList = new ArrayList<>();
+
     private int orders;
 
     @Override

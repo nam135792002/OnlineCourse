@@ -43,4 +43,7 @@ public class Lesson {
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Quiz> quizList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TrackCourse> listTrackCourse = new ArrayList<>();
 }

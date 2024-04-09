@@ -18,6 +18,8 @@ public class CourseReturnDetailPageResponse {
 
     private String title;
 
+    private String slug;
+
     private String thumbnail;
 
     private String description;

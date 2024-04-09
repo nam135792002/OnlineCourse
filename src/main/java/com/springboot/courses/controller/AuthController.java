@@ -59,14 +59,14 @@ public class AuthController {
         if(response != null){
             return ResponseEntity.ok(token);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mã không hợp lệ");
     }
 
     @PostMapping("/reset-password")
     public ResponseEntity<?> updatePasswordInForgotForm(@RequestParam(value = "token") String token,
                                                         @RequestParam(value = "password") String newPassword){
         authService.updatePassword(token, newPassword);
-        return ResponseEntity.ok("You have successfully changed your password.");
+        return ResponseEntity.ok("Bạn đã thay đổi mật khẩu thành công.");
     }
 
 }

@@ -35,6 +35,7 @@ public class ChapterServiceImpl implements ChapterService {
 
         Chapter chapter = new Chapter();
         chapter.setName(chapterDto.getName());
+        chapter.setOrders(chapterDto.getOrders());
         chapter.setCourse(course);
 
         Chapter savedChapter = chapterRepository.save(chapter);

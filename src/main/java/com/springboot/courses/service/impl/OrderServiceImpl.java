@@ -1,14 +1,13 @@
 package com.springboot.courses.service.impl;
 
-import com.springboot.courses.entity.Courses;
-import com.springboot.courses.entity.Order;
-import com.springboot.courses.entity.User;
+import com.springboot.courses.entity.*;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.order.OrderRequest;
 import com.springboot.courses.payload.order.OrderResponse;
 import com.springboot.courses.repository.CoursesRepository;
 import com.springboot.courses.repository.OrderRepository;
+import com.springboot.courses.repository.TrackCourseRepository;
 import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.OrderService;
 import com.springboot.courses.utils.Utils;
@@ -29,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired private UserRepository userRepository;
     @Autowired private CoursesRepository coursesRepository;
     @Autowired private ModelMapper modelMapper;
+    @Autowired private TrackCourseRepository trackCourseRepository;
 
     @Override
     public OrderResponse createOrder(OrderRequest orderRequest, HttpServletRequest servletRequest) {
@@ -58,10 +58,24 @@ public class OrderServiceImpl implements OrderService {
         OrderResponse orderResponse = modelMapper.map(savedOrder, OrderResponse.class);
         orderResponse.setCustomerName(savedOrder.getUser().getFullName());
         orderResponse.setCourseName(savedOrder.getCourses().getTitle());
+
+        for (Chapter chapter : courses.getChapterList()){
+            for(Lesson lesson : chapter.getLessonList()){
+                TrackCourse trackCourse = new TrackCourse();
+                trackCourse.setCourses(courses);
+                trackCourse.setChapter(chapter);
+                trackCourse.setLesson(lesson);
+                trackCourse.setUser(user);
+                trackCourse.setCompleted(false);
+                if(chapter.getOrders() == 1 && lesson.getOrders() == 1){
+                    trackCourse.setUnlock(true);
+                }
+
+                trackCourseRepository.save(trackCourse);
+            }
+        }
         return orderResponse;
     }
-
-
 
     @Override
     public List<OrderResponse> getAll() {

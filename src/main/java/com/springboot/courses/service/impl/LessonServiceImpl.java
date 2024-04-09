@@ -54,6 +54,7 @@ public class LessonServiceImpl implements LessonService {
         lesson.setLessonType(LessonType.valueOf(lessonRequest.getLessonType()));
         lesson.setChapter(chapter);
         lesson.setVideo(video);
+        lesson.setOrders(lessonRequest.getOrders());
 
         Lesson savedLesson = lessonRepository.save(lesson);
 
