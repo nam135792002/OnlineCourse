@@ -19,6 +19,8 @@ public class UserReturnJwt {
 
     private String username;
 
+    private String email;
+
     private String photo;
 
     @JsonProperty("role_name")
