@@ -14,6 +14,6 @@ public interface LearningService {
     CourseReturnLearningPageResponse getCourseReturnLearningPage(String slug);
     VideoReturnResponse getVideo(Integer lessonId);
     List<QuizReturnLearningPage> getQuiz(Integer lessonId);
-    List<CourseReturnMyLearning> listAllCourseRegisteredByCustomer(HttpServletRequest request);
-    boolean isRegisterInThisCourse(String slug, HttpServletRequest request);
+    List<CourseReturnMyLearning> listAllCourseRegisteredByCustomer(String email);
+    boolean isRegisterInThisCourse(String slug, String email);
 }

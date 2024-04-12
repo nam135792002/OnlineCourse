@@ -31,8 +31,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired private TrackCourseRepository trackCourseRepository;
 
     @Override
-    public OrderResponse createOrder(OrderRequest orderRequest, HttpServletRequest servletRequest) {
-        String email = Utils.getEmailOfAuthenticatedCustomer(servletRequest);
+    public OrderResponse createOrder(OrderRequest orderRequest, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
 

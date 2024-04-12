@@ -31,8 +31,7 @@ public class TrackCourseServiceImpl implements TrackCourseService {
     @Autowired private ModelMapper modelMapper;
 
     @Override
-    public InfoCourseRegistered listTrackCourse(HttpServletRequest request, String slug) {
-        String email = Utils.getEmailOfAuthenticatedCustomer(request);
+    public InfoCourseRegistered listTrackCourse(String email , String slug) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
 
@@ -58,8 +57,7 @@ public class TrackCourseServiceImpl implements TrackCourseService {
     }
 
     @Override
-    public Integer confirmLessonLearned(HttpServletRequest request, Integer lessonIdPre) {
-        String email = Utils.getEmailOfAuthenticatedCustomer(request);
+    public Integer confirmLessonLearned(String email, Integer lessonIdPre) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
         Lesson lesson = lessonRepository.findById(lessonIdPre)

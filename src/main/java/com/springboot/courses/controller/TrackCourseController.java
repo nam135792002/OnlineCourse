@@ -23,15 +23,15 @@ public class TrackCourseController {
     @Autowired private LearningService learningService;
 
     @PostMapping("/get-all")
-    public ResponseEntity<InfoCourseRegistered> getAll(HttpServletRequest request,
+    public ResponseEntity<InfoCourseRegistered> getAll(@RequestParam(value = "email") String email,
                                                        @RequestParam(value = "slug") String slug){
-        return ResponseEntity.ok(trackCourseService.listTrackCourse(request, slug));
+        return ResponseEntity.ok(trackCourseService.listTrackCourse(email, slug));
     }
 
     @PostMapping("/confirm-done")
-    public ResponseEntity<?> doneLesson(HttpServletRequest request,
+    public ResponseEntity<?> doneLesson(@RequestParam(value = "email") String email ,
                                         @RequestParam(value = "lesson") Integer lessonId){
-        Integer lessonIdNext = trackCourseService.confirmLessonLearned(request, lessonId);
+        Integer lessonIdNext = trackCourseService.confirmLessonLearned(email, lessonId);
         if(lessonIdNext != -1){
             LessonResponse lessonResponse = lessonService.get(lessonIdNext);
             switch (lessonResponse.getLessonType()){

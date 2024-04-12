@@ -17,13 +17,12 @@ import java.util.List;
 public class OrderController {
     @Autowired private OrderService orderService;
 
-    @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping("/create")
-    public ResponseEntity<OrderResponse> createOrder(@RequestBody @Valid OrderRequest order, HttpServletRequest servletRequest){
-        return ResponseEntity.ok(orderService.createOrder(order, servletRequest));
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody @Valid OrderRequest order,
+                                                     @RequestParam(value = "email") String email){
+        return ResponseEntity.ok(orderService.createOrder(order, email));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/list-all")
     public ResponseEntity<?> listAll(){
         List<OrderResponse> listOrder = orderService.getAll();
@@ -33,7 +32,6 @@ public class OrderController {
         return ResponseEntity.ok(listOrder);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable(value = "id") Integer orderId){
         return ResponseEntity.ok(orderService.deleteOrder(orderId));

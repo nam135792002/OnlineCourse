@@ -65,9 +65,7 @@ public class LearningServiceImpl implements LearningService {
     }
 
     @Override
-    public List<CourseReturnMyLearning> listAllCourseRegisteredByCustomer(HttpServletRequest request) {
-        String email = Utils.getEmailOfAuthenticatedCustomer(request);
-
+    public List<CourseReturnMyLearning> listAllCourseRegisteredByCustomer(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
 
@@ -83,10 +81,8 @@ public class LearningServiceImpl implements LearningService {
     }
 
     @Override
-    public boolean isRegisterInThisCourse(String slug, HttpServletRequest request) {
-        String email = Utils.getEmailOfAuthenticatedCustomer(request);
+    public boolean isRegisterInThisCourse(String slug, String email) {
         if(email != null){
-            System.out.println(email);
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new ResourceNotFoundException("User","email", email));
 

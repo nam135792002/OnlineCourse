@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface OrderService {
-    OrderResponse createOrder(OrderRequest orderRequest, HttpServletRequest servletRequest);
+    OrderResponse createOrder(OrderRequest orderRequest, String email);
     List<OrderResponse> getAll();
     String deleteOrder(Integer orderId);
 }
