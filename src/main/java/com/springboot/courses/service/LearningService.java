@@ -12,8 +12,8 @@ import java.util.List;
 public interface LearningService {
 
     CourseReturnLearningPageResponse getCourseReturnLearningPage(String slug);
-    VideoReturnResponse getVideo(String slug, Integer lessonId);
-    List<QuizReturnLearningPage> getQuiz(String slug, Integer lessonId);
+    VideoReturnResponse getVideo(Integer lessonId);
+    List<QuizReturnLearningPage> getQuiz(Integer lessonId);
     List<CourseReturnMyLearning> listAllCourseRegisteredByCustomer(HttpServletRequest request);
     boolean isRegisterInThisCourse(String slug, HttpServletRequest request);
 }

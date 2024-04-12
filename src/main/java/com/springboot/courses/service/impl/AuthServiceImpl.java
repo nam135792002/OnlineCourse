@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -70,6 +71,8 @@ public class AuthServiceImpl implements AuthService {
             return jwtAuthResponse;
         }catch (BadCredentialsException e) {
             throw new BlogApiException(HttpStatus.UNAUTHORIZED, "Email hoặc mật khẩu không chính xác");
+        }catch (DisabledException d){
+            throw new BlogApiException(HttpStatus.UNAUTHORIZED, "Vui lòng xác nhận tài khoản email để được đăng nhập!");
         }
     }
 

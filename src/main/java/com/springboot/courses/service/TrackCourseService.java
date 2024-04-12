@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TrackCourseService {
     InfoCourseRegistered listTrackCourse(HttpServletRequest request, String slug);
-    String confirmLessonLearned(HttpServletRequest request, Integer lessonIdPre, Integer lessonIdNext);
+    Integer confirmLessonLearned(HttpServletRequest request, Integer lessonIdPre);
 }

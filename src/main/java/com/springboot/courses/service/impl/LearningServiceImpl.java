@@ -43,10 +43,7 @@ public class LearningServiceImpl implements LearningService {
     }
 
     @Override
-    public VideoReturnResponse getVideo(String slug, Integer lessonId) {
-        Courses courses = coursesRepository.findCoursesBySlug(slug)
-                .orElseThrow(() -> new ResourceNotFoundException("Course", "slug", slug));
-
+    public VideoReturnResponse getVideo(Integer lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
 
@@ -59,10 +56,7 @@ public class LearningServiceImpl implements LearningService {
     }
 
     @Override
-    public List<QuizReturnLearningPage> getQuiz(String slug, Integer lessonId) {
-        Courses courses = coursesRepository.findCoursesBySlug(slug)
-                .orElseThrow(() -> new ResourceNotFoundException("Course", "slug", slug));
-
+    public List<QuizReturnLearningPage> getQuiz(Integer lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
 

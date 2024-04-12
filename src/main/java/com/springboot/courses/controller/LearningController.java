@@ -31,26 +31,6 @@ public class LearningController {
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")
-    @GetMapping("/courses/{slug}/lesson/{lessonId}")
-    public ResponseEntity<?> getVideoInDetailCourse(@PathVariable(value = "slug") String slug,
-                                                    @PathVariable(value = "lessonId") Integer lessonId){
-        LessonResponse lessonResponse = lessonService.get(lessonId);
-        switch (lessonResponse.getLessonType()){
-            case VIDEO -> {
-                return ResponseEntity.ok(learningService.getVideo(slug, lessonId));
-            }
-
-            case QUIZ -> {
-                return ResponseEntity.ok(learningService.getQuiz(slug, lessonId));
-            }
-
-            default -> {
-                return ResponseEntity.ok(new BlogApiException(HttpStatus.NOT_FOUND, "Not found this lesson"));
-            }
-        }
-    }
-
-    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/my/course/list-all")
     public ResponseEntity<?> getListAllCourseMyLearning(HttpServletRequest request){
         List<CourseReturnMyLearning> listCourse = learningService.listAllCourseRegisteredByCustomer(request);

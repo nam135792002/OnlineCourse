@@ -17,6 +17,7 @@ public class CustomUserDetail implements UserDetails {
 
     private String email;
     private String password;
+    private boolean enabled;
     private Collection<? extends GrantedAuthority> roles;
 
     @Override
@@ -51,6 +52,6 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 }
