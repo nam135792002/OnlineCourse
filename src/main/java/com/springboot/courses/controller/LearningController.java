@@ -22,7 +22,7 @@ public class LearningController {
         return ResponseEntity.ok(learningService.getCourseReturnLearningPage(slug));
     }
 
-    @PostMapping ("/my/course/list-all")
+    @GetMapping ("/my/course/list-all")
     public ResponseEntity<?> getListAllCourseMyLearning(@RequestParam(value = "email") String email){
         List<CourseReturnMyLearning> listCourse = learningService.listAllCourseRegisteredByCustomer(email);
         if(listCourse.isEmpty()){
@@ -32,7 +32,7 @@ public class LearningController {
         return ResponseEntity.ok(listCourse);
     }
 
-    @PostMapping("/check/exist-course/{slug}")
+    @GetMapping("/check/exist-course/{slug}")
     public ResponseEntity<?> checkExistRegisterCourse(@PathVariable(value = "slug") String slug,
                                                       @RequestParam(value = "email") String email){
         return ResponseEntity.ok(learningService.isRegisterInThisCourse(slug, email));
