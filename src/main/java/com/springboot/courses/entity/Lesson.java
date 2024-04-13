@@ -39,6 +39,10 @@ public class Lesson {
     @JoinColumn(name = "video_id")
     private Video video;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "text_id")
+    private TextLesson text;
+
     private int orders;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)

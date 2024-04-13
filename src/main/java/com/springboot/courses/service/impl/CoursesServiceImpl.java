@@ -231,7 +231,7 @@ public class CoursesServiceImpl implements CoursesService {
                         modelMapper.map(chapter, ChapterReturnDetailResponse.class)).collect(Collectors.toList());
         response.setTotalChapter(chapterList.size());
         chapterList.sort(Comparator.comparingInt(ChapterReturnDetailResponse::getOrders));
-
+        int i = 1;
         for (ChapterReturnDetailResponse chapter : chapterList){
             List<LessonReturnDetailResponse> listLesson = chapter.getLessonList();
             listLesson.sort(Comparator.comparingInt(LessonReturnDetailResponse::getOrders));
@@ -252,6 +252,8 @@ public class CoursesServiceImpl implements CoursesService {
                             Duration.ofMinutes(1)
                     );
                 }
+                lesson.setOrders(i);
+                ++i;
             }
             totalLessonInCourse += listLesson.size();
             chapter.setTotalLesson(listLesson.size());

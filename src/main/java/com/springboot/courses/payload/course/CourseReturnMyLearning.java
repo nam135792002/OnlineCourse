@@ -18,4 +18,6 @@ public class CourseReturnMyLearning {
     private String slug;
 
     private String thumbnail;
+
+    private int process;
 }

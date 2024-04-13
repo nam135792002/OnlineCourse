@@ -25,8 +25,8 @@ public class LessonRequest {
 
     @NotEmpty(message = "Lesson type can not be empty")
     @Pattern(
-        regexp = "^(VIDEO|QUIZ|CODE|BLOG)$",
-            message = "Lesson info type must be one of: video, quiz, code, blog"
+        regexp = "^(VIDEO|QUIZ|CODE|TEXT)$",
+            message = "Lesson info type must be one of: video, quiz, code, text"
     )
     @JsonProperty("lesson_type")
     private String lessonType;
@@ -37,6 +37,9 @@ public class LessonRequest {
 
     @JsonProperty("video_id")
     private Integer videoId;
+
+    @JsonProperty("text_id")
+    private Integer textId;
 
     private int orders;
 }

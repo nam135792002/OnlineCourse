@@ -1,4 +1,4 @@
-package com.springboot.courses.payload.TrackCourses;
+package com.springboot.courses.payload.track;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -25,6 +25,6 @@ public class TrackCourseResponse {
     @JsonProperty("is_completed")
     private boolean isCompleted;
 
-    @JsonProperty("is_unblock")
+    @JsonProperty("is_unlock")
     private boolean isUnlock;
 }

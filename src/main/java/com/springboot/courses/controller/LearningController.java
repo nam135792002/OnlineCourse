@@ -22,7 +22,7 @@ public class LearningController {
         return ResponseEntity.ok(learningService.getCourseReturnLearningPage(slug));
     }
 
-    @PostMapping ("/my/course/list-all")
+    @GetMapping ("/my/course/list-all")
     public ResponseEntity<?> getListAllCourseMyLearning(@RequestParam(value = "email") String email){
         List<CourseReturnMyLearning> listCourse = learningService.listAllCourseRegisteredByCustomer(email);
         if(listCourse.isEmpty()){

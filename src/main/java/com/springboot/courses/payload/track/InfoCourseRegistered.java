@@ -1,4 +1,4 @@
-package com.springboot.courses.payload.TrackCourses;
+package com.springboot.courses.payload.track;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

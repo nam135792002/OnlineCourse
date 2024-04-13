@@ -17,4 +17,5 @@ public interface TrackCourseRepository extends JpaRepository<TrackCourse, Intege
     void updateTrackCourseLessonNext(Integer userId, Integer lessonIdNext);
     List<TrackCourse> findTrackCourseByCoursesAndChapterAndUser(Courses courses, Chapter chapter, User user);
     TrackCourse findTrackCourseByLessonAndUser(Lesson lesson, User user);
+    List<TrackCourse> findAllByCoursesAndUser(Courses courses, User user);
 }

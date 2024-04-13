@@ -16,4 +16,5 @@ public interface LearningService {
     List<QuizReturnLearningPage> getQuiz(Integer lessonId);
     List<CourseReturnMyLearning> listAllCourseRegisteredByCustomer(String email);
     boolean isRegisterInThisCourse(String slug, String email);
+
 }

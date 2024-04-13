@@ -3,6 +3,7 @@ package com.springboot.courses.payload.lesson;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.springboot.courses.entity.LessonType;
+import com.springboot.courses.payload.TextLessonDto;
 import com.springboot.courses.payload.video.VideoDto;
 import com.springboot.courses.payload.quiz.QuizResponse;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,8 @@ public class LessonResponse {
     private Integer chapterId;
 
     private VideoDto video;
+
+    private TextLessonDto text;
 
     private List<QuizResponse> quizList = new ArrayList<>();
 

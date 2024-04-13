@@ -31,6 +31,7 @@ public class LearningServiceImpl implements LearningService {
     @Autowired private VideoRepository videoRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private OrderRepository orderRepository;
+    @Autowired private TrackCourseRepository trackCourseRepository;
 
     @Override
     public CourseReturnLearningPageResponse getCourseReturnLearningPage(String slug) {
@@ -74,7 +75,23 @@ public class LearningServiceImpl implements LearningService {
 
         for(Order order : listOrders){
             Courses courses = order.getCourses();
-            listCourses.add(modelMapper.map(courses, CourseReturnMyLearning.class));
+            List<TrackCourse> listTrackCourses = trackCourseRepository.findAllByCoursesAndUser(courses, user);
+            int totalLesson = 0;
+            int totalLessonLearned = 0;
+            int process = 0;
+            for (TrackCourse trackCourse : listTrackCourses){
+                if(trackCourse.isCompleted()){
+                    ++totalLessonLearned;
+                }
+                ++totalLesson;
+            }
+
+            float percent = (float) (totalLessonLearned * 100) / totalLesson;
+            process = Math.round(percent);
+
+            CourseReturnMyLearning myLearning = modelMapper.map(courses, CourseReturnMyLearning.class);
+            myLearning.setProcess(process);
+            listCourses.add(myLearning);
         }
 
         return listCourses;
@@ -102,6 +119,7 @@ public class LearningServiceImpl implements LearningService {
                 map(chapter -> modelMapper.map(chapter, ChapterReturnDetailResponse.class))
                 .sorted(Comparator.comparingInt(ChapterReturnDetailResponse::getOrders)).toList();
 
+        int i = 1;
         for (ChapterReturnDetailResponse chapter : chapterList){
             List<LessonReturnDetailResponse> listLesson = chapter.getLessonList();
             listLesson.sort(Comparator.comparingInt(LessonReturnDetailResponse::getOrders));
@@ -126,6 +144,8 @@ public class LearningServiceImpl implements LearningService {
                             Duration.ofMinutes(1)
                     );
                 }
+                lesson.setOrders(i);
+                ++i;
             }
             totalLessonInCourse += listLesson.size();
             chapter.setTotalLesson(listLesson.size());
