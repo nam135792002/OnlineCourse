@@ -37,8 +37,6 @@ public class UserRequest {
     @JsonProperty("phone_number")
     private String phoneNumber;
 
-    @NotEmpty(message = "Password can not be empty")
-    @Length(min = 8, max = 30, message = "Password must have 8 - 30 characters")
     private String password;
 
     private boolean enabled;
