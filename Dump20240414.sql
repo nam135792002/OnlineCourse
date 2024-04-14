@@ -162,7 +162,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-INSERT INTO `courses` VALUES (1,'Python cơ bản','python-co-ban','Python là một ngôn ngữ bậc cao, thông dịch, ngôn ngữ kịch bản tương tác và hướng đối tượng','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710207811/tg8ty4o9urchx7s8yhea.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',2),(2,'Truyền thông và Mạng máy tính','truyen-thong-va-mang-may-tinh','Khóa học cung cấp cho lập trình viên những kiến thức cơ bản và dễ hiểu về mạng máy tính và truyền thông dữ liệu.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710208416/fpdr6vdbtohfalvrnax5.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',1),(3,'C++ cho người mới bắt đầu','c++-cho-nguoi-moi-bat-dau','Khóa học lập trình C++ cơ bản cho người mới bắt đầu. Khóa học này sẽ cung cấp những kiến thức cơ bản, dễ hiểu nhất về ngôn ngữ lập trình C++.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710209042/zqagnpsgsenejrssbiuv.jpg',900000,0,0,NULL,_binary '\0',_binary '\0',2),(18,'Spring Boot & Angular The Full Stack Developer Guide','spring-boot-&-angular-the-full-stack-developer-guide','Mastering Spring and Spring Boot + Developing Role-Based Full-Stack App (Spring Boot, Angular, JWT, JPA, Rest, MySql)','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710406870/xaqztbqxr3yp8fbytfbs.jpg',499000,0.5,1,'2024-04-03 11:39:24.132000',_binary '',_binary '',2),(19,'Developing Role Based Full Stack App Spring Boot & Thymeleaf','developing-role-based-full-stack-app-spring-boot-&-thymeleaf','Mastering Spring Boot (Includes Spring Boot 3) + Developing a Role-Based Full-Stack App using Spring Boot + Thymeleaf','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710318814/iytqcbgxtdohlvf6hzjc.jpg',399000,0.25,1,'2024-04-03 11:41:02.681000',_binary '',_binary '',2),(20,'Spring Boot Microservices with Spring Cloud Beginner to Guru','spring-boot-microservices-with-spring-cloud-beginner-to-guru','Learn to Master Spring Boot Microservices with Spring Cloud and Docker','https://res.cloudinary.com/dqnoopa0x/image/upload/v1712553179/njiwmxc6pdvp7gxgk4w8.jpg',1499000,0.25,2,'2024-04-08 12:15:12.978000',_binary '',_binary '',1);
+INSERT INTO `courses` VALUES (1,'Python cơ bản','python-co-ban','Python là một ngôn ngữ bậc cao, thông dịch, ngôn ngữ kịch bản tương tác và hướng đối tượng','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710207811/tg8ty4o9urchx7s8yhea.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',2),(2,'Truyền thông và Mạng máy tính','truyen-thong-va-mang-may-tinh','Khóa học cung cấp cho lập trình viên những kiến thức cơ bản và dễ hiểu về mạng máy tính và truyền thông dữ liệu.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710208416/fpdr6vdbtohfalvrnax5.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',1),(3,'C++ cho người mới bắt đầu','c++-cho-nguoi-moi-bat-dau','Khóa học lập trình C++ cơ bản cho người mới bắt đầu. Khóa học này sẽ cung cấp những kiến thức cơ bản, dễ hiểu nhất về ngôn ngữ lập trình C++.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710209042/zqagnpsgsenejrssbiuv.jpg',900000,0,0,NULL,_binary '\0',_binary '\0',2),(18,'Spring Boot & Angular The Full Stack Developer Guide','spring-boot-&-angular-the-full-stack-developer-guide','Mastering Spring and Spring Boot + Developing Role-Based Full-Stack App (Spring Boot, Angular, JWT, JPA, Rest, MySql)','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710406870/xaqztbqxr3yp8fbytfbs.jpg',499000,0.5,2,'2024-04-03 11:39:24.132000',_binary '',_binary '',2),(19,'Developing Role Based Full Stack App Spring Boot & Thymeleaf','developing-role-based-full-stack-app-spring-boot-&-thymeleaf','Mastering Spring Boot (Includes Spring Boot 3) + Developing a Role-Based Full-Stack App using Spring Boot + Thymeleaf','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710318814/iytqcbgxtdohlvf6hzjc.jpg',399000,0.25,1,'2024-04-03 11:41:02.681000',_binary '',_binary '',2),(20,'Spring Boot Microservices with Spring Cloud Beginner to Guru','spring-boot-microservices-with-spring-cloud-beginner-to-guru','Learn to Master Spring Boot Microservices with Spring Cloud and Docker','https://res.cloudinary.com/dqnoopa0x/image/upload/v1712553179/njiwmxc6pdvp7gxgk4w8.jpg',1499000,0.25,2,'2024-04-08 12:15:12.978000',_binary '',_binary '',1);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,17 +176,20 @@ DROP TABLE IF EXISTS `lesson`;
 CREATE TABLE `lesson` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `lesson_type` enum('VIDEO','QUIZ','CODE','BLOG') NOT NULL,
+  `lesson_type` enum('VIDEO','QUIZ','CODE','TEXT') NOT NULL,
   `created_at` datetime(6) NOT NULL,
   `chapter_id` int NOT NULL,
   `video_id` int DEFAULT NULL,
   `orders` int NOT NULL,
+  `text_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_4j46wplmpx5lr71ugp7engt51` (`video_id`),
+  UNIQUE KEY `UK_22txxbpxqvovgp05l3r3g1k9c` (`text_id`),
   KEY `FKbmvsfsb079cs19554dfl2m1id` (`chapter_id`),
+  CONSTRAINT `FK48my8s72slh0uu28lu3svaqk2` FOREIGN KEY (`text_id`) REFERENCES `text_lessons` (`id`),
   CONSTRAINT `FK9xcabosqsbjf9eo79xye6xv2c` FOREIGN KEY (`video_id`) REFERENCES `video` (`id`),
   CONSTRAINT `FKbmvsfsb079cs19554dfl2m1id` FOREIGN KEY (`chapter_id`) REFERENCES `chapters` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +198,7 @@ CREATE TABLE `lesson` (
 
 LOCK TABLES `lesson` WRITE;
 /*!40000 ALTER TABLE `lesson` DISABLE KEYS */;
-INSERT INTO `lesson` VALUES (1,'Overview Spring Framework','VIDEO','2024-03-17 10:53:28.998000',1,6,3),(2,'History of Spring Framework','VIDEO','2024-03-17 10:58:26.589000',1,7,1),(4,'Spring Framework Architecture','VIDEO','2024-03-18 15:54:48.312000',1,8,2),(7,'Exercise IoC Containers Types','QUIZ','2024-03-19 11:13:34.909000',2,NULL,1),(8,'Welcome to Spring Boot Microservices!','VIDEO','2024-04-08 12:54:55.246000',7,14,1),(9,'What you will build in the Spring Boot Microservices Course','VIDEO','2024-04-08 12:57:20.024000',7,15,2),(10,'Getting the Most out of this Course','VIDEO','2024-04-08 12:59:42.585000',7,16,3),(11,'Slack Group for Spring Boot Microservices with Spring Cloud B2G','VIDEO','2024-04-08 13:02:02.463000',7,17,5),(12,'Setting up your Development Environment','VIDEO','2024-04-08 15:55:13.730000',7,18,4),(13,'Test character 01','QUIZ','2024-04-08 15:57:20.139000',7,NULL,6),(14,'The Traditional Monolith Application','VIDEO','2024-04-08 16:02:22.884000',8,19,2),(15,'What is the Cloud?','VIDEO','2024-04-08 16:03:48.414000',8,20,4),(16,'Introduction to Intro to Microservices Section','VIDEO','2024-04-08 16:04:46.778000',8,21,1),(17,'What are Microservices?','VIDEO','2024-04-08 16:05:34.480000',8,22,3),(18,'Test character 02','QUIZ','2024-04-08 16:07:03.184000',8,NULL,5),(19,'Introduction','VIDEO','2024-04-08 16:18:30.955000',9,23,1),(20,'HTTP Protocol','VIDEO','2024-04-08 16:21:56.081000',9,24,2),(21,'Introducing SFG Beer Works','VIDEO','2024-04-08 16:25:32.298000',10,25,1),(22,'HTTP GET with Spring MVC','VIDEO','2024-04-08 16:28:06.604000',10,26,2),(23,'HTTP GET with Spring RestTemplate','VIDEO','2024-04-08 16:33:10.803000',12,27,1),(24,'Test character 05','QUIZ','2024-04-08 16:34:44.467000',12,NULL,2),(25,'Java Bean Validation','VIDEO','2024-04-08 16:38:45.248000',13,28,2);
+INSERT INTO `lesson` VALUES (1,'Overview Spring Framework','VIDEO','2024-03-17 10:53:28.998000',1,6,3,NULL),(2,'History of Spring Framework','VIDEO','2024-03-17 10:58:26.589000',1,7,1,NULL),(4,'Spring Framework Architecture','VIDEO','2024-03-18 15:54:48.312000',1,8,2,NULL),(7,'Exercise IoC Containers Types','QUIZ','2024-03-19 11:13:34.909000',2,NULL,1,NULL),(8,'Welcome to Spring Boot Microservices!','VIDEO','2024-04-08 12:54:55.246000',7,14,1,NULL),(9,'What you will build in the Spring Boot Microservices Course','VIDEO','2024-04-08 12:57:20.024000',7,15,2,NULL),(10,'Getting the Most out of this Course','VIDEO','2024-04-08 12:59:42.585000',7,16,3,NULL),(11,'Slack Group for Spring Boot Microservices with Spring Cloud B2G','VIDEO','2024-04-08 13:02:02.463000',7,17,5,NULL),(12,'Setting up your Development Environment','VIDEO','2024-04-08 15:55:13.730000',7,18,4,NULL),(13,'Test character 01','QUIZ','2024-04-08 15:57:20.139000',7,NULL,6,NULL),(14,'The Traditional Monolith Application','VIDEO','2024-04-08 16:02:22.884000',8,19,2,NULL),(15,'What is the Cloud?','VIDEO','2024-04-08 16:03:48.414000',8,20,4,NULL),(16,'Introduction to Intro to Microservices Section','VIDEO','2024-04-08 16:04:46.778000',8,21,1,NULL),(17,'What are Microservices?','VIDEO','2024-04-08 16:05:34.480000',8,22,3,NULL),(18,'Test character 02','QUIZ','2024-04-08 16:07:03.184000',8,NULL,5,NULL),(19,'Introduction','VIDEO','2024-04-08 16:18:30.955000',9,23,1,NULL),(20,'HTTP Protocol','VIDEO','2024-04-08 16:21:56.081000',9,24,2,NULL),(21,'Introducing SFG Beer Works','VIDEO','2024-04-08 16:25:32.298000',10,25,1,NULL),(22,'HTTP GET with Spring MVC','VIDEO','2024-04-08 16:28:06.604000',10,26,2,NULL),(23,'HTTP GET with Spring RestTemplate','VIDEO','2024-04-08 16:33:10.803000',12,27,1,NULL),(24,'Test character 05','QUIZ','2024-04-08 16:34:44.467000',12,NULL,2,NULL),(25,'Java Bean Validation','VIDEO','2024-04-08 16:38:45.248000',13,28,2,NULL),(29,'Note #1: Slack Group for Spring Boot Microservices with Spring Cloud B2G','TEXT','2024-04-14 11:37:12.129000',7,NULL,7,4);
 /*!40000 ALTER TABLE `lesson` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,7 +220,7 @@ CREATE TABLE `orders` (
   KEY `FKsjfs85qf6vmcurlx43cnc16gy` (`customer_id`),
   CONSTRAINT `FK68snkj0g5gsjxllhjc3v5lm0r` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
   CONSTRAINT `FKsjfs85qf6vmcurlx43cnc16gy` FOREIGN KEY (`customer_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,7 +229,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (7,20,27,'2024-04-12 09:51:17.051000',1125000);
+INSERT INTO `orders` VALUES (7,20,27,'2024-04-12 09:51:17.051000',1125000),(8,18,27,'2024-04-14 10:40:38.807000',249000);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,6 +286,30 @@ INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_CUSTOMER');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `text_lessons`
+--
+
+DROP TABLE IF EXISTS `text_lessons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `text_lessons` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `text_lessons`
+--
+
+LOCK TABLES `text_lessons` WRITE;
+/*!40000 ALTER TABLE `text_lessons` DISABLE KEYS */;
+INSERT INTO `text_lessons` VALUES (4,'<hr>\n<p><span style=\"font-size:18px;\"><strong>&nbsp;</strong></span><span style=\"font-family:Aptos, sans-serif;font-size:18px;\"><strong>Chào mọi người</strong>,</span><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">\n        <o:p></o:p>\n    </span><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\"></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">Chúng ta rất vui mừng thông báo về việc tạo ra một <strong>Slack Group</strong> mới dành riêng cho việc thảo luận về <strong>Spring Boot Microservices</strong> với <strong>Spring Cloud</strong>. Slack Group này sẽ cung cấp một nền tảng để chia sẻ kiến thức, trao đổi ý tưởng và giải đáp thắc mắc về việc phát triển ứng dụng sử dụng Spring Boot và Spring Cloud.<o:p></o:p></span></p>\n<figure class=\"image\"><img style=\"aspect-ratio:850/425;\" src=\"https://res.cloudinary.com/dqnoopa0x/image/upload/v1712917143/gsw40qu812xtzkaekhps.jpg\" width=\"850\" height=\"425\"></figure>\n<hr>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\"></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:22px;\"><strong>MỤC TIÊU CỦA SLACK GROUP:</strong></span><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">\n        <o:p></o:p>\n    </span><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\"></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">→ Chia sẻ kiến thức: Thảo luận và chia sẻ kiến thức về Spring Boot Microservices và Spring Cloud.<o:p></o:p></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">→ Hỗ trợ cộng đồng: Cung cấp sự giúp đỡ và hỗ trợ cho những người mới bắt đầu và những người có kinh nghiệm trong việc phát triển ứng dụng sử dụng Spring framework.<o:p></o:p></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">→ Giải đáp thắc mắc: Đặt câu hỏi và nhận câu trả lời từ cộng đồng về các vấn đề liên quan đến Spring Boot và Spring Cloud.<o:p></o:p></span></p>\n<h3 style=\"margin-left:0in;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\"><strong>Cách tham gia:</strong>\n        <o:p></o:p>\n    </span></h3>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\"></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">→ Đăng ký: Đăng ký tham gia <strong>Slack Group</strong> bằng cách gửi email đến </span><span style=\"background-color:rgb(233,238,246);color:rgb(31,31,31);font-family:&quot;Google Sans&quot;, Roboto;font-size:14px;\"><span style=\"-webkit-text-stroke-width:0px;display:inline !important;float:none;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:500;letter-spacing:normal;orphans:2;text-align:center;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">tech.courses.895@gmail.com</span></span><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\"> với tiêu đề \"Tham gia Slack Group - [Họ và tên]\".<o:p></o:p></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">Mời thành viên: Mọi thành viên trong Slack Group đều được mời để thảo luận và chia sẻ kiến thức.<o:p></o:p></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\"><i><strong>Lưu ý:<o:p></o:p></strong></i></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\"></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">→ Slack Group sẽ tuân thủ các quy định và điều khoản sử dụng được quy định trong [quy định sử dụng].<o:p></o:p></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">→ Khi đặt câu hỏi hoặc chia sẻ kiến thức, hãy đảm bảo tuân thủ nguyên tắc tôn trọng và tích cực góp ý.<o:p></o:p></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">→ Hy vọng Slack Group sẽ trở thành một cộng đồng sôi nổi và hữu ích cho tất cả mọi người trong việc học hỏi và phát triển kỹ năng về Spring Boot Microservices và Spring Cloud.<o:p></o:p></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\"></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">Trân trọng,<o:p></o:p></span></p>\n<p style=\"line-height:107%;margin:0in 0in 8pt;\"><span style=\"font-family:Aptos, sans-serif;font-size:11pt;\">Admin<o:p></o:p></span></p>');
+/*!40000 ALTER TABLE `text_lessons` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `track_courses`
 --
 
@@ -298,6 +325,7 @@ CREATE TABLE `track_courses` (
   `chapter_id` int DEFAULT NULL,
   `lesson_id` int DEFAULT NULL,
   `user_id` int DEFAULT NULL,
+  `is_current` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKmtsrhuk85yo77lx55h9qoumqs` (`chapter_id`),
   KEY `FK5vaycdixusus3w4kod8gwr60k` (`course_id`),
@@ -307,7 +335,7 @@ CREATE TABLE `track_courses` (
   CONSTRAINT `FKikusfmwuj6n9sy36b9nvltv5q` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FKmav0ebl2kucnmofpncotj1tgx` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`),
   CONSTRAINT `FKmtsrhuk85yo77lx55h9qoumqs` FOREIGN KEY (`chapter_id`) REFERENCES `chapters` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -316,7 +344,7 @@ CREATE TABLE `track_courses` (
 
 LOCK TABLES `track_courses` WRITE;
 /*!40000 ALTER TABLE `track_courses` DISABLE KEYS */;
-INSERT INTO `track_courses` VALUES (19,NULL,_binary '',_binary '',20,7,8,27),(20,NULL,_binary '',_binary '',20,7,9,27),(21,NULL,_binary '',_binary '',20,7,10,27),(22,NULL,_binary '\0',_binary '\0',20,7,11,27),(23,NULL,_binary '\0',_binary '',20,7,12,27),(24,NULL,_binary '\0',_binary '\0',20,7,13,27),(25,NULL,_binary '\0',_binary '\0',20,8,14,27),(26,NULL,_binary '\0',_binary '\0',20,8,15,27),(27,NULL,_binary '\0',_binary '\0',20,8,16,27),(28,NULL,_binary '\0',_binary '\0',20,8,17,27),(29,NULL,_binary '\0',_binary '\0',20,8,18,27),(30,NULL,_binary '\0',_binary '\0',20,9,19,27),(31,NULL,_binary '\0',_binary '\0',20,9,20,27),(32,NULL,_binary '\0',_binary '\0',20,10,21,27),(33,NULL,_binary '\0',_binary '\0',20,10,22,27),(34,NULL,_binary '\0',_binary '\0',20,12,23,27),(35,NULL,_binary '\0',_binary '\0',20,12,24,27),(36,NULL,_binary '\0',_binary '\0',20,13,25,27);
+INSERT INTO `track_courses` VALUES (19,NULL,_binary '',_binary '',20,7,8,27,_binary '\0'),(20,NULL,_binary '',_binary '',20,7,9,27,_binary '\0'),(21,NULL,_binary '',_binary '',20,7,10,27,_binary '\0'),(22,NULL,_binary '',_binary '',20,7,11,27,_binary '\0'),(23,NULL,_binary '',_binary '',20,7,12,27,_binary '\0'),(24,NULL,_binary '',_binary '',20,7,13,27,_binary '\0'),(25,NULL,_binary '',_binary '',20,8,14,27,_binary '\0'),(26,NULL,_binary '\0',_binary '',20,8,15,27,_binary ''),(27,NULL,_binary '',_binary '',20,8,16,27,_binary '\0'),(28,NULL,_binary '',_binary '',20,8,17,27,_binary '\0'),(29,NULL,_binary '\0',_binary '\0',20,8,18,27,_binary '\0'),(30,NULL,_binary '\0',_binary '\0',20,9,19,27,_binary '\0'),(31,NULL,_binary '\0',_binary '\0',20,9,20,27,_binary '\0'),(32,NULL,_binary '\0',_binary '\0',20,10,21,27,_binary '\0'),(33,NULL,_binary '\0',_binary '\0',20,10,22,27,_binary '\0'),(34,NULL,_binary '\0',_binary '\0',20,12,23,27,_binary '\0'),(35,NULL,_binary '\0',_binary '\0',20,12,24,27,_binary '\0'),(36,NULL,_binary '\0',_binary '\0',20,13,25,27,_binary '\0'),(37,NULL,_binary '\0',_binary '\0',18,1,1,27,_binary '\0'),(38,NULL,_binary '\0',_binary '',18,1,2,27,_binary ''),(39,NULL,_binary '\0',_binary '\0',18,1,4,27,_binary '\0'),(40,NULL,_binary '\0',_binary '\0',18,2,7,27,_binary '\0'),(41,NULL,_binary '\0',_binary '',20,7,29,27,_binary '\0');
 /*!40000 ALTER TABLE `track_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -392,4 +420,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-12 11:43:45
+-- Dump completed on 2024-04-14 17:25:11
