@@ -14,6 +14,9 @@ import lombok.Setter;
 @JsonPropertyOrder({"full_name", "username", "photo", "role_name"})
 public class UserReturnJwt {
 
+    @JsonProperty("user_id")
+    private Integer id;
+
     @JsonProperty("full_name")
     private String fullName;
 
