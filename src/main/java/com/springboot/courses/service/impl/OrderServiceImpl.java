@@ -68,6 +68,7 @@ public class OrderServiceImpl implements OrderService {
                 trackCourse.setCompleted(false);
                 if(chapter.getOrders() == 1 && lesson.getOrders() == 1){
                     trackCourse.setUnlock(true);
+                    trackCourse.setCurrent(true);
                 }
 
                 trackCourseRepository.save(trackCourse);

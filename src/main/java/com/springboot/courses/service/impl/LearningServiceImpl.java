@@ -2,6 +2,7 @@ package com.springboot.courses.service.impl;
 
 import com.springboot.courses.entity.*;
 import com.springboot.courses.exception.ResourceNotFoundException;
+import com.springboot.courses.payload.TextLessonDto;
 import com.springboot.courses.payload.chapter.ChapterReturnDetailResponse;
 import com.springboot.courses.payload.course.CourseReturnLearningPageResponse;
 import com.springboot.courses.payload.course.CourseReturnMyLearning;
@@ -32,6 +33,7 @@ public class LearningServiceImpl implements LearningService {
     @Autowired private UserRepository userRepository;
     @Autowired private OrderRepository orderRepository;
     @Autowired private TrackCourseRepository trackCourseRepository;
+    @Autowired private TextLessonRepository textLessonRepository;
 
     @Override
     public CourseReturnLearningPageResponse getCourseReturnLearningPage(String slug) {
@@ -63,6 +65,19 @@ public class LearningServiceImpl implements LearningService {
 
         List<Quiz> quizzes = lesson.getQuizList();
         return quizzes.stream().map(quiz -> modelMapper.map(quiz, QuizReturnLearningPage.class)).toList();
+    }
+
+    @Override
+    public TextLessonDto getText(Integer lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
+
+        Integer textId = lesson.getText().getId();
+
+        TextLesson textLesson = textLessonRepository.findById(textId)
+                .orElseThrow(() -> new ResourceNotFoundException("Text", "id", textId));
+
+        return modelMapper.map(textLesson, TextLessonDto.class);
     }
 
     @Override

@@ -65,14 +65,14 @@ public class UserController {
 
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestParam(value = "password") String newPassword,
-                                                 HttpServletRequest request){
-        return ResponseEntity.ok(userService.changePasswordInCustomer(newPassword, request));
+                                                 @RequestParam(value = "email") String email){
+        return ResponseEntity.ok(userService.changePasswordInCustomer(newPassword, email));
     }
 
     @PostMapping("/change-info")
     public ResponseEntity<UserResponse> updateInfoCustomer(@RequestParam(value = "full_name", required = false) String fullName,
                                                            @RequestParam(value = "img", required = false) MultipartFile img,
-                                                           HttpServletRequest request){
-        return ResponseEntity.ok(userService.updateInfoCustomer(fullName, img, request));
+                                                           @RequestParam(value = "email") String email){
+        return ResponseEntity.ok(userService.updateInfoCustomer(fullName, img, email));
     }
 }

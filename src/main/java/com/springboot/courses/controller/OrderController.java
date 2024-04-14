@@ -18,7 +18,7 @@ public class OrderController {
     @Autowired private OrderService orderService;
 
     @PostMapping("/create")
-    public ResponseEntity<OrderResponse> createOrder(@RequestBody @Valid OrderRequest order,
+    public ResponseEntity<OrderResponse> createOrder(@RequestPart(value = "order") @Valid OrderRequest order,
                                                      @RequestParam(value = "email") String email){
         return ResponseEntity.ok(orderService.createOrder(order, email));
     }

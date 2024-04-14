@@ -1,5 +1,6 @@
 package com.springboot.courses.controller;
 
+import com.springboot.courses.payload.lesson.LessonRequestInQuiz;
 import com.springboot.courses.payload.quiz.QuizRequest;
 import com.springboot.courses.payload.quiz.QuizResponse;
 import com.springboot.courses.service.QuizService;
@@ -28,5 +29,10 @@ public class QuizController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable(value = "id") Integer quizId){
         return ResponseEntity.ok(quizService.deleteQuiz(quizId));
+    }
+
+    @PostMapping("/check-answer")
+    public ResponseEntity<?> checkAnswerIsCorrect(@RequestBody @Valid LessonRequestInQuiz lessonRequestInQuiz){
+        return ResponseEntity.ok(quizService.gradeOfQuiz(lessonRequestInQuiz));
     }
 }

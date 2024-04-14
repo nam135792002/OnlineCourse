@@ -162,9 +162,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateInfoCustomer(String fullName, MultipartFile img, HttpServletRequest request) {
-        String email = Utils.getEmailOfAuthenticatedCustomer(request);
-
+    public UserResponse updateInfoCustomer(String fullName, MultipartFile img, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
 
@@ -185,9 +183,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String changePasswordInCustomer(String password, HttpServletRequest request) {
-        String email = Utils.getEmailOfAuthenticatedCustomer(request);
-
+    public String changePasswordInCustomer(String password, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
         user.setPassword(passwordEncoder.encode(password));

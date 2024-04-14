@@ -51,6 +51,10 @@ public class TrackCourseController {
                 return ResponseEntity.ok(learningService.getQuiz(lessonId));
             }
 
+            case TEXT -> {
+                return ResponseEntity.ok(learningService.getText(lessonId));
+            }
+
             default -> {
                 return ResponseEntity.ok(new BlogApiException(HttpStatus.NOT_FOUND, "Not found this lesson"));
             }

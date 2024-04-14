@@ -29,6 +29,9 @@ public class TrackCourse {
     @Column(name = "is_unlock")
     private boolean isUnlock;
 
+    @Column(name = "is_current")
+    private boolean isCurrent;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Courses courses;

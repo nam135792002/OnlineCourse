@@ -61,29 +61,30 @@ public class TrackCourseServiceImpl implements TrackCourseService {
         Lesson lesson = lessonRepository.findById(lessonIdPre)
                         .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonIdPre));
 
-        TrackCourse checkUnlockLesson = trackCourseRepository.findTrackCourseByLessonAndUser(lesson, user);
-        if(!checkUnlockLesson.isUnlock()){
+        TrackCourse trackCoursePre = trackCourseRepository.findTrackCourseByLessonAndUser(lesson, user);
+
+        if(!trackCoursePre.isUnlock()){
             throw new BlogApiException(HttpStatus.FORBIDDEN, "Bài học này chưa được mở khóa");
-        }
+        }else{
+            trackCourseRepository.updateTrackCourseLessonPre(user.getId(), lessonIdPre);
 
-        trackCourseRepository.updateTrackCourseLessonPre(user.getId(), lessonIdPre);
-
-        Courses courses = trackCourseRepository.findTrackCourseByLessonAndUser(lesson, user).getCourses();
-        List<TrackCourse> listTrackCourses = sortTrackCourse(courses, user);
-        Optional<Integer> lessonIdNext = listTrackCourses.stream()
-                        .filter(track -> track.getLesson().getId().equals(lessonIdPre))
-                        .map(track -> {
-                            int index = listTrackCourses.indexOf(track);
-                            if(index != -1 && index < listTrackCourses.size() - 1){
-                                return listTrackCourses.get(index + 1).getLesson().getId();
-                            }else{
-                                return -1;
-                            }
-                        }).findFirst();
-        if(lessonIdNext.get() != -1){
-            trackCourseRepository.updateTrackCourseLessonNext(user.getId(), lessonIdNext.get());
+            Courses courses = trackCourseRepository.findTrackCourseByLessonAndUser(lesson, user).getCourses();
+            List<TrackCourse> listTrackCourses = sortTrackCourse(courses, user);
+            Optional<Integer> lessonIdNext = listTrackCourses.stream()
+                    .filter(track -> track.getLesson().getId().equals(lessonIdPre))
+                    .map(track -> {
+                        int index = listTrackCourses.indexOf(track);
+                        if(index != -1 && index < listTrackCourses.size() - 1){
+                            return listTrackCourses.get(index + 1).getLesson().getId();
+                        }else{
+                            return -1;
+                        }
+                    }).findFirst();
+            if(lessonIdNext.get() != -1){
+                trackCourseRepository.updateTrackCourseLessonNext(user.getId(), lessonIdNext.get());
+            }
+            return lessonIdNext.get();
         }
-        return lessonIdNext.get();
     }
 
     List<TrackCourse> sortTrackCourse(Courses courses, User user){

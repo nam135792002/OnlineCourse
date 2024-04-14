@@ -6,9 +6,9 @@ import com.springboot.courses.entity.Quiz;
 import com.springboot.courses.entity.QuizType;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
-import com.springboot.courses.payload.quiz.AnswerDto;
-import com.springboot.courses.payload.quiz.QuizRequest;
-import com.springboot.courses.payload.quiz.QuizResponse;
+import com.springboot.courses.payload.lesson.LessonRequestInQuiz;
+import com.springboot.courses.payload.quiz.*;
+import com.springboot.courses.repository.AnswerQuizRepository;
 import com.springboot.courses.repository.LessonRepository;
 import com.springboot.courses.repository.QuizRepository;
 import com.springboot.courses.service.QuizService;
@@ -27,6 +27,7 @@ public class QuizServiceImpl implements QuizService {
     @Autowired private QuizRepository quizRepository;
     @Autowired private LessonRepository lessonRepository;
     @Autowired private ModelMapper modelMapper;
+    @Autowired private AnswerQuizRepository answerQuizRepository;
 
     @Override
     public QuizResponse createQuiz(QuizRequest quizRequest) {
@@ -102,6 +103,53 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new ResourceNotFoundException("Quiz", "id", quizId));
         quizRepository.delete(quiz);
         return "Delete successfully quiz";
+    }
+
+    @Override
+    public float gradeOfQuiz(LessonRequestInQuiz lessonRequestInQuiz) {
+        Integer lessonId = lessonRequestInQuiz.getId();
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
+
+        float totalQuizzes = lesson.getQuizList().size();
+        float correctTotalQuizzes = 0;
+
+        for (QuizLearningRequest quizLearningRequest : lessonRequestInQuiz.getListQuizzes()){
+            Integer quizId = quizLearningRequest.getId();
+            Quiz quizInDB = quizRepository.findById(quizId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Quiz", "id", quizId));
+
+            if(quizInDB.getQuizType().toString().equals("ONE_CHOICE")){
+                Integer answerId = quizLearningRequest.getListAnswers().get(0).getId();
+                Answer answer = answerQuizRepository.checkAnswerInCorrect(answerId);
+                if(answer != null) {
+                    ++correctTotalQuizzes;
+                }
+            }else if(quizInDB.getQuizType().toString().equals("PERFORATE")){
+                List<Answer> listAnswers = answerQuizRepository.listAllAnswerIsCorrect(quizId);
+                String contentAnswer = quizLearningRequest.getListAnswers().get(0).getContentPerforate();
+                for (Answer answer : listAnswers){
+                    if(contentAnswer.equalsIgnoreCase(answer.getContent())){
+                        ++correctTotalQuizzes;
+                        break;
+                    }
+                }
+            }else{
+                List<Answer> listAnswers = answerQuizRepository.listAllAnswerIsCorrect(quizId);
+                float totalAnswerCorrectInList = listAnswers.size();
+                float totalAnswerCorrectInThere = 0;
+                for (AnswerLearningRequest answerLearningRequest : quizLearningRequest.getListAnswers()){
+                    Answer answer = answerQuizRepository.checkAnswerInCorrect(answerLearningRequest.getId());
+                    if(answer != null){
+                        ++totalAnswerCorrectInThere;
+                    }
+                }
+                float percentMultipleChoiceQuiz = totalAnswerCorrectInThere / totalAnswerCorrectInList;
+                correctTotalQuizzes += percentMultipleChoiceQuiz;
+            }
+        }
+        float grade = (correctTotalQuizzes * 10) / totalQuizzes;
+        return (float) (Math.round(grade * 100.0) / 100.0);
     }
 
 

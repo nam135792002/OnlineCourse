@@ -84,10 +84,19 @@ public class LessonServiceImpl implements LessonService {
                 trackCourse.setChapter(savedLesson.getChapter());
                 trackCourse.setLesson(savedLesson);
 
+                TrackCourse trackCourseCurrentLesson = trackCourseRepository.findTrackCoursesByCurrent(courses.getId(), order.getUser().getId());
+                int chapterCurrentLessIdOrder = trackCourseCurrentLesson.getChapter().getOrders();
+                int lessonCurrentLessIdOrder = trackCourseCurrentLesson.getLesson().getOrders();
+                if(chapterCurrentLessIdOrder > savedLesson.getChapter().getOrders()){
+                    trackCourse.setUnlock(true);
+                }else if(chapterCurrentLessIdOrder == savedLesson.getChapter().getOrders()){
+                    if(lessonCurrentLessIdOrder > savedLesson.getOrders()){
+                        trackCourse.setUnlock(true);
+                    }
+                }
                 trackCourseRepository.save(trackCourse);
             }
         }
-
         return convertToResponse(savedLesson);
     }
 
@@ -132,8 +141,10 @@ public class LessonServiceImpl implements LessonService {
         Lesson lessonInDB = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
 
-        String url = lessonInDB.getVideo().getUrl();
-        uploadFile.deleteVideoInCloudinary(url);
+        if(lessonInDB.getVideo() != null){
+            String url = lessonInDB.getVideo().getUrl();
+            uploadFile.deleteVideoInCloudinary(url);
+        }
 
         lessonRepository.delete(lessonInDB);
 

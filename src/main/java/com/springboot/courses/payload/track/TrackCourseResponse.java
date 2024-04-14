@@ -27,4 +27,7 @@ public class TrackCourseResponse {
 
     @JsonProperty("is_unlock")
     private boolean isUnlock;
+
+    @JsonProperty("is_current")
+    private boolean isCurrent;
 }
