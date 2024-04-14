@@ -7,6 +7,7 @@ import com.springboot.courses.payload.chapter.ChapterReturnDetailResponse;
 import com.springboot.courses.payload.course.CourseReturnLearningPageResponse;
 import com.springboot.courses.payload.course.CourseReturnMyLearning;
 import com.springboot.courses.payload.lesson.LessonReturnDetailResponse;
+import com.springboot.courses.payload.quiz.QuizLearningRequest;
 import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
 import com.springboot.courses.payload.video.VideoReturnResponse;
 import com.springboot.courses.repository.*;
@@ -64,7 +65,19 @@ public class LearningServiceImpl implements LearningService {
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
 
         List<Quiz> quizzes = lesson.getQuizList();
-        return quizzes.stream().map(quiz -> modelMapper.map(quiz, QuizReturnLearningPage.class)).toList();
+        return convertToQuizLearningPage(quizzes);
+    }
+
+    public List<QuizReturnLearningPage> convertToQuizLearningPage(List<Quiz> quizzes){
+        List<QuizReturnLearningPage> listQuizzes = new ArrayList<>();
+        for (Quiz quiz : quizzes){
+            QuizReturnLearningPage quizReturnLearningPage = modelMapper.map(quiz, QuizReturnLearningPage.class);
+            if(quiz.getQuizType().toString().equals("PERFORATE")){
+                quizReturnLearningPage.setAnswerList(null);
+            }
+            listQuizzes.add(quizReturnLearningPage);
+        }
+        return listQuizzes;
     }
 
     @Override
