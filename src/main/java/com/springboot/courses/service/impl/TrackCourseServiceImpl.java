@@ -3,6 +3,8 @@ package com.springboot.courses.service.impl;
 import com.springboot.courses.entity.*;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
+import com.springboot.courses.payload.lesson.LessonReturnLearningResponse;
+import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
 import com.springboot.courses.payload.track.InfoCourseRegistered;
 import com.springboot.courses.payload.track.TrackCourseResponse;
 import com.springboot.courses.repository.CoursesRepository;
@@ -80,11 +82,36 @@ public class TrackCourseServiceImpl implements TrackCourseService {
                             return -1;
                         }
                     }).findFirst();
-            if(lessonIdNext.get() != -1){
+
+            Lesson lessonNext = lessonRepository.findById(lessonIdNext.get())
+                    .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonIdNext.get()));
+
+            TrackCourse trackCourseNext = trackCourseRepository.findTrackCourseByLessonAndUser(lessonNext, user);
+
+            if(lessonIdNext.get() != -1 && !trackCourseNext.isUnlock()){
                 trackCourseRepository.updateTrackCourseLessonNext(user.getId(), lessonIdNext.get());
             }
             return lessonIdNext.get();
         }
+    }
+
+    @Override
+    public LessonReturnLearningResponse getLesson(Integer lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
+
+        LessonReturnLearningResponse lessonReturn = modelMapper.map(lesson, LessonReturnLearningResponse.class);
+        if(lessonReturn.getLessonType().toString().equals("QUIZ")){
+            int i = 0;
+            for (QuizReturnLearningPage quiz : lessonReturn.getQuizList()){
+                quiz.setOrder(++i);
+                if (quiz.getQuizType().toString().equals("PERFORATE")){
+                    quiz.setAnswerList(null);
+                }
+            }
+        }
+
+        return lessonReturn;
     }
 
     List<TrackCourse> sortTrackCourse(Courses courses, User user){

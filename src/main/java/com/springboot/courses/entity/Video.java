@@ -26,6 +26,9 @@ public class Video {
     @Column(nullable = false)
     private LocalTime duration;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
+
     @OneToOne(mappedBy = "video")
     private Lesson lesson;
 }

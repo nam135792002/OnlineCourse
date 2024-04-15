@@ -29,19 +29,23 @@ public class VideoServiceImpl implements VideoService {
     @Autowired private ModelMapper modelMapper;
 
     @Override
-    public VideoDto saveVideo(MultipartFile videoFile) {
+    public VideoDto saveVideo(VideoDto videoDto, MultipartFile videoFile) {
         Video video = new Video();
-        return savedVideoIntoDB(videoFile, video);
+        return savedVideoIntoDB(videoFile, video, videoDto);
     }
 
     @Override
-    public VideoDto updateVideo(Integer videoId, MultipartFile videoFile) {
+    public VideoDto updateVideo(Integer videoId, VideoDto videoDto, MultipartFile videoFile) {
         Video videoDB = videoRepository.findById(videoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Video", "id", videoId));
+        if(videoFile != null){
+            uploadFile.deleteVideoInCloudinary(videoDB.getUrl());
+            return savedVideoIntoDB(videoFile, videoDB, videoDto);
+        }else{
+            videoDB.setDescription(videoDto.getDescription());
+            return modelMapper.map(videoRepository.save(videoDB), VideoDto.class);
+        }
 
-        uploadFile.deleteVideoInCloudinary(videoDB.getUrl());
-
-        return savedVideoIntoDB(videoFile, videoDB);
     }
 
     @Override
@@ -55,12 +59,14 @@ public class VideoServiceImpl implements VideoService {
         return "Delete video successfully!";
     }
 
-    private VideoDto savedVideoIntoDB(MultipartFile videoFile, Video video){
+    private VideoDto savedVideoIntoDB(MultipartFile videoFile, Video video, VideoDto videoDto){
         String url = uploadFile.uploadFileOnCloudinary(videoFile);
         video.setUrl(url);
 
         LocalTime duration = getDurationVideo(url);
         video.setDuration(duration);
+
+        video.setDescription(videoDto.getDescription());
 
         Video savedVideo = videoRepository.save(video);
 

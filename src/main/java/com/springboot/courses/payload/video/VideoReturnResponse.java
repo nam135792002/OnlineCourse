@@ -18,4 +18,6 @@ public class VideoReturnResponse {
     private String url;
 
     private LocalTime duration;
+
+    private String description;
 }

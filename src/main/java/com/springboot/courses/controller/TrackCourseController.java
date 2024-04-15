@@ -29,35 +29,14 @@ public class TrackCourseController {
                                         @RequestParam(value = "lesson") Integer lessonId){
         Integer lessonIdNext = trackCourseService.confirmLessonLearned(email, lessonId);
         if(lessonIdNext != -1){
-            return getLesson(lessonIdNext);
+            return ResponseEntity.ok("CONTINUE");
         }else{
-            return ResponseEntity.ok("Chúc mừng bạn đã hoàn thành khóa học!");
+            return ResponseEntity.ok("DONE");
         }
     }
 
     @PostMapping("/get-lesson")
     public ResponseEntity<?> learningLesson(@RequestParam(value = "lesson") Integer lessonId){
-        return getLesson(lessonId);
-    }
-
-    private ResponseEntity<?> getLesson(Integer lessonId){
-        LessonResponse lessonResponse = lessonService.get(lessonId);
-        switch (lessonResponse.getLessonType()){
-            case VIDEO -> {
-                return ResponseEntity.ok(learningService.getVideo(lessonId));
-            }
-
-            case QUIZ -> {
-                return ResponseEntity.ok(learningService.getQuiz(lessonId));
-            }
-
-            case TEXT -> {
-                return ResponseEntity.ok(learningService.getText(lessonId));
-            }
-
-            default -> {
-                return ResponseEntity.ok(new BlogApiException(HttpStatus.NOT_FOUND, "Not found this lesson"));
-            }
-        }
+        return ResponseEntity.ok(trackCourseService.getLesson(lessonId));
     }
 }

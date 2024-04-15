@@ -15,14 +15,16 @@ public class VideoController {
     @Autowired private VideoService videoService;
 
     @PostMapping("/save")
-    public ResponseEntity<VideoDto> saveVideo(@RequestParam(value = "video") MultipartFile video){
-        return new ResponseEntity<>(videoService.saveVideo(video), HttpStatus.CREATED);
+    public ResponseEntity<VideoDto> saveVideo(@RequestPart(value = "video") VideoDto videoDto,
+                                                @RequestParam(value = "video") MultipartFile video){
+        return new ResponseEntity<>(videoService.saveVideo(videoDto, video), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<VideoDto> updateVideo(@PathVariable(value = "id") Integer videoId,
-                                                @RequestParam(value = "video") MultipartFile video){
-        return ResponseEntity.ok(videoService.updateVideo(videoId, video));
+                                                @RequestPart(value = "video") VideoDto videoDto,
+                                                @RequestParam(value = "video", required = false) MultipartFile video){
+        return ResponseEntity.ok(videoService.updateVideo(videoId, videoDto, video));
     }
 
     @DeleteMapping("/delete/{id}")

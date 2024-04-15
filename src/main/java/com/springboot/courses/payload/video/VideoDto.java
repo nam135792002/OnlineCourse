@@ -18,4 +18,6 @@ public class VideoDto {
     private String url;
 
     private LocalTime duration;
+
+    private String description;
 }

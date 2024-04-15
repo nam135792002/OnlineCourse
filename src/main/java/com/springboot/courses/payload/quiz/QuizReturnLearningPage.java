@@ -23,6 +23,8 @@ public class QuizReturnLearningPage {
     @JsonProperty("quiz_type")
     private QuizType quizType;
 
+    private int order;
+
     @JsonProperty("answer_list")
     private List<AnswerReturnLearningPage> answerList = new ArrayList<>();
 }

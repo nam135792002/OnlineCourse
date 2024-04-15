@@ -5,7 +5,7 @@ import com.springboot.courses.payload.video.VideoReturnResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface VideoService {
-    VideoDto saveVideo(MultipartFile videoFile);
-    VideoDto updateVideo(Integer videoId, MultipartFile videoFile);
+    VideoDto saveVideo(VideoDto videoDto, MultipartFile videoFile);
+    VideoDto updateVideo(Integer videoId, VideoDto videoDto, MultipartFile videoFile);
     String deleteVideo(Integer videoId);
 }
