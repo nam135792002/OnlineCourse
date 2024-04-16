@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/track-course")
 public class TrackCourseController {
     @Autowired private TrackCourseService trackCourseService;
-    @Autowired private LessonService lessonService;
-    @Autowired private LearningService learningService;
 
     @GetMapping("/get-all")
     public ResponseEntity<InfoCourseRegistered> getAll(@RequestParam(value = "email") String email,
@@ -35,7 +33,7 @@ public class TrackCourseController {
         }
     }
 
-    @PostMapping("/get-lesson")
+    @GetMapping("/get-lesson")
     public ResponseEntity<?> learningLesson(@RequestParam(value = "lesson") Integer lessonId){
         return ResponseEntity.ok(trackCourseService.getLesson(lessonId));
     }

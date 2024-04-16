@@ -80,7 +80,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse updateUser(UserRequest userRequest, Integer userId, MultipartFile img){
         // Get user in database
-        User userInDB = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        User userInDB = userRepository.findById(userId).
+                orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         // Change image avatar of user
         if(img != null){
@@ -127,21 +128,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private User checkValid(UserRequest userRequest, Role role, MultipartFile img){
-        // check exists email
-        if (userRepository.existsUserByEmail(userRequest.getEmail())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Email has existed for this user");
-        }
-
-        // check exists phone number
-        if (userRepository.existsUserByPhoneNumber(userRequest.getPhoneNumber())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Phone number has existed for this user");
-        }
-
-        //check exists username
-        if(userRepository.existsUserByUsername(userRequest.getUsername())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Username has existed for this user");
-        }
-
         // convert user dto to user entity
         User user = modelMapper.map(userRequest, User.class);
 
