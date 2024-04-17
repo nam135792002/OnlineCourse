@@ -16,6 +16,7 @@ import com.springboot.courses.repository.VideoRepository;
 import com.springboot.courses.service.CoursesService;
 import com.springboot.courses.utils.UploadFile;
 import com.springboot.courses.utils.Utils;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CoursesServiceImpl implements CoursesService {
 
     @Autowired private CoursesRepository coursesRepository;
@@ -45,11 +47,11 @@ public class CoursesServiceImpl implements CoursesService {
     public CourseResponse createCourse(CoursesRequest coursesRequest, MultipartFile image) {
 
         if(coursesRepository.existsCoursesByTitle(coursesRequest.getTitle())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Course name have existed!");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên khóa học đã được tạo trước đó!");
         }
 
         if(coursesRepository.existsCoursesBySlug(coursesRequest.getSlug())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Course slug have existed!");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Slug khóa học đã được tạo trước đó!");
         }
 
         Category category = categoryRepository.findById(coursesRequest.getCategoryId())
@@ -123,7 +125,7 @@ public class CoursesServiceImpl implements CoursesService {
 
         if(courses != null){
             if(!Objects.equals(courses.getId(), courseInDB.getId())){
-                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Title/Slug have been duplicated!");
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên/Slug khóa học đã tồn tại trước đó");
             }
         }
 
@@ -165,7 +167,7 @@ public class CoursesServiceImpl implements CoursesService {
 
         coursesRepository.delete(courseInDB);
 
-        return "Delete course successfully!";
+        return "Xóa khóa học thành công";
     }
 
     @Override
@@ -195,6 +197,25 @@ public class CoursesServiceImpl implements CoursesService {
         return response;
     }
 
+    @Override
+    public String updateIsEnabled(Integer courseId, boolean isEnabled) {
+        Courses courses = coursesRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Courses", "id", courseId));
+
+        coursesRepository.switchEnabled(courseId, isEnabled);
+
+        return "SUCCESS";
+    }
+
+    @Override
+    public String updateIsPublished(Integer courseId, boolean isPublished) {
+        Courses courses = coursesRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Courses", "id", courseId));
+
+        coursesRepository.switchPublished(courseId, isPublished);
+        return "SUCCESS";
+    }
+
     private void convertSomeAttributeToEntity(Courses courses, CoursesRequest request){
         courses.setTitle(request.getTitle());
         String slug = Utils.removeVietnameseAccents(request.getTitle());
@@ -202,7 +223,7 @@ public class CoursesServiceImpl implements CoursesService {
         courses.setDescription(request.getDescription());
         courses.setPrice(request.getPrice());
         courses.setDiscount(request.getDiscount());
-        courses.setComingSoon(request.isComingSoon());
+        courses.setEnabled(request.isEnabled());
         courses.setPublished(request.isPublished());
         if(request.isPublished()){
             courses.setPublishedAt(new Date());

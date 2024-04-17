@@ -4,6 +4,7 @@ import com.springboot.courses.entity.Courses;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -31,4 +32,13 @@ public interface CoursesRepository extends JpaRepository<Courses, Integer> {
     List<Courses> findAllByCategoryId(Integer categoryId);
 
     Optional<Courses> findCoursesBySlug(String slug);
+
+    @Query("update Courses c set c.isEnabled =?2 where c.id =?1")
+    @Modifying
+    void switchEnabled(Integer courseId, boolean enabled);
+
+    @Query("update Courses c set c.isPublished =?2, c.publishedAt = case " +
+            "when ?2 = true then current_timestamp() else null end where c.id =?1")
+    @Modifying
+    void switchPublished(Integer courseId, boolean isPublished);
 }

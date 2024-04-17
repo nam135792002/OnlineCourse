@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonPropertyOrder({"id", "title", "slug", "description", "thumbnail", "price", "discount",
-        "student_count", "published_at", "is_coming_soon", "is_published", "category"})
+        "student_count", "published_at", "is_enabled", "is_published", "category"})
 public class CourseResponse {
 
     private Integer id;
@@ -40,8 +40,8 @@ public class CourseResponse {
     @JsonProperty("published_at")
     private Date publishedAt;
 
-    @JsonProperty("is_coming_soon")
-    private boolean isComingSoon;
+    @JsonProperty("is_enabled")
+    private boolean isEnabled;
 
     @JsonProperty("is_published")
     private boolean isPublished;

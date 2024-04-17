@@ -44,8 +44,8 @@ public class Courses {
     @Column(name = "published_at")
     private Date publishedAt;
 
-    @Column(name = "is_coming_soon")
-    private boolean isComingSoon;
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
 
     @Column(name = "is_published")
     private boolean isPublished;

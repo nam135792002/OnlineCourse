@@ -56,6 +56,23 @@ public class NoteServiceImpl implements NoteService {
         return listNotes.stream().map(this::convertToResponse).toList();
     }
 
+    @Override
+    public NoteResponse updateNote(Integer noteId, String content) {
+        Note noteInDB = noteRepository.findById(noteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
+        noteInDB.setContent(content);
+        return convertToResponse(noteRepository.save(noteInDB));
+    }
+
+    @Override
+    public String deleteNote(Integer noteId) {
+        Note noteInDB = noteRepository.findById(noteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
+
+        noteRepository.delete(noteInDB);
+        return "Xóa ghi chú thành công";
+    }
+
     private NoteResponse convertToResponse(Note note){
         NoteResponse noteResponse = modelMapper.map(note, NoteResponse.class);
         noteResponse.setLessonId(note.getLesson().getId());

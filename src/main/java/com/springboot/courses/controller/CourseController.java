@@ -76,4 +76,17 @@ public class CourseController {
     public ResponseEntity<String> deleteCourse(@PathVariable(value = "id") Integer courseId){
         return ResponseEntity.ok(coursesService.delete(courseId));
     }
+
+    @PostMapping("/switch-enabled")
+    public ResponseEntity<?> updateIsEnabled(@RequestParam(value = "course") Integer courseId,
+                                             @RequestParam(value = "enabled") boolean isEnabled){
+        System.out.println(isEnabled);
+        return ResponseEntity.ok(coursesService.updateIsEnabled(courseId, isEnabled));
+    }
+
+    @PostMapping("/switch-published")
+    public ResponseEntity<?> updateIsPublished(@RequestParam(value = "course") Integer courseId,
+                                             @RequestParam(value = "published") boolean isPublished){
+        return ResponseEntity.ok(coursesService.updateIsPublished(courseId, isPublished));
+    }
 }

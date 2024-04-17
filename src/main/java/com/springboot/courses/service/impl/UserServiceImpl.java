@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
             uploadFile.deleteImageInCloudinary(userInDB.getPhoto());
         }
         userRepository.delete(userInDB);
-        return "Delete user successfully!";
+        return "Xóa admin thành công";
     }
 
     private UserResponse convertToDto(User user){
@@ -174,6 +174,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
-        return "Change your password successfully!";
+        return "Thay đổi mật khẩu của bạn thành công!";
     }
 }

@@ -32,12 +32,12 @@ public class CategoryServiceImpl implements CategoryService {
 
         // check duplicate category name.
         if(categoryRepository.existsCategoriesByName(categoryRequest.getName())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category name have existed!");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên danh mục khóa học đã từng tồn tại!");
         }
 
         // check duplicate category slug
         if(categoryRepository.existsCategoriesBySlug(categoryRequest.getSlug())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category slug have existed!");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Slug của danh mục khóa học đã từng tồn tại!");
         }
 
         Category category = modelMapper.map(categoryRequest, Category.class);
@@ -90,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         if(category != null){
             if(!Objects.equals(category.getId(), categoryInDB.getId())){
-                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Category name/slug have been existed!");
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên/Slug của danh mục khóa học đã từng tồn tại.");
             }
         }
 
@@ -107,6 +107,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
 
         categoryRepository.delete(categoryInDB);
-        return "Delete Category Successfully!";
+        return "Xóa danh mục khóa học thành công";
     }
 }

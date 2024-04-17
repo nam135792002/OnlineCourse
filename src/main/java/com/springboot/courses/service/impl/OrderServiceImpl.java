@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", orderRequest.getCourseId()));
 
         if(orderRepository.existsOrderByCoursesAndUser(courses, user)){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Customer have purchased this course");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Khách hàng đã từng mua khóa học này!");
         }
 
         Order order = new Order();

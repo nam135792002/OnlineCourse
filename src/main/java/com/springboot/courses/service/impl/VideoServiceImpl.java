@@ -56,7 +56,7 @@ public class VideoServiceImpl implements VideoService {
         uploadFile.deleteVideoInCloudinary(videoDB.getUrl());
 
         videoRepository.delete(videoDB);
-        return "Delete video successfully!";
+        return "Xóa video thành công";
     }
 
     private VideoDto savedVideoIntoDB(MultipartFile videoFile, Video video, VideoDto videoDto){

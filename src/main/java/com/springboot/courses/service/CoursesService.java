@@ -17,5 +17,6 @@ public interface CoursesService {
     String delete(Integer courseId);
     List<CourseReturnHomePageResponse> getCourseIntoHomePage(Integer categoryId);
     CourseReturnDetailPageResponse getCourseDetail(String slug);
-
+    String updateIsEnabled(Integer courseId, boolean isEnabled);
+    String updateIsPublished(Integer courseId, boolean isPublished);
 }

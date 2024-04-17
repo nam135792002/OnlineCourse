@@ -30,7 +30,7 @@ public class ChapterServiceImpl implements ChapterService {
         Chapter chapterDuplicate = chapterRepository.findChapterByNameAndCourse(chapterDto.getName(), course);
 
         if(chapterDuplicate != null){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Chapter name have existed in course " + course.getTitle());
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên chương đã từng tồn tại trong khóa học " + course.getTitle());
         }
 
         Chapter chapter = new Chapter();
@@ -56,7 +56,7 @@ public class ChapterServiceImpl implements ChapterService {
         if(chapterDuplicate != null){
             if(!Objects.equals(chapter.getId(), chapterDuplicate.getId()))
             {
-                throw new BlogApiException(HttpStatus.BAD_REQUEST, "This chapter name have existed in course " + course.getTitle());
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên chương này đã từng tồn tại trong khóa học " + course.getTitle());
             }
         }
 
@@ -75,6 +75,6 @@ public class ChapterServiceImpl implements ChapterService {
                 .orElseThrow(() -> new ResourceNotFoundException("Chapter", "id", chapterId));
 
         chapterRepository.delete(chapter);
-        return "Delete successfully chapter!";
+        return "Xóa chương thành công!";
     }
 }

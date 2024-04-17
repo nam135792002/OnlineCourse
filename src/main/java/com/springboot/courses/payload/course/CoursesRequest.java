@@ -38,8 +38,8 @@ public class CoursesRequest {
 
     private float discount;
 
-    @JsonProperty("is_coming_soon")
-    private boolean isComingSoon;
+    @JsonProperty("is_enabled")
+    private boolean isEnabled;
 
     @JsonProperty("is_published")
     private boolean isPublished;

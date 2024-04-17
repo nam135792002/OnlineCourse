@@ -35,7 +35,7 @@ public class QuizServiceImpl implements QuizService {
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", quizRequest.getLessonId()));
 
         if(quizRepository.existsQuizByQuestionAndLesson(quizRequest.getQuestion(), lesson)){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Question have existed in this lesson");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Câu hỏi đã từng tồn tại trong bài học này!");
         }
 
         Quiz quiz = new Quiz();
@@ -53,7 +53,7 @@ public class QuizServiceImpl implements QuizService {
         }
 
         if(!flag){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "There is no right answer in list answer");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Không có câu trả lời đúng trong danh sách câu trả lời!");
         }
 
         Quiz savedQuiz = quizRepository.save(quiz);
@@ -72,7 +72,7 @@ public class QuizServiceImpl implements QuizService {
         Quiz checkQuizDuplicate = quizRepository.findQuizByQuestionAndLesson(quizRequest.getQuestion(), lesson);
 
         if(!Objects.equals(quizInDB.getId(), checkQuizDuplicate.getId())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Question have existed in this lesson");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Câu hỏi đã từng tồn tại trong bài học này!");
         }
 
         quizInDB.setQuestion(quizRequest.getQuestion());

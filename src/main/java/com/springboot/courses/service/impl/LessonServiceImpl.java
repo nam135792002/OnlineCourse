@@ -42,7 +42,7 @@ public class LessonServiceImpl implements LessonService {
                     .orElseThrow(() -> new ResourceNotFoundException("Video", "id", lessonRequest.getVideoId()));
 
             if(lessonRepository.existsLessonByVideo(video)){
-                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Video have existed!");
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Video đã từng tồn tại trước đó!");
             }
 
         }
@@ -54,12 +54,12 @@ public class LessonServiceImpl implements LessonService {
                     .orElseThrow(() -> new ResourceNotFoundException("Text", "id", lessonRequest.getTextId()));
 
             if(lessonRepository.existsLessonByText(textLesson)){
-                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Text lesson have existed!");
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Bài học này đã từng tồn tại");
             }
         }
 
         if(lessonRepository.existsLessonByNameAndChapter(lessonRequest.getName(),chapter)){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Lesson name have existed in this chapter.");
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên bài học đã từng tồn tại trong chương này!");
         }
 
 
@@ -126,7 +126,7 @@ public class LessonServiceImpl implements LessonService {
         Lesson lessonCheckDuplicate = lessonRepository.findLessonByNameAndChapter(lessonRequest.getName(), chapter);
         if (lessonCheckDuplicate != null){
             if(!Objects.equals(lessonInDB.getId(), lessonCheckDuplicate.getId())){
-                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Lesson name have existed in this chapter");
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên bài học đã từng tồn tại trong chương này!");
             }
         }
 
@@ -150,7 +150,7 @@ public class LessonServiceImpl implements LessonService {
 
 
 
-        return "Delete lesson successfully!";
+        return "Xóa bài học thành công";
     }
 
     private LessonResponse convertToResponse(Lesson lesson){
