@@ -20,9 +20,9 @@ public class NoteController {
     }
 
     @GetMapping ("/get-all")
-    public ResponseEntity<?> list(@RequestParam(value = "lesson") Integer lessonId,
+    public ResponseEntity<?> list(@RequestParam(value = "course") Integer courseId,
                                   @RequestParam(value = "user") Integer userId){
-        return ResponseEntity.ok(noteService.getAll(userId, lessonId));
+        return ResponseEntity.ok(noteService.getAll(userId, courseId));
     }
 
     @PutMapping("/update/{id}")

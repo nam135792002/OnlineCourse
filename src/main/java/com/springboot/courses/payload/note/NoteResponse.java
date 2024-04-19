@@ -27,4 +27,10 @@ public class NoteResponse {
 
     @JsonProperty("lesson_id")
     private Integer lessonId;
+
+    @JsonProperty("title_lesson")
+    private String titleLesson;
+
+    @JsonProperty("title_chapter")
+    private String titleChapter;
 }

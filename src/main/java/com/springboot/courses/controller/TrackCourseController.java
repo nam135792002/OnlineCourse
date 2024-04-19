@@ -1,13 +1,8 @@
 package com.springboot.courses.controller;
 
-import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.payload.track.InfoCourseRegistered;
-import com.springboot.courses.payload.lesson.LessonResponse;
-import com.springboot.courses.service.LearningService;
-import com.springboot.courses.service.LessonService;
 import com.springboot.courses.service.TrackCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
