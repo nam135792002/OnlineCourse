@@ -145,7 +145,7 @@ CREATE TABLE `courses` (
   `discount` float NOT NULL,
   `student_count` int DEFAULT NULL,
   `published_at` datetime(6) DEFAULT NULL,
-  `is_coming_soon` bit(1) DEFAULT NULL,
+  `is_enabled` bit(1) DEFAULT NULL,
   `is_published` bit(1) DEFAULT NULL,
   `category_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -162,7 +162,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-INSERT INTO `courses` VALUES (1,'Python cơ bản','python-co-ban','Python là một ngôn ngữ bậc cao, thông dịch, ngôn ngữ kịch bản tương tác và hướng đối tượng','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710207811/tg8ty4o9urchx7s8yhea.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',2),(2,'Truyền thông và Mạng máy tính','truyen-thong-va-mang-may-tinh','Khóa học cung cấp cho lập trình viên những kiến thức cơ bản và dễ hiểu về mạng máy tính và truyền thông dữ liệu.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710208416/fpdr6vdbtohfalvrnax5.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',1),(3,'C++ cho người mới bắt đầu','c++-cho-nguoi-moi-bat-dau','Khóa học lập trình C++ cơ bản cho người mới bắt đầu. Khóa học này sẽ cung cấp những kiến thức cơ bản, dễ hiểu nhất về ngôn ngữ lập trình C++.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710209042/zqagnpsgsenejrssbiuv.jpg',900000,0,0,NULL,_binary '\0',_binary '\0',2),(18,'Spring Boot & Angular The Full Stack Developer Guide','spring-boot-&-angular-the-full-stack-developer-guide','Mastering Spring and Spring Boot + Developing Role-Based Full-Stack App (Spring Boot, Angular, JWT, JPA, Rest, MySql)','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710406870/xaqztbqxr3yp8fbytfbs.jpg',499000,0.5,2,'2024-04-03 11:39:24.132000',_binary '',_binary '',2),(19,'Developing Role Based Full Stack App Spring Boot & Thymeleaf','developing-role-based-full-stack-app-spring-boot-&-thymeleaf','Mastering Spring Boot (Includes Spring Boot 3) + Developing a Role-Based Full-Stack App using Spring Boot + Thymeleaf','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710318814/iytqcbgxtdohlvf6hzjc.jpg',399000,0.25,1,'2024-04-03 11:41:02.681000',_binary '',_binary '',2),(20,'Spring Boot Microservices with Spring Cloud Beginner to Guru','spring-boot-microservices-with-spring-cloud-beginner-to-guru','Learn to Master Spring Boot Microservices with Spring Cloud and Docker','https://res.cloudinary.com/dqnoopa0x/image/upload/v1712553179/njiwmxc6pdvp7gxgk4w8.jpg',1499000,0.25,2,'2024-04-08 12:15:12.978000',_binary '',_binary '',1);
+INSERT INTO `courses` VALUES (1,'Python cơ bản','python-co-ban','Python là một ngôn ngữ bậc cao, thông dịch, ngôn ngữ kịch bản tương tác và hướng đối tượng','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710207811/tg8ty4o9urchx7s8yhea.jpg',1200000,0,0,NULL,_binary '',_binary '\0',2),(2,'Truyền thông và Mạng máy tính','truyen-thong-va-mang-may-tinh','Khóa học cung cấp cho lập trình viên những kiến thức cơ bản và dễ hiểu về mạng máy tính và truyền thông dữ liệu.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710208416/fpdr6vdbtohfalvrnax5.jpg',1200000,0,0,NULL,_binary '\0',_binary '\0',1),(3,'C++ cho người mới bắt đầu','c++-cho-nguoi-moi-bat-dau','Khóa học lập trình C++ cơ bản cho người mới bắt đầu. Khóa học này sẽ cung cấp những kiến thức cơ bản, dễ hiểu nhất về ngôn ngữ lập trình C++.','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710209042/zqagnpsgsenejrssbiuv.jpg',900000,0,0,NULL,_binary '\0',_binary '\0',2),(18,'Spring Boot and Angular The Full Stack Developer Guide','spring-boot-and-angular-the-full-stack-developer-guide','Mastering Spring and Spring Boot + Developing Role-Based Full-Stack App (Spring Boot, Angular, JWT, JPA, Rest, MySql)','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710406870/xaqztbqxr3yp8fbytfbs.jpg',499000,0.5,2,'2024-04-03 11:39:24.132000',_binary '\0',_binary '',2),(19,'Developing Role Based Full Stack App Spring Boot & Thymeleaf','developing-role-based-full-stack-app-spring-boot-&-thymeleaf','Mastering Spring Boot (Includes Spring Boot 3) + Developing a Role-Based Full-Stack App using Spring Boot + Thymeleaf','https://res.cloudinary.com/dqnoopa0x/image/upload/v1710318814/iytqcbgxtdohlvf6hzjc.jpg',399000,0.25,1,'2024-04-03 11:41:02.681000',_binary '\0',_binary '',2),(20,'Spring Boot Microservices with Spring Cloud Beginner to Guru','spring-boot-microservices-with-spring-cloud-beginner-to-guru','Learn to Master Spring Boot Microservices with Spring Cloud and Docker','https://res.cloudinary.com/dqnoopa0x/image/upload/v1712553179/njiwmxc6pdvp7gxgk4w8.jpg',1499000,0.25,2,'2024-04-08 12:15:12.978000',_binary '\0',_binary '',1);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,6 +203,38 @@ INSERT INTO `lesson` VALUES (1,'Overview Spring Framework','VIDEO','2024-03-17 1
 UNLOCK TABLES;
 
 --
+-- Table structure for table `notes`
+--
+
+DROP TABLE IF EXISTS `notes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` text NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `current_times` time(6) NOT NULL,
+  `lesson_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK5c3nije94u992vpo71887270m` (`lesson_id`),
+  KEY `FKechaouoa6kus6k1dpix1u91c` (`user_id`),
+  CONSTRAINT `FK5c3nije94u992vpo71887270m` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`),
+  CONSTRAINT `FKechaouoa6kus6k1dpix1u91c` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notes`
+--
+
+LOCK TABLES `notes` WRITE;
+/*!40000 ALTER TABLE `notes` DISABLE KEYS */;
+INSERT INTO `notes` VALUES (2,'con cac','2024-04-15 21:23:45.070000','00:00:12.000000',8,27),(3,'dm','2024-04-15 21:24:03.659000','00:01:12.000000',8,27),(5,'note qq j','2024-04-15 21:33:39.762000','00:50:00.000000',9,27);
+/*!40000 ALTER TABLE `notes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `orders`
 --
 
@@ -231,6 +263,40 @@ LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 INSERT INTO `orders` VALUES (7,20,27,'2024-04-12 09:51:17.051000',1125000),(8,18,27,'2024-04-14 10:40:38.807000',249000);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `questions_answers`
+--
+
+DROP TABLE IF EXISTS `questions_answers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `questions_answers` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` text NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `lesson_id` int DEFAULT NULL,
+  `parent_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKf2cs1p5oxux1pjb2a19hwonx5` (`lesson_id`),
+  KEY `FK83wnbesjvrx50d1ykcmof0hba` (`parent_id`),
+  KEY `FKje750h01n2nvmvb566i8gl32m` (`user_id`),
+  CONSTRAINT `FK83wnbesjvrx50d1ykcmof0hba` FOREIGN KEY (`parent_id`) REFERENCES `questions_answers` (`id`),
+  CONSTRAINT `FKf2cs1p5oxux1pjb2a19hwonx5` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`),
+  CONSTRAINT `FKje750h01n2nvmvb566i8gl32m` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `questions_answers`
+--
+
+LOCK TABLES `questions_answers` WRITE;
+/*!40000 ALTER TABLE `questions_answers` DISABLE KEYS */;
+INSERT INTO `questions_answers` VALUES (1,'hello everyone!','2024-04-18 16:22:22.848000',8,NULL,27),(4,'Welcome to the first lesson','2024-04-18 16:29:48.472000',8,NULL,27),(5,'Welcome to the second lesson','2024-04-18 16:32:47.964000',9,NULL,27),(6,'I have some questions','2024-04-18 16:39:45.305000',9,NULL,27),(7,'I have some questions','2024-04-18 17:09:45.905000',8,NULL,27),(8,'I can answer anything questions','2024-04-18 17:14:48.776000',8,NULL,27),(9,'Ohh, thank you so much!','2024-04-18 17:22:27.500000',8,8,18),(10,'Do you study about Spring Frameword before?','2024-04-18 17:23:54.253000',8,8,19),(11,'Woa, That\'s great with me','2024-04-18 17:24:25.852000',8,8,20),(13,'Yes, I have studied about Spring Core and Spring Boot since 2023','2024-04-19 10:20:48.018000',8,10,27),(14,'Yes, nice to meet you','2024-04-19 10:21:41.482000',8,11,27),(15,'You\'re welcome!','2024-04-19 10:22:42.628000',8,9,27),(16,'I think that he quite well-know it','2024-04-19 10:25:08.762000',8,10,20),(17,'Ohh, I see','2024-04-19 10:27:00.291000',8,16,19),(18,'Woa, thanks','2024-04-19 10:27:55.725000',8,16,27);
+/*!40000 ALTER TABLE `questions_answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -344,7 +410,7 @@ CREATE TABLE `track_courses` (
 
 LOCK TABLES `track_courses` WRITE;
 /*!40000 ALTER TABLE `track_courses` DISABLE KEYS */;
-INSERT INTO `track_courses` VALUES (19,NULL,_binary '',_binary '',20,7,8,27,_binary '\0'),(20,NULL,_binary '',_binary '',20,7,9,27,_binary '\0'),(21,NULL,_binary '',_binary '',20,7,10,27,_binary '\0'),(22,NULL,_binary '',_binary '',20,7,11,27,_binary '\0'),(23,NULL,_binary '',_binary '',20,7,12,27,_binary '\0'),(24,NULL,_binary '',_binary '',20,7,13,27,_binary '\0'),(25,NULL,_binary '',_binary '',20,8,14,27,_binary '\0'),(26,NULL,_binary '\0',_binary '',20,8,15,27,_binary ''),(27,NULL,_binary '',_binary '',20,8,16,27,_binary '\0'),(28,NULL,_binary '',_binary '',20,8,17,27,_binary '\0'),(29,NULL,_binary '\0',_binary '\0',20,8,18,27,_binary '\0'),(30,NULL,_binary '\0',_binary '\0',20,9,19,27,_binary '\0'),(31,NULL,_binary '\0',_binary '\0',20,9,20,27,_binary '\0'),(32,NULL,_binary '\0',_binary '\0',20,10,21,27,_binary '\0'),(33,NULL,_binary '\0',_binary '\0',20,10,22,27,_binary '\0'),(34,NULL,_binary '\0',_binary '\0',20,12,23,27,_binary '\0'),(35,NULL,_binary '\0',_binary '\0',20,12,24,27,_binary '\0'),(36,NULL,_binary '\0',_binary '\0',20,13,25,27,_binary '\0'),(37,NULL,_binary '\0',_binary '\0',18,1,1,27,_binary '\0'),(38,NULL,_binary '\0',_binary '',18,1,2,27,_binary ''),(39,NULL,_binary '\0',_binary '\0',18,1,4,27,_binary '\0'),(40,NULL,_binary '\0',_binary '\0',18,2,7,27,_binary '\0'),(41,NULL,_binary '\0',_binary '',20,7,29,27,_binary '\0');
+INSERT INTO `track_courses` VALUES (19,NULL,_binary '',_binary '',20,7,8,27,_binary '\0'),(20,NULL,_binary '',_binary '',20,7,9,27,_binary '\0'),(21,NULL,_binary '',_binary '',20,7,10,27,_binary '\0'),(22,NULL,_binary '',_binary '',20,7,11,27,_binary '\0'),(23,NULL,_binary '',_binary '',20,7,12,27,_binary '\0'),(24,NULL,_binary '',_binary '',20,7,13,27,_binary '\0'),(25,NULL,_binary '',_binary '',20,8,14,27,_binary '\0'),(26,NULL,_binary '',_binary '',20,8,15,27,_binary '\0'),(27,NULL,_binary '',_binary '',20,8,16,27,_binary '\0'),(28,NULL,_binary '',_binary '',20,8,17,27,_binary '\0'),(29,NULL,_binary '',_binary '',20,8,18,27,_binary '\0'),(30,NULL,_binary '\0',_binary '',20,9,19,27,_binary ''),(31,NULL,_binary '\0',_binary '\0',20,9,20,27,_binary '\0'),(32,NULL,_binary '\0',_binary '\0',20,10,21,27,_binary '\0'),(33,NULL,_binary '\0',_binary '\0',20,10,22,27,_binary '\0'),(34,NULL,_binary '\0',_binary '\0',20,12,23,27,_binary '\0'),(35,NULL,_binary '\0',_binary '\0',20,12,24,27,_binary '\0'),(36,NULL,_binary '\0',_binary '\0',20,13,25,27,_binary '\0'),(37,NULL,_binary '\0',_binary '\0',18,1,1,27,_binary '\0'),(38,NULL,_binary '\0',_binary '',18,1,2,27,_binary ''),(39,NULL,_binary '\0',_binary '\0',18,1,4,27,_binary '\0'),(40,NULL,_binary '\0',_binary '\0',18,2,7,27,_binary '\0'),(41,NULL,_binary '',_binary '',20,7,29,27,_binary '\0');
 /*!40000 ALTER TABLE `track_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,6 +463,7 @@ CREATE TABLE `video` (
   `id` int NOT NULL AUTO_INCREMENT,
   `url` varchar(150) NOT NULL,
   `duration` time(6) NOT NULL,
+  `description` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -407,7 +474,7 @@ CREATE TABLE `video` (
 
 LOCK TABLES `video` WRITE;
 /*!40000 ALTER TABLE `video` DISABLE KEYS */;
-INSERT INTO `video` VALUES (6,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1710597751/wzvpwpjsfiwh1woyh7fi.mp4','00:02:21.000000'),(7,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1710597779/yjxcjo7hvkbjucg2whgb.mp4','00:04:43.000000'),(8,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1710597812/hxbake5dvhygvzy1kjar.mp4','00:03:53.000000'),(14,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712555481/wxblsi60ehws5sene54v.mp4','00:03:07.000000'),(15,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712555730/wk8xzjpwnqiheic2mxnb.mp4','00:02:02.000000'),(16,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712555884/qdem0r0wsveiwputamom.mp4','00:01:24.000000'),(17,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712556089/srobmpx7pwqfhpvaqowv.mp4','00:00:01.000000'),(18,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712566482/a6kograxfxscnxhyshgf.mp4','00:00:26.000000'),(19,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712566919/bsidyrtzyor2fxvupgw3.mp4','00:01:39.000000'),(20,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712567018/wt3ccvwiby77p3vjlqqb.mp4','00:01:12.000000'),(21,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712567075/gzk8psbinifezucesgnu.mp4','00:00:24.000000'),(22,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712567127/jizysfqfpdrd0m0lckq1.mp4','00:01:30.000000'),(23,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712567824/ju7dv8b4qq6vjiasuepb.mp4','00:00:10.000000'),(24,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712568084/n9ql1gxe0sobe0eyuile.mp4','00:03:31.000000'),(25,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712568309/c9jzpqjwjzrvdxqpf5mh.mp4','00:03:53.000000'),(26,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712568466/fjl50mr4zmo0ebdzhbhr.mp4','00:04:43.000000'),(27,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712568598/pglcufliizx40hkdpa4o.mp4','00:02:21.000000'),(28,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712569069/he6w39biizysgme3ceqd.mp4','00:00:26.000000');
+INSERT INTO `video` VALUES (6,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1710597751/wzvpwpjsfiwh1woyh7fi.mp4','00:02:21.000000','Spring makes it easy to create Java enterprise applications. It provides everything you need to embrace the Java language in an enterprise environment, with support for Groovy and Kotlin as alternative languages on the JVM, and with the flexibility to create many kinds of architectures depending on an application’s needs. As of Spring Framework 6.0, Spring requires Java 17+.'),(7,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1710597779/yjxcjo7hvkbjucg2whgb.mp4','00:04:43.000000','Spring came into being in 2003 as a response to the complexity of the early J2EE specifications. While some consider Java EE and its modern-day successor Jakarta EE to be in competition with Spring, they are in fact complementary. The Spring programming model does not embrace the Jakarta EE platform specification; rather, it integrates with carefully selected individual specifications from the traditional EE umbrella.'),(8,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1710597812/hxbake5dvhygvzy1kjar.mp4','00:03:53.000000','The Spring Framework provides about 20 modules which can be used based on an application requirement.'),(14,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712555481/wxblsi60ehws5sene54v.mp4','00:03:07.000000','Welcome to the Spring Boot Microservices course!'),(15,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712555730/wk8xzjpwnqiheic2mxnb.mp4','00:02:02.000000','Learn about the applications you will build in your Spring Boot Microservices course.'),(16,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712555884/qdem0r0wsveiwputamom.mp4','00:01:24.000000','In this lecture you will get tips and advice on how to get the most out of your Spring Boot Microservices with Spring Cloud course.'),(17,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712556089/srobmpx7pwqfhpvaqowv.mp4','00:00:01.000000','Join the Slack Group for the Spring Boot Microserviecs course! '),(18,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712566482/a6kograxfxscnxhyshgf.mp4','00:00:26.000000','In this lecture you will learn about setting up your development environment for your Spring Boot Microservices with Spring Cloud course.'),(19,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712566919/bsidyrtzyor2fxvupgw3.mp4','00:01:39.000000','Learn about traditional monolithic applications.'),(20,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712567018/wt3ccvwiby77p3vjlqqb.mp4','00:01:12.000000','The cloud is a distributed collection of servers that host software and infrastructure, and it is accessed over the Internet.'),(21,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712567075/gzk8psbinifezucesgnu.mp4','00:00:24.000000','Preview of the section of the course Introducing Microservices, and road map overview of upcoming sections.'),(22,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712567127/jizysfqfpdrd0m0lckq1.mp4','00:01:30.000000','Learn what microservices actually are and how microservices are different from traditional monolithic applications'),(23,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712567824/ju7dv8b4qq6vjiasuepb.mp4','00:00:10.000000','overview of developing WebLogic Web services that conform to the Representational State Transfer (REST) architectural style using Java API for RESTful Web Services (JAX-RS)..'),(24,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712568084/n9ql1gxe0sobe0eyuile.mp4','00:03:31.000000','HTTP is a protocol for fetching resources such as HTML documents. It is the foundation of any data exchange on the Web and it is a client-server protocol, which means requests are initiated by the recipient, usually the Web browser.'),(25,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712568309/c9jzpqjwjzrvdxqpf5mh.mp4','00:03:53.000000','This application mimics a beer distribution pipeline. Beer consumers order beers from a pub. The pub, when needed will order more beer from a beer distributor.'),(26,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712568466/fjl50mr4zmo0ebdzhbhr.mp4','00:04:43.000000','Spring MVC will give you the HttpRequest if you just add it to your controller method signature.'),(27,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712568598/pglcufliizx40hkdpa4o.mp4','00:02:21.000000','In this, Spring Boot RestTemplate GET request example, learn to use RestTemplate to invoke HTTP GET API and verify the response status code and the response entity body.'),(28,'https://res.cloudinary.com/dqnoopa0x/video/upload/v1712569069/he6w39biizysgme3ceqd.mp4','00:00:26.000000','we’ll cover the basics of validating a Java bean with the standard JSR-380 framework and its specification of Jakarta Bean Validation 3.0, which builds upon the features of the Bean Validation API introduced in Java EE 7.');
 /*!40000 ALTER TABLE `video` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -420,4 +487,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-14 17:25:11
+-- Dump completed on 2024-04-19 10:35:22
