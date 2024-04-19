@@ -87,6 +87,7 @@ public class QAServiceImpl implements QAService {
         response.setLessonId(qa.getLesson().getId());
         response.setUserId(qa.getUser().getId());
         response.setUsername(qa.getUser().getUsername());
+        response.setPhotoUser(qa.getUser().getPhoto());
         response.setCreatedAtFormatted(formatDuration(Duration.between(qa.getCreatedAt().toInstant(), now)));
         if(qa.getParent() != null){
             response.setParentId(qa.getParent().getId());

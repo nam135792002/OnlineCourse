@@ -28,6 +28,9 @@ public class QAResponse {
 
     private String username;
 
+    @JsonProperty("photo_user")
+    private String photoUser;
+
     @JsonProperty("created_at_formatted")
     private String createdAtFormatted;
 
