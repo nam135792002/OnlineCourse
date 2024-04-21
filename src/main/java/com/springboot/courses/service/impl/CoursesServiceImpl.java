@@ -184,7 +184,16 @@ public class CoursesServiceImpl implements CoursesService {
         }
 
         return listCourses.stream()
-                .map(courses -> modelMapper.map(courses, CourseReturnHomePageResponse.class)).toList();
+                .map(courses -> {
+                    CourseReturnHomePageResponse response = modelMapper.map(courses, CourseReturnHomePageResponse.class);
+                    int totalReview = courses.getListReviews().size();
+                    int totalRating = courses.getListReviews().stream().mapToInt(Review::getRating).sum();
+                    double averageRating = (double) totalRating / totalReview;
+                    averageRating = Math.round(averageRating * 10.0) / 10.0;
+                    response.setTotalReview(totalReview);
+                    response.setAverageReview(averageRating);
+                    return response;
+                }).toList();
     }
 
     @Override

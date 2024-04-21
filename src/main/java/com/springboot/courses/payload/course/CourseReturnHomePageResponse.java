@@ -37,4 +37,10 @@ public class CourseReturnHomePageResponse {
 
     @JsonProperty("is_published")
     private boolean isPublished;
+
+    @JsonProperty("total_review")
+    private int totalReview;
+
+    @JsonProperty("average_review")
+    private double averageReview;
 }

@@ -10,6 +10,7 @@ import com.springboot.courses.repository.LessonRepository;
 import com.springboot.courses.repository.QARepository;
 import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.QAService;
+import com.springboot.courses.utils.Utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -88,7 +89,7 @@ public class QAServiceImpl implements QAService {
         response.setUserId(qa.getUser().getId());
         response.setUsername(qa.getUser().getUsername());
         response.setPhotoUser(qa.getUser().getPhoto());
-        response.setCreatedAtFormatted(formatDuration(Duration.between(qa.getCreatedAt().toInstant(), now)));
+        response.setCreatedAtFormatted(Utils.formatDuration(Duration.between(qa.getCreatedAt().toInstant(), now)));
         if(qa.getParent() != null){
             response.setParentId(qa.getParent().getId());
         }
@@ -99,22 +100,5 @@ public class QAServiceImpl implements QAService {
                 .toList();
         response.setChildren(childrenResponse);
         return response;
-    }
-
-    private String formatDuration(Duration duration) {
-        long seconds = duration.getSeconds();
-        if (seconds < 60) {
-            return seconds + " giây trước";
-        } else if (seconds < 3600) {
-            return (seconds / 60) + " phút trước";
-        } else if (seconds < 86400) {
-            return (seconds / 3600) + " giờ trước";
-        } else if (seconds < 2592000) {
-            return (seconds / 86400) + " ngày trước";
-        } else if (seconds < 31536000) {
-            return (seconds / 2592000) + " tháng trước";
-        } else {
-            return (seconds / 31536000) + " năm trước";
-        }
     }
 }

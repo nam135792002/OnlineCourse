@@ -221,7 +221,7 @@ CREATE TABLE `notes` (
   KEY `FKechaouoa6kus6k1dpix1u91c` (`user_id`),
   CONSTRAINT `FK5c3nije94u992vpo71887270m` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`),
   CONSTRAINT `FKechaouoa6kus6k1dpix1u91c` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,7 +230,7 @@ CREATE TABLE `notes` (
 
 LOCK TABLES `notes` WRITE;
 /*!40000 ALTER TABLE `notes` DISABLE KEYS */;
-INSERT INTO `notes` VALUES (2,'con cac','2024-04-15 21:23:45.070000','00:00:12.000000',8,27),(3,'dm','2024-04-15 21:24:03.659000','00:01:12.000000',8,27),(5,'note qq j','2024-04-15 21:33:39.762000','00:50:00.000000',9,27);
+INSERT INTO `notes` VALUES (2,'con cac','2024-04-15 21:23:45.070000','00:00:12.000000',8,27),(3,'dm','2024-04-15 21:24:03.659000','00:01:12.000000',8,27),(5,'note qq j','2024-04-15 21:33:39.762000','00:50:00.000000',9,27),(6,'note qq j','2024-04-19 16:02:19.471000','00:50:00.000000',1,27);
 /*!40000 ALTER TABLE `notes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -295,7 +295,7 @@ CREATE TABLE `questions_answers` (
 
 LOCK TABLES `questions_answers` WRITE;
 /*!40000 ALTER TABLE `questions_answers` DISABLE KEYS */;
-INSERT INTO `questions_answers` VALUES (1,'hello everyone!','2024-04-18 16:22:22.848000',8,NULL,27),(4,'Welcome to the first lesson','2024-04-18 16:29:48.472000',8,NULL,27),(5,'Welcome to the second lesson','2024-04-18 16:32:47.964000',9,NULL,27),(6,'I have some questions','2024-04-18 16:39:45.305000',9,NULL,27),(7,'I have some questions','2024-04-18 17:09:45.905000',8,NULL,27),(8,'I can answer anything questions','2024-04-18 17:14:48.776000',8,NULL,27),(9,'Ohh, thank you so much!','2024-04-18 17:22:27.500000',8,8,18),(10,'Do you study about Spring Frameword before?','2024-04-18 17:23:54.253000',8,8,19),(11,'Woa, That\'s great with me','2024-04-18 17:24:25.852000',8,8,20),(13,'Yes, I have studied about Spring Core and Spring Boot since 2023','2024-04-19 10:20:48.018000',8,10,27),(14,'Yes, nice to meet you','2024-04-19 10:21:41.482000',8,11,27),(15,'You\'re welcome!','2024-04-19 10:22:42.628000',8,9,27),(16,'I think that he quite well-know it','2024-04-19 10:25:08.762000',8,10,20),(17,'Ohh, I see','2024-04-19 10:27:00.291000',8,16,19),(18,'Woa, thanks','2024-04-19 10:27:55.725000',8,16,27);
+INSERT INTO `questions_answers` VALUES (1,'hi guy!','2024-04-18 16:22:22.848000',8,NULL,27),(4,'Welcome to the first lesson','2024-04-18 16:29:48.472000',8,NULL,27),(5,'Welcome to the second lesson','2024-04-18 16:32:47.964000',9,NULL,27),(6,'I have some questions','2024-04-18 16:39:45.305000',9,NULL,27),(7,'I have some questions','2024-04-18 17:09:45.905000',8,NULL,27),(8,'I can answer anything questions','2024-04-18 17:14:48.776000',8,NULL,27),(10,'Do you study about Spring Frameword before?','2024-04-18 17:23:54.253000',8,8,19),(11,'Woa, That\'s great with me','2024-04-18 17:24:25.852000',8,8,20),(13,'Yes, I have studied about Spring Core and Spring Boot since 2023','2024-04-19 10:20:48.018000',8,10,27),(14,'Yes, nice to meet you','2024-04-19 10:21:41.482000',8,11,27),(16,'I think that he quite well-know it','2024-04-19 10:25:08.762000',8,10,20),(17,'ohh I understand!','2024-04-19 10:27:00.291000',8,16,19);
 /*!40000 ALTER TABLE `questions_answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,6 +325,38 @@ LOCK TABLES `quizs` WRITE;
 /*!40000 ALTER TABLE `quizs` DISABLE KEYS */;
 INSERT INTO `quizs` VALUES (1,'câu hỏi 1: ','ONE_CHOICE',7),(2,'Câu hỏi 2:','MULTIPLE_CHOICE',7),(5,'Câu hỏi 3:','PERFORATE',7),(7,'Câu hỏi 1:','PERFORATE',13),(8,'Câu hỏi 2:','PERFORATE',13),(9,'Trong kiến trúc Microservices, điều gì làm cho các dịch vụ được phân phối và triển khai độc lập?','ONE_CHOICE',18),(10,'Các nguyên tắc cơ bản của kiến trúc Microservices bao gồm:','MULTIPLE_CHOICE',18),(11,'Trong kiến trúc Microservices, việc ____ các dịch vụ cho phép chúng được triển khai và quản lý độc lập.','PERFORATE',18),(12,'Trong HTTP GET với Spring RestTemplate, phương thức nào được sử dụng để thực hiện một yêu cầu GET đến một tài nguyên?','ONE_CHOICE',24),(13,'Trong Spring RestTemplate, để thực hiện một yêu cầu GET và nhận dữ liệu trả về dưới dạng một đối tượng cụ thể, phương thức nào sẽ được sử dụng?','ONE_CHOICE',24);
 /*!40000 ALTER TABLE `quizs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `review`
+--
+
+DROP TABLE IF EXISTS `review`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `review` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `comment` text NOT NULL,
+  `rating` int NOT NULL,
+  `review_time` datetime(6) NOT NULL,
+  `course_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKa76dd0r1lr1k0cuah145lib3r` (`course_id`),
+  KEY `FK6cpw2nlklblpvc7hyt7ko6v3e` (`user_id`),
+  CONSTRAINT `FK6cpw2nlklblpvc7hyt7ko6v3e` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKa76dd0r1lr1k0cuah145lib3r` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `review`
+--
+
+LOCK TABLES `review` WRITE;
+/*!40000 ALTER TABLE `review` DISABLE KEYS */;
+INSERT INTO `review` VALUES (1,'Khóa học rất là oke, đáng đồng tiền bát gạo',5,'2024-04-21 10:34:53.498000',18,18),(2,'Học cũng tạm!',4,'2024-04-21 10:35:38.904000',18,19),(3,'Khóa học rất xịn, phù hợp cho những người bị mất gốc',5,'2024-04-21 10:36:28.170000',18,20),(4,'không ổn lắm',3,'2024-04-21 10:37:00.618000',18,27);
+/*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -487,4 +519,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-19 10:35:22
+-- Dump completed on 2024-04-21 11:51:48

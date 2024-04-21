@@ -66,6 +66,9 @@ public class Courses {
     @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrackCourse> listTrackCourses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> listReviews = new ArrayList<>();
+
     public void addInfoList(String value, InformationType type){
         this.infoList.add(new CourseInfo(value, type, this));
     }

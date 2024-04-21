@@ -13,7 +13,7 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({"id", "content", "lessonId", "user_id", "username", "created_at_formatted", "parent_id", "children"})
+@JsonPropertyOrder({"id", "content", "lessonId", "user_id", "username", "photo_user", "created_at_formatted", "parent_id", "children"})
 public class QAResponse {
 
     private Integer id;
