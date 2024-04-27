@@ -29,9 +29,17 @@ public class VideoServiceImpl implements VideoService {
     @Autowired private ModelMapper modelMapper;
 
     @Override
-    public VideoDto saveVideo(VideoDto videoDto, MultipartFile videoFile) {
+    public Video saveVideo(VideoDto videoDto, MultipartFile videoFile) {
         Video video = new Video();
-        return savedVideoIntoDB(videoFile, video, videoDto);
+        String url = uploadFile.uploadFileOnCloudinary(videoFile);
+        video.setUrl(url);
+
+        LocalTime duration = getDurationVideo(url);
+        video.setDuration(duration);
+
+        video.setDescription(videoDto.getDescription());
+
+        return videoRepository.save(video);
     }
 
     @Override

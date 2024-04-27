@@ -14,12 +14,6 @@ public class VideoController {
 
     @Autowired private VideoService videoService;
 
-    @PostMapping("/save")
-    public ResponseEntity<VideoDto> saveVideo(@RequestPart(value = "video") VideoDto videoDto,
-                                                @RequestParam(value = "video") MultipartFile video){
-        return new ResponseEntity<>(videoService.saveVideo(videoDto, video), HttpStatus.CREATED);
-    }
-
     @PutMapping("/update/{id}")
     public ResponseEntity<VideoDto> updateVideo(@PathVariable(value = "id") Integer videoId,
                                                 @RequestPart(value = "video") VideoDto videoDto,

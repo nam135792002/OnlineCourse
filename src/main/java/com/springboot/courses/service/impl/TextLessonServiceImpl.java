@@ -15,9 +15,8 @@ public class TextLessonServiceImpl implements TextLessonService {
     @Autowired private ModelMapper modelMapper;
 
     @Override
-    public TextLessonDto createTextLesson(TextLessonDto textLessonDto) {
+    public TextLesson createTextLesson(TextLessonDto textLessonDto) {
         TextLesson lesson = modelMapper.map(textLessonDto, TextLesson.class);
-        TextLesson savedTextLesson = textLessonRepository.save(lesson);
-        return modelMapper.map(savedTextLesson, TextLessonDto.class);
+        return textLessonRepository.save(lesson);
     }
 }

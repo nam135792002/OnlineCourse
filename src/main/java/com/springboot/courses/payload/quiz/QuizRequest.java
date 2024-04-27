@@ -34,7 +34,6 @@ public class QuizRequest {
     @JsonProperty("quiz_type")
     private String quizType;
 
-    @NotNull(message = "Lesson id can not be null")
     @JsonProperty("lesson_id")
     private Integer lessonId;
 
