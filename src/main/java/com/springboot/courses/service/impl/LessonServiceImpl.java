@@ -51,14 +51,10 @@ public class LessonServiceImpl implements LessonService {
         lesson.setText(textLesson);
         lesson.setOrders(lessonRequest.getOrders());
 
-        List<Quiz> listQuizzes = new ArrayList<>();
-
         if(lessonRequest.getLessonType().equals("QUIZ") && quizRequest != null){
             for (QuizRequest quiz : quizRequest){
-                listQuizzes.add(convertToQuizEntity(quiz));
+                lesson.add(convertToQuizEntity(quiz));
             }
-
-            lesson.setQuizList(listQuizzes);
         }
 
         Lesson savedLesson = lessonRepository.save(lesson);

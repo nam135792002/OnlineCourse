@@ -56,4 +56,8 @@ public class Lesson {
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QA> listQAs = new ArrayList<>();
+
+    public void add(Quiz quiz){
+        this.quizList.add(new Quiz(quiz, this));
+    }
 }

@@ -34,6 +34,15 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answerList = new ArrayList<>();
 
+    public Quiz(Quiz quiz, Lesson lesson) {
+        this.question = quiz.getQuestion();
+        this.quizType = quiz.getQuizType();
+        this.lesson = lesson;
+        for (Answer answer : quiz.getAnswerList()){
+            add(answer.getContent(), answer.isCorrect());
+        }
+    }
+
     public void add(String content, boolean isCorrect){
         answerList.add(new Answer(content, isCorrect, this));
     }
