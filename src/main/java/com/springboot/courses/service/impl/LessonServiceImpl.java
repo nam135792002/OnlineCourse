@@ -7,9 +7,9 @@ import com.springboot.courses.payload.lesson.LessonRequest;
 import com.springboot.courses.payload.lesson.LessonResponse;
 import com.springboot.courses.payload.quiz.AnswerDto;
 import com.springboot.courses.payload.quiz.QuizRequest;
+import com.springboot.courses.payload.quiz.QuizResponse;
 import com.springboot.courses.repository.*;
 import com.springboot.courses.service.LessonService;
-import com.springboot.courses.service.QuizService;
 import com.springboot.courses.utils.UploadFile;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +26,11 @@ public class LessonServiceImpl implements LessonService {
 
     @Autowired private LessonRepository lessonRepository;
     @Autowired private ChapterRepository chapterRepository;
-    @Autowired private VideoRepository videoRepository;
     @Autowired private ModelMapper modelMapper;
     @Autowired private UploadFile uploadFile;
     @Autowired private OrderRepository orderRepository;
     @Autowired private TrackCourseRepository trackCourseRepository;
+    @Autowired private QuizRepository quizRepository;
 
     @Override
     public LessonResponse createLesson(LessonRequest lessonRequest, Video video, TextLesson textLesson, QuizRequest[] quizRequest) {
@@ -110,20 +110,13 @@ public class LessonServiceImpl implements LessonService {
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
 
-
         return convertToResponse(lesson);
     }
 
     @Override
-    public LessonResponse updateLesson(Integer lessonId, LessonRequest lessonRequest) {
+    public LessonResponse updateLesson(Integer lessonId, LessonRequest lessonRequest, Video video, TextLesson textLesson, QuizRequest[] quizRequest) {
         Chapter chapter = chapterRepository.findById(lessonRequest.getChapterId())
                 .orElseThrow(() -> new ResourceNotFoundException("Chapter", "id", lessonRequest.getChapterId()));
-
-        Video video = null;
-        if(lessonRequest.getVideoId() != null){
-            video = videoRepository.findById(lessonRequest.getVideoId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Video", "id", lessonRequest.getVideoId()));
-        }
 
         Lesson lessonInDB = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
@@ -136,9 +129,62 @@ public class LessonServiceImpl implements LessonService {
         }
 
         lessonInDB.setName(lessonRequest.getName());
-        lessonInDB.setVideo(video);
+
+        System.out.println(lessonRequest.getName());
+
+        if (video != null && video.getId() != null){
+            lessonInDB.setVideo(video);
+        }
+
+        if(textLesson != null && textLesson.getId() != null){
+            lessonInDB.setText(textLesson);
+        }
+
+        if(lessonRequest.getLessonType().equals("QUIZ") && quizRequest != null){
+            List<Quiz> listQuizzes = new ArrayList<>();
+            for (QuizRequest quizInList : quizRequest){
+                Quiz quiz = quizInList.getId() == null ? convertToQuizEntity(quizInList) : updateQuiz(quizInList, lessonInDB);
+                System.out.println(quiz.getId());
+                quiz.setLesson(lessonInDB);
+                listQuizzes.add(quiz);
+            }
+
+            lessonInDB.setQuizList(listQuizzes);
+        }
 
        return convertToResponse(lessonRepository.save(lessonInDB));
+    }
+
+    private Quiz updateQuiz(QuizRequest quizRequest, Lesson lesson) {
+        Quiz quizInDB = quizRepository.findById(quizRequest.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Quiz", "id", quizRequest.getId()));
+
+        Quiz checkQuizDuplicate = quizRepository.findQuizByQuestionAndLesson(quizRequest.getQuestion(), lesson);
+
+        if (checkQuizDuplicate != null){
+            if(!Objects.equals(quizInDB.getId(), checkQuizDuplicate.getId())){
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Câu hỏi đã từng tồn tại trong bài học này!");
+            }
+        }
+
+        quizInDB.setQuestion(quizRequest.getQuestion());
+        quizInDB.setQuizType(QuizType.valueOf(quizRequest.getQuizType()));
+        List<Answer> answerList = new ArrayList<>();
+
+        for(AnswerDto dto : quizRequest.getAnswerList()){
+            Answer answer = null;
+            if(dto.getId() != null){
+                answer = new Answer(dto.getId(), dto.getContent(), dto.isCorrect(), quizInDB);
+            }else{
+                answer = new Answer(dto.getContent(), dto.isCorrect(), quizInDB);
+            }
+
+            answerList.add(answer);
+        }
+
+        quizInDB.setAnswerList(answerList);
+
+        return quizInDB;
     }
 
     @Override
@@ -152,9 +198,6 @@ public class LessonServiceImpl implements LessonService {
         }
 
         lessonRepository.delete(lessonInDB);
-
-
-
         return "Xóa bài học thành công";
     }
 

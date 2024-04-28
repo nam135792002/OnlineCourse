@@ -2,14 +2,12 @@ package com.springboot.courses.controller;
 
 import com.springboot.courses.entity.TextLesson;
 import com.springboot.courses.entity.Video;
-import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.payload.TextLessonDto;
 import com.springboot.courses.payload.lesson.LessonRequest;
 import com.springboot.courses.payload.lesson.LessonResponse;
 import com.springboot.courses.payload.quiz.QuizRequest;
 import com.springboot.courses.payload.video.VideoDto;
 import com.springboot.courses.service.LessonService;
-import com.springboot.courses.service.QuizService;
 import com.springboot.courses.service.TextLessonService;
 import com.springboot.courses.service.VideoService;
 import jakarta.validation.Valid;
@@ -50,8 +48,18 @@ public class LessonController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<LessonResponse> update(@PathVariable(value = "id") Integer lessonId,
-                                                 @RequestBody @Valid LessonRequest lessonRequest){
-        return ResponseEntity.ok(lessonService.updateLesson(lessonId, lessonRequest));
+                                                 @RequestPart(value = "lesson") @Valid LessonRequest lessonRequest,
+                                                 @RequestParam(value = "video_upload", required = false) MultipartFile videoUpload,
+                                                 @RequestPart(value = "video", required = false) VideoDto  videoDto,
+                                                 @RequestPart(value = "text", required = false) @Valid TextLessonDto textLessonDto,
+                                                 @RequestPart(value = "quizzes", required = false) @Valid QuizRequest[] quizRequest){
+        Video savedVideo = null;
+        TextLesson savedText = null;
+        switch (lessonRequest.getLessonType()) {
+            case "VIDEO" -> savedVideo = videoService.updateVideo(videoDto, videoUpload);
+            case "TEXT" -> savedText = textLessonService.updateTextLesson(textLessonDto);
+        }
+        return ResponseEntity.ok(lessonService.updateLesson(lessonId, lessonRequest, savedVideo, savedText, quizRequest));
     }
 
     @DeleteMapping("/delete/{id}")

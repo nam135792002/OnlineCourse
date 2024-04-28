@@ -26,7 +26,6 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired private VideoRepository videoRepository;
     @Autowired private UploadFile uploadFile;
-    @Autowired private ModelMapper modelMapper;
 
     @Override
     public Video saveVideo(VideoDto videoDto, MultipartFile videoFile) {
@@ -43,42 +42,21 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDto updateVideo(Integer videoId, VideoDto videoDto, MultipartFile videoFile) {
-        Video videoDB = videoRepository.findById(videoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Video", "id", videoId));
+    public Video updateVideo(VideoDto videoDto, MultipartFile videoFile) {
+        Video videoDB = videoRepository.findById(videoDto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Video", "id", videoDto.getId()));
         if(videoFile != null){
             uploadFile.deleteVideoInCloudinary(videoDB.getUrl());
-            return savedVideoIntoDB(videoFile, videoDB, videoDto);
-        }else{
-            videoDB.setDescription(videoDto.getDescription());
-            return modelMapper.map(videoRepository.save(videoDB), VideoDto.class);
+            String url = uploadFile.uploadFileOnCloudinary(videoFile);
+            videoDB.setUrl(url);
+
+            LocalTime duration = getDurationVideo(url);
+            videoDB.setDuration(duration);
+
         }
+        videoDB.setDescription(videoDto.getDescription());
+        return videoRepository.save(videoDB);
 
-    }
-
-    @Override
-    public String deleteVideo(Integer videoId) {
-        Video videoDB = videoRepository.findById(videoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Video", "id", videoId));
-
-        uploadFile.deleteVideoInCloudinary(videoDB.getUrl());
-
-        videoRepository.delete(videoDB);
-        return "Xóa video thành công";
-    }
-
-    private VideoDto savedVideoIntoDB(MultipartFile videoFile, Video video, VideoDto videoDto){
-        String url = uploadFile.uploadFileOnCloudinary(videoFile);
-        video.setUrl(url);
-
-        LocalTime duration = getDurationVideo(url);
-        video.setDuration(duration);
-
-        video.setDescription(videoDto.getDescription());
-
-        Video savedVideo = videoRepository.save(video);
-
-        return modelMapper.map(savedVideo, VideoDto.class);
     }
 
     private LocalTime getDurationVideo(String url){

@@ -26,84 +26,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Autowired private QuizRepository quizRepository;
     @Autowired private LessonRepository lessonRepository;
-    @Autowired private ModelMapper modelMapper;
     @Autowired private AnswerQuizRepository answerQuizRepository;
-
-    @Override
-    public QuizResponse createQuiz(QuizRequest quizRequest) {
-        Lesson lesson = lessonRepository.findById(quizRequest.getLessonId())
-                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", quizRequest.getLessonId()));
-
-        if(quizRepository.existsQuizByQuestionAndLesson(quizRequest.getQuestion(), lesson)){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Câu hỏi đã từng tồn tại trong bài học này!");
-        }
-
-        Quiz quiz = new Quiz();
-        quiz.setQuestion(quizRequest.getQuestion());
-        quiz.setQuizType(QuizType.valueOf(quizRequest.getQuizType()));
-        quiz.setLesson(lesson);
-
-        boolean flag = false;
-
-        for (AnswerDto answerDto : quizRequest.getAnswerList()){
-            if(answerDto.isCorrect()){
-                flag = true;
-            }
-            quiz.add(answerDto.getContent(), answerDto.isCorrect());
-        }
-
-        if(!flag){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Không có câu trả lời đúng trong danh sách câu trả lời!");
-        }
-
-        Quiz savedQuiz = quizRepository.save(quiz);
-
-        return modelMapper.map(savedQuiz, QuizResponse.class);
-    }
-
-    @Override
-    public QuizResponse updateQuiz(QuizRequest quizRequest) {
-        Quiz quizInDB = quizRepository.findById(quizRequest.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Quiz", "id", quizRequest.getId()));
-
-        Lesson lesson = lessonRepository.findById(quizRequest.getLessonId())
-                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", quizRequest.getLessonId()));
-
-        Quiz checkQuizDuplicate = quizRepository.findQuizByQuestionAndLesson(quizRequest.getQuestion(), lesson);
-
-        if(!Objects.equals(quizInDB.getId(), checkQuizDuplicate.getId())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Câu hỏi đã từng tồn tại trong bài học này!");
-        }
-
-        quizInDB.setQuestion(quizRequest.getQuestion());
-
-
-        List<Answer> answerList = new ArrayList<>();
-
-        for(AnswerDto dto : quizRequest.getAnswerList()){
-            Answer answer = null;
-            if(dto.getId() != null){
-                answer = new Answer(dto.getId(), dto.getContent(), dto.isCorrect(), quizInDB);
-            }else{
-                answer = new Answer(dto.getContent(), dto.isCorrect(), quizInDB);
-            }
-
-            answerList.add(answer);
-        }
-
-        quizInDB.setAnswerList(answerList);
-
-        Quiz savedQuiz = quizRepository.save(quizInDB);
-
-        return modelMapper.map(savedQuiz, QuizResponse.class);
-    }
-
-    @Override
-    public String deleteQuiz(Integer quizId) {
-        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new ResourceNotFoundException("Quiz", "id", quizId));
-        quizRepository.delete(quiz);
-        return "Delete successfully quiz";
-    }
 
     @Override
     public float gradeOfQuiz(LessonRequestInQuiz lessonRequestInQuiz) {
@@ -151,6 +74,4 @@ public class QuizServiceImpl implements QuizService {
         float grade = (correctTotalQuizzes * 10) / totalQuizzes;
         return (float) (Math.round(grade * 100.0) / 100.0);
     }
-
-
 }

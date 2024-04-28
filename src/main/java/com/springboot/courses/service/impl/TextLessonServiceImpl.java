@@ -1,6 +1,7 @@
 package com.springboot.courses.service.impl;
 
 import com.springboot.courses.entity.TextLesson;
+import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.TextLessonDto;
 import com.springboot.courses.repository.TextLessonRepository;
 import com.springboot.courses.service.TextLessonService;
@@ -19,4 +20,14 @@ public class TextLessonServiceImpl implements TextLessonService {
         TextLesson lesson = modelMapper.map(textLessonDto, TextLesson.class);
         return textLessonRepository.save(lesson);
     }
+
+    @Override
+    public TextLesson updateTextLesson(TextLessonDto textLessonDto) {
+        TextLesson textLessonInDB = textLessonRepository.findById(textLessonDto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Text lesson", "id", textLessonDto.getId()));
+
+        textLessonInDB.setContent(textLessonDto.getContent());
+        return textLessonRepository.save(textLessonInDB);
+    }
+
 }

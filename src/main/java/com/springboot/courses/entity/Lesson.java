@@ -1,6 +1,5 @@
 package com.springboot.courses.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -59,5 +58,12 @@ public class Lesson {
 
     public void add(Quiz quiz){
         this.quizList.add(new Quiz(quiz, this));
+    }
+
+    public void setQuizList(List<Quiz> quizList) {
+        if(quizList != null && !quizList.isEmpty()){
+            this.quizList.clear();
+            this.quizList.addAll(quizList);
+        }
     }
 }

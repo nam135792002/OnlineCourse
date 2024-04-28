@@ -5,4 +5,5 @@ import com.springboot.courses.payload.TextLessonDto;
 
 public interface TextLessonService {
     TextLesson createTextLesson(TextLessonDto textLessonDto);
+    TextLesson updateTextLesson(TextLessonDto textLessonDto);
 }
