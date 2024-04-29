@@ -130,8 +130,6 @@ public class LessonServiceImpl implements LessonService {
 
         lessonInDB.setName(lessonRequest.getName());
 
-        System.out.println(lessonRequest.getName());
-
         if (video != null && video.getId() != null){
             lessonInDB.setVideo(video);
         }
@@ -144,7 +142,6 @@ public class LessonServiceImpl implements LessonService {
             List<Quiz> listQuizzes = new ArrayList<>();
             for (QuizRequest quizInList : quizRequest){
                 Quiz quiz = quizInList.getId() == null ? convertToQuizEntity(quizInList) : updateQuiz(quizInList, lessonInDB);
-                System.out.println(quiz.getId());
                 quiz.setLesson(lessonInDB);
                 listQuizzes.add(quiz);
             }
