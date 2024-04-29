@@ -5,17 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class TransactionRequest {
-    private String accountNo;
-    private String currency;
-    private String fromDate;
-    private String keyword;
-    private String maxAcentrysrno;
-    private int pageNumber;
-    private int pageSize;
-    private String toDate;
-
-    // Getters and setters
+    public String email;
+    public int courseId;
+    public String description;
+    public int totalPrice;
 }

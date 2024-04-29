@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TransactionResponse {
+public class BankResponse {
     private String totalRows;
     private String maxAcentrysmo;
-    private TransactionInfo[] transactionInfos;
+    private BankTransactionInfo[] transactionInfos;
 }

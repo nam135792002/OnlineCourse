@@ -7,6 +7,7 @@ import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.payment.*;
 import com.springboot.courses.repository.CoursesRepository;
 import com.springboot.courses.repository.UserRepository;
+import com.springboot.courses.service.OrderService;
 import com.springboot.courses.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -31,6 +32,8 @@ public class PaymentServiceImpl implements PaymentService {
     private CoursesRepository coursesRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private OrderService orderService;
 
 
     @Override
@@ -44,6 +47,27 @@ public class PaymentServiceImpl implements PaymentService {
         String qrCode = String.format("https://img.vietqr.io/image/970423-%s-qr_only.png?amount=%d&addInfo=%s&accountName=%s", BANK_NUMBER, amount, content, ACCOUNT_NAME);
 
         return PaymentResponse.builder().qrCode(qrCode).bankNumber(BANK_NUMBER).content(content).accountName(ACCOUNT_NAME).bankBranch(BANK_BRANCH).build();
+    }
+
+    @Override
+    public boolean checkTransaction(TransactionRequest transactionRequest) {
+        Courses course = coursesRepository.findById(transactionRequest.getCourseId()).orElseThrow(() -> new ResourceNotFoundException("Course", "id", transactionRequest.getCourseId()));
+        User user = userRepository.findByEmail(transactionRequest.getEmail()).orElseThrow(() -> new ResourceNotFoundException("User", "email", transactionRequest.getEmail()));
+
+        // Kiểm tra xem có giao dịch này trong lịch sử giao dịch của bank không
+        BankTransactionInfo[] bankTransactionInfos = getTransactions();
+        for (BankTransactionInfo bankTransactionInfo : bankTransactionInfos) {
+
+            if (Integer.parseInt(bankTransactionInfo.getAmount()) >= transactionRequest.getTotalPrice() && bankTransactionInfo.getDescription().contains(transactionRequest.getDescription())) {
+                orderService.createOrder(user, course, transactionRequest.getTotalPrice());
+
+                // Gửi thêm email
+
+
+                return true;
+            }
+        }
+        return false;
     }
 
     // Login tpbank
@@ -96,7 +120,7 @@ public class PaymentServiceImpl implements PaymentService {
         return null;
     }
 
-    private TransactionInfo[] getTransactions() {
+    protected BankTransactionInfo[] getTransactions() {
 
         // Vì sao phải check? vì khi login nhiều quá sẽ bị block ip nên phải kiểm tra khi nào token hết hạn thì gọi token mới
         if (tokenBank == null || lastLoginTime == null || lastLoginTime.plusMinutes(15).isBefore(LocalDateTime.now())) {
@@ -120,7 +144,7 @@ public class PaymentServiceImpl implements PaymentService {
         headers.set("Authorization", "Bearer " + token);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        TransactionRequest transactionRequest = new TransactionRequest();
+        BankRequest transactionRequest = new BankRequest();
         transactionRequest.setAccountNo("90813535314");
         transactionRequest.setCurrency("VND");
         transactionRequest.setFromDate("20240118");
@@ -143,10 +167,10 @@ public class PaymentServiceImpl implements PaymentService {
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<?> responseEntity = restTemplate.postForEntity(url, requestEntity, TransactionResponse.class);
+        ResponseEntity<?> responseEntity = restTemplate.postForEntity(url, requestEntity, BankResponse.class);
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            TransactionResponse transactionResponse = (TransactionResponse) responseEntity.getBody();
+            BankResponse transactionResponse = (BankResponse) responseEntity.getBody();
             return transactionResponse.getTransactionInfos();
         } else {
             System.err.println("Failed to login. Status code: " + responseEntity.getStatusCode());

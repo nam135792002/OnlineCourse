@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TransactionInfo {
+public class BankTransactionInfo {
     private String id;
     private String arrangementId;
     private String reference;
