@@ -1,7 +1,9 @@
 package com.springboot.courses.controller;
 
 import com.springboot.courses.payload.track.InfoCourseRegistered;
+import com.springboot.courses.payload.track.TrackCourseRequest;
 import com.springboot.courses.service.TrackCourseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +33,10 @@ public class TrackCourseController {
     @GetMapping("/get-lesson")
     public ResponseEntity<?> learningLesson(@RequestParam(value = "lesson") Integer lessonId){
         return ResponseEntity.ok(trackCourseService.getLesson(lessonId));
+    }
+
+    @PostMapping("/update/track-course")
+    public ResponseEntity<?> updatePeriodCurrent(@RequestBody @Valid TrackCourseRequest trackCourseRequest){
+        return ResponseEntity.ok(trackCourseService.updatePeriodCurrentOfVideo(trackCourseRequest));
     }
 }

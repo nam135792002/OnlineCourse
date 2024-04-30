@@ -113,15 +113,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponse> getAll() {
         List<Order> listOrders = orderRepository.findAll();
-        List<OrderResponse> listOrderResponse = new ArrayList<>();
-
-        for (Order order : listOrders) {
-            OrderResponse response = modelMapper.map(order, OrderResponse.class);
-            response.setCourseName(order.getCourses().getTitle());
-            response.setCustomerName(order.getUser().getFullName());
-            listOrderResponse.add(response);
-        }
-        return listOrderResponse;
+        return convertToListResponse(listOrders);
     }
 
     @Override
@@ -136,5 +128,25 @@ public class OrderServiceImpl implements OrderService {
         return "Delete order successfully ";
     }
 
+    @Override
+    public List<OrderResponse> getAllByUser(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        List<Order> listOrders = orderRepository.findOrderByUser(user);
+        return convertToListResponse(listOrders);
+    }
+
+    private List<OrderResponse> convertToListResponse(List<Order> listOrders) {
+        List<OrderResponse> listOrderResponse = new ArrayList<>();
+
+        for (Order order : listOrders) {
+            OrderResponse response = modelMapper.map(order, OrderResponse.class);
+            response.setCourseName(order.getCourses().getTitle());
+            response.setCustomerName(order.getUser().getFullName());
+            listOrderResponse.add(response);
+        }
+        return listOrderResponse;
+    }
 
 }

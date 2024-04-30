@@ -12,4 +12,5 @@ public interface OrderService {
     void createOrder(User user, Courses courses, int totalPrice);
     List<OrderResponse> getAll();
     String deleteOrder(Integer orderId);
+    List<OrderResponse> getAllByUser(Integer userId);
 }

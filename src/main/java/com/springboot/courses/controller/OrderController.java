@@ -36,4 +36,13 @@ public class OrderController {
     public ResponseEntity<String> delete(@PathVariable(value = "id") Integer orderId){
         return ResponseEntity.ok(orderService.deleteOrder(orderId));
     }
+
+    @GetMapping("/get-all/user/{id}")
+    public ResponseEntity<?> getAllByUser(@PathVariable(value = "id") Integer userId){
+        List<OrderResponse> listOrder = orderService.getAllByUser(userId);
+        if (listOrder.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(listOrder);
+    }
 }

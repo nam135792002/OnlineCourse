@@ -58,17 +58,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ListReviewResponse listAll() {
         List<Review> listReviews = reviewRepository.findAll();
-        ListReviewResponse listReviewResponse = new ListReviewResponse();
-        listReviewResponse.setListResponses(
-                listReviews.stream().map(this::convertToResponse).toList()
-        );
-        int totalReview = listReviews.size();
-        listReviewResponse.setTotalReview(totalReview);
-        int totalRating = listReviews.stream().mapToInt(Review::getRating).sum();
-        double averageReview = (double) totalRating / totalReview;
-        averageReview = Math.round(averageReview * 10.0) / 10.0;
-        listReviewResponse.setAverageReview(averageReview);
-        return listReviewResponse;
+        return convertToListReview(listReviews);
     }
 
     @Override
@@ -89,6 +79,28 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewRepository.delete(reviewInDB);
         return "Xóa đánh giá thành công!";
+    }
+
+    @Override
+    public ListReviewResponse listAllByCourse(Integer courseId) {
+        Courses courses = coursesRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+        List<Review> listReview = reviewRepository.findReviewByCourses(courses);
+        return convertToListReview(listReview);
+    }
+
+    private ListReviewResponse convertToListReview(List<Review> listReviews) {
+        ListReviewResponse listReviewResponse = new ListReviewResponse();
+        listReviewResponse.setListResponses(
+                listReviews.stream().map(this::convertToResponse).toList()
+        );
+        int totalReview = listReviews.size();
+        listReviewResponse.setTotalReview(totalReview);
+        int totalRating = listReviews.stream().mapToInt(Review::getRating).sum();
+        double averageReview = (double) totalRating / totalReview;
+        averageReview = Math.round(averageReview * 10.0) / 10.0;
+        listReviewResponse.setAverageReview(averageReview);
+        return listReviewResponse;
     }
 
     private ReviewResponse convertToResponse(Review savedReview) {

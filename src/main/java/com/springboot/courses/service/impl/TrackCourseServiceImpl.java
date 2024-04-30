@@ -6,6 +6,7 @@ import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.lesson.LessonReturnLearningResponse;
 import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
 import com.springboot.courses.payload.track.InfoCourseRegistered;
+import com.springboot.courses.payload.track.TrackCourseRequest;
 import com.springboot.courses.payload.track.TrackCourseResponse;
 import com.springboot.courses.repository.CoursesRepository;
 import com.springboot.courses.repository.LessonRepository;
@@ -112,6 +113,21 @@ public class TrackCourseServiceImpl implements TrackCourseService {
         }
 
         return lessonReturn;
+    }
+
+    @Override
+    public String updatePeriodCurrentOfVideo(TrackCourseRequest trackCourseRequest) {
+        Lesson lesson = lessonRepository.findById(trackCourseRequest.getLessonId())
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", trackCourseRequest.getLessonId()));
+
+        User user = userRepository.findById(trackCourseRequest.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", trackCourseRequest.getUserId()));
+
+        TrackCourse trackCourseInDB = trackCourseRepository.findTrackCourseByLessonAndUser(lesson, user);
+        trackCourseInDB.setDurationVideo(trackCourseRequest.getPeriodCurrent());
+
+        trackCourseRepository.save(trackCourseInDB);
+        return "SUCCESS";
     }
 
     List<TrackCourse> sortTrackCourse(Courses courses, User user){

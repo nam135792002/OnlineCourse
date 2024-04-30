@@ -9,4 +9,5 @@ public interface ReviewService {
     ListReviewResponse listAll();
     ReviewResponse updateReview(Integer reviewId, String comment);
     String deleteReview(Integer reviewId);
+    ListReviewResponse listAllByCourse(Integer courseId);
 }

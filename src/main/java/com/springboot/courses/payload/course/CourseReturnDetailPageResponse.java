@@ -1,4 +1,5 @@
 package com.springboot.courses.payload.course;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springboot.courses.payload.chapter.ChapterReturnDetailResponse;
 import lombok.AllArgsConstructor;
@@ -6,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 @Setter
@@ -23,6 +26,9 @@ public class CourseReturnDetailPageResponse {
     private String thumbnail;
 
     private String description;
+
+    @JsonProperty("published_at")
+    private Date publishedAt;
 
     private int price;
 

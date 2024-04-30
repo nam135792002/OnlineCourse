@@ -38,4 +38,13 @@ public class ReviewController {
     public ResponseEntity<?> delete(@PathVariable(value = "id") Integer reviewId){
         return ResponseEntity.ok(reviewService.deleteReview(reviewId));
     }
+
+    @GetMapping("/get-all/course/{id}")
+    public ResponseEntity<?> listByCourse(@PathVariable(value = "id") Integer courseId){
+        ListReviewResponse listReviewResponse = reviewService.listAllByCourse(courseId);
+        if(listReviewResponse.getListResponses().isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(listReviewResponse);
+    }
 }
