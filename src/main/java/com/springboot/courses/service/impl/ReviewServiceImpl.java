@@ -42,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
         Courses courses = coursesRepository.findById(reviewRequest.getCourseId())
                 .orElseThrow(() -> new ResourceNotFoundException("Courses", "id", reviewRequest.getCourseId()));
 
-        if(orderRepository.existsOrderByCoursesAndUser(courses, user)){
+        if(!orderRepository.existsOrderByCoursesAndUser(courses, user)){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tài khoản " + user.getUsername() + " chưa từng mua khóa học này trước đó!");
         }
 
