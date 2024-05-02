@@ -5,10 +5,12 @@ import com.springboot.courses.entity.Review;
 import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
+import com.springboot.courses.payload.MessageNotice;
 import com.springboot.courses.payload.review.ListReviewResponse;
 import com.springboot.courses.payload.review.ReviewRequest;
 import com.springboot.courses.payload.review.ReviewResponse;
 import com.springboot.courses.repository.CoursesRepository;
+import com.springboot.courses.repository.OrderRepository;
 import com.springboot.courses.repository.ReviewRepository;
 import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.ReviewService;
@@ -29,6 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired private ReviewRepository reviewRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private CoursesRepository coursesRepository;
+    @Autowired private OrderRepository orderRepository;
     @Autowired private ModelMapper modelMapper;
 
     @Override
@@ -38,6 +41,10 @@ public class ReviewServiceImpl implements ReviewService {
 
         Courses courses = coursesRepository.findById(reviewRequest.getCourseId())
                 .orElseThrow(() -> new ResourceNotFoundException("Courses", "id", reviewRequest.getCourseId()));
+
+        if(orderRepository.existsOrderByCoursesAndUser(courses, user)){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tài khoản " + user.getUsername() + " chưa từng mua khóa học này trước đó!");
+        }
 
         if (reviewRepository.existsReviewByUserAndCourses(user, courses)){
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tài khoản " + user.getUsername() + " đã đánh giá khóa học này trước đó!");
@@ -87,6 +94,24 @@ public class ReviewServiceImpl implements ReviewService {
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
         List<Review> listReview = reviewRepository.findReviewByCourses(courses);
         return convertToListReview(listReview);
+    }
+
+    @Override
+    public MessageNotice checkCustomerToReviewed(Integer userId, Integer courseId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Review", "id", userId));
+
+        Courses courses = coursesRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Courses", "id", courseId));
+
+        if(orderRepository.existsOrderByCoursesAndUser(courses, user)){
+            if(reviewRepository.existsReviewByUserAndCourses(user, courses)){
+                return new MessageNotice(false, "Bạn đã đánh giá khóa học này trước đó!");
+            }
+            return new MessageNotice(true, "Bạn vui lòng đánh giá khóa học này!");
+        }
+
+        return new MessageNotice(false, "Bạn chưa từng mua khóa học này nên không thể đánh giá!");
     }
 
     private ListReviewResponse convertToListReview(List<Review> listReviews) {

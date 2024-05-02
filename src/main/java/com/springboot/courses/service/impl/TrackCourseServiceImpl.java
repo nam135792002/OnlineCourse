@@ -124,6 +124,11 @@ public class TrackCourseServiceImpl implements TrackCourseService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", trackCourseRequest.getUserId()));
 
         TrackCourse trackCourseInDB = trackCourseRepository.findTrackCourseByLessonAndUser(lesson, user);
+
+        if(!trackCourseInDB.isCurrent() || !trackCourseInDB.isUnlock() || trackCourseInDB.isCompleted()){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Fail!");
+        }
+
         trackCourseInDB.setDurationVideo(trackCourseRequest.getPeriodCurrent());
 
         trackCourseRepository.save(trackCourseInDB);
