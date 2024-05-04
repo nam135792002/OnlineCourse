@@ -7,4 +7,5 @@ import com.springboot.courses.payload.quiz.QuizResponse;
 
 public interface QuizService {
     float gradeOfQuiz(LessonRequestInQuiz lessonRequestInQuiz);
+    String delete(Integer quizId);
 }

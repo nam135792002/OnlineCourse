@@ -20,4 +20,9 @@ public class QuizController {
     public ResponseEntity<?> checkAnswerIsCorrect(@RequestBody @Valid LessonRequestInQuiz lessonRequestInQuiz){
         return ResponseEntity.ok(quizService.gradeOfQuiz(lessonRequestInQuiz));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Integer quizId){
+        return ResponseEntity.ok(quizService.delete(quizId));
+    }
 }

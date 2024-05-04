@@ -65,6 +65,8 @@ public class QuizServiceImpl implements QuizService {
                     Answer answer = answerQuizRepository.checkAnswerInCorrect(answerLearningRequest.getId());
                     if(answer != null){
                         ++totalAnswerCorrectInThere;
+                    }else{
+                        --totalAnswerCorrectInList;
                     }
                 }
                 float percentMultipleChoiceQuiz = totalAnswerCorrectInThere / totalAnswerCorrectInList;
@@ -73,5 +75,12 @@ public class QuizServiceImpl implements QuizService {
         }
         float grade = (correctTotalQuizzes * 10) / totalQuizzes;
         return (float) (Math.round(grade * 100.0) / 100.0);
+    }
+
+    @Override
+    public String delete(Integer quizId) {
+        Quiz quiz = quizRepository.findById(quizId).get();
+        quizRepository.delete(quiz);
+        return "SUCCESS";
     }
 }
