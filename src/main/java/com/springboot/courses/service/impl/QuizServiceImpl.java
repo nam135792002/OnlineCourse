@@ -60,14 +60,17 @@ public class QuizServiceImpl implements QuizService {
             }else{
                 List<Answer> listAnswers = answerQuizRepository.listAllAnswerIsCorrect(quizId);
                 float totalAnswerCorrectInList = listAnswers.size();
-                float totalAnswerCorrectInThere = 0;
+                float totalAnswerCorrectInThere = 0.0f;
                 for (AnswerLearningRequest answerLearningRequest : quizLearningRequest.getListAnswers()){
                     Answer answer = answerQuizRepository.checkAnswerInCorrect(answerLearningRequest.getId());
                     if(answer != null){
                         ++totalAnswerCorrectInThere;
                     }else{
-                        --totalAnswerCorrectInList;
+                        --totalAnswerCorrectInThere;
                     }
+                }
+                if(totalAnswerCorrectInThere < 0){
+                    totalAnswerCorrectInThere = 0.0f;
                 }
                 float percentMultipleChoiceQuiz = totalAnswerCorrectInThere / totalAnswerCorrectInList;
                 correctTotalQuizzes += percentMultipleChoiceQuiz;

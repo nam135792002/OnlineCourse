@@ -50,6 +50,9 @@ public class Courses {
     @Column(name = "is_published")
     private boolean isPublished;
 
+    @Column(name = "is_finished")
+    private boolean isFinished;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
