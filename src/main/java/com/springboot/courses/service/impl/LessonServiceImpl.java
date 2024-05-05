@@ -70,13 +70,15 @@ public class LessonServiceImpl implements LessonService {
                 trackCourse.setLesson(savedLesson);
 
                 TrackCourse trackCourseCurrentLesson = trackCourseRepository.findTrackCoursesByCurrent(courses.getId(), order.getUser().getId());
-                int chapterCurrentLessIdOrder = trackCourseCurrentLesson.getChapter().getOrders();
-                int lessonCurrentLessIdOrder = trackCourseCurrentLesson.getLesson().getOrders();
-                if(chapterCurrentLessIdOrder > savedLesson.getChapter().getOrders()){
-                    trackCourse.setUnlock(true);
-                }else if(chapterCurrentLessIdOrder == savedLesson.getChapter().getOrders()){
-                    if(lessonCurrentLessIdOrder > savedLesson.getOrders()){
+                if(trackCourseCurrentLesson != null){
+                    int chapterCurrentLessIdOrder = trackCourseCurrentLesson.getChapter().getOrders();
+                    int lessonCurrentLessIdOrder = trackCourseCurrentLesson.getLesson().getOrders();
+                    if(chapterCurrentLessIdOrder > savedLesson.getChapter().getOrders()){
                         trackCourse.setUnlock(true);
+                    }else if(chapterCurrentLessIdOrder == savedLesson.getChapter().getOrders()){
+                        if(lessonCurrentLessIdOrder > savedLesson.getOrders()){
+                            trackCourse.setUnlock(true);
+                        }
                     }
                 }
                 trackCourseRepository.save(trackCourse);

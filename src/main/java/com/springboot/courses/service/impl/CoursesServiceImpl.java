@@ -98,7 +98,21 @@ public class CoursesServiceImpl implements CoursesService {
         }
         List<Courses> listCourses = courses.getContent();
 
-        List<CourseResponse> content = listCourses.stream().map(course -> modelMapper.map(course, CourseResponse.class)).collect(Collectors.toList());
+        List<CourseResponse> content = listCourses.stream()
+                .map(course -> {
+                    CourseResponse courseResponse = modelMapper.map(course, CourseResponse.class);
+                    int totalReview = course.getListReviews().size();
+                    int totalRating = course.getListReviews().stream().mapToInt(Review::getRating).sum();
+                    double averageRating = (double) totalRating / totalReview;
+                    averageRating = Math.round(averageRating * 10.0) / 10.0;
+                    courseResponse.setTotalReview(totalReview);
+                    courseResponse.setAverageReview(averageRating);
+                    courseResponse.setChapterList(null);
+                    courseResponse.setInfoList(null);
+                    return courseResponse;
+                }
+                )
+                .collect(Collectors.toList());
 
         return ClassResponse.convertToClassResponse(courses, content);
     }
@@ -225,6 +239,28 @@ public class CoursesServiceImpl implements CoursesService {
         return "SUCCESS";
     }
 
+    @Override
+    public String updateIsFinished(Integer courseId, boolean isFinished) {
+        Courses courses = coursesRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Courses", "id", courseId));
+
+        coursesRepository.switchFinished(courseId, isFinished);
+        return "SUCCESS";
+    }
+
+    @Override
+    public List<CourseReturnMyLearning> listAllCourseByKeyword(String keyword) {
+        List<Courses> listCourses = coursesRepository.search(keyword);
+
+        return listCourses.stream().map(
+                courses -> {
+                    CourseReturnMyLearning response = modelMapper.map(courses, CourseReturnMyLearning.class);
+                    response.setProcess(0);
+                    return response;
+                }
+        ).toList();
+    }
+
     private void convertSomeAttributeToEntity(Courses courses, CoursesRequest request){
         courses.setTitle(request.getTitle());
         String slug = Utils.removeVietnameseAccents(request.getTitle());
@@ -234,6 +270,7 @@ public class CoursesServiceImpl implements CoursesService {
         courses.setDiscount(request.getDiscount());
         courses.setEnabled(request.isEnabled());
         courses.setPublished(request.isPublished());
+        courses.setFinished(request.isFinished());
         if(request.isPublished()){
             courses.setPublishedAt(new Date());
         }

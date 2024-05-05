@@ -1,9 +1,7 @@
 package com.springboot.courses.payload.course;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.springboot.courses.entity.Category;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.Date;
 import java.util.List;
 
 @Setter
@@ -43,6 +40,9 @@ public class CoursesRequest {
 
     @JsonProperty("is_published")
     private boolean isPublished;
+
+    @JsonProperty("is_finished")
+    private boolean isFinished;
 
     @NotNull(message = "Category ID can not be null")
     @JsonProperty("category_id")

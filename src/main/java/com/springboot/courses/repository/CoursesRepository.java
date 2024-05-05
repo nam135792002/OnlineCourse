@@ -41,4 +41,11 @@ public interface CoursesRepository extends JpaRepository<Courses, Integer> {
             "when ?2 = true then current_timestamp() else null end where c.id =?1")
     @Modifying
     void switchPublished(Integer courseId, boolean isPublished);
+
+    @Query("update Courses c set c.isFinished =?2 where c.id =?1")
+    @Modifying
+    void switchFinished(Integer courseId, boolean isFinished);
+
+    @Query("select c from Courses c where c.isEnabled = true and concat(c.title, ' ', c.category.name) like %?1% ")
+    List<Courses> search(String keyword);
 }

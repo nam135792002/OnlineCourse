@@ -3,6 +3,7 @@ package com.springboot.courses.controller;
 import com.springboot.courses.payload.ClassResponse;
 import com.springboot.courses.payload.course.CourseReturnHomePageResponse;
 import com.springboot.courses.payload.course.CourseResponse;
+import com.springboot.courses.payload.course.CourseReturnMyLearning;
 import com.springboot.courses.payload.course.CoursesRequest;
 import com.springboot.courses.service.CoursesService;
 import com.springboot.courses.utils.AppConstants;
@@ -80,7 +81,6 @@ public class CourseController {
     @PostMapping("/switch-enabled")
     public ResponseEntity<?> updateIsEnabled(@RequestParam(value = "course") Integer courseId,
                                              @RequestParam(value = "enabled") boolean isEnabled){
-        System.out.println(isEnabled);
         return ResponseEntity.ok(coursesService.updateIsEnabled(courseId, isEnabled));
     }
 
@@ -88,5 +88,20 @@ public class CourseController {
     public ResponseEntity<?> updateIsPublished(@RequestParam(value = "course") Integer courseId,
                                              @RequestParam(value = "published") boolean isPublished){
         return ResponseEntity.ok(coursesService.updateIsPublished(courseId, isPublished));
+    }
+
+    @PostMapping("/switch-finished")
+    public ResponseEntity<?> updateIsFinished(@RequestParam(value = "course") Integer courseId,
+                                               @RequestParam(value = "finished") boolean isFinished){
+        return ResponseEntity.ok(coursesService.updateIsFinished(courseId, isFinished));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam(value = "keyword") String keyword){
+        List<CourseReturnMyLearning> listCourses = coursesService.listAllCourseByKeyword(keyword);
+        if(listCourses.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(listCourses);
     }
 }

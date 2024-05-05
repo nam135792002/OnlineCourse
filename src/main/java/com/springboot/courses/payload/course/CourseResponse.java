@@ -46,6 +46,15 @@ public class CourseResponse {
     @JsonProperty("is_published")
     private boolean isPublished;
 
+    @JsonProperty("is_finished")
+    private boolean isFinished;
+
+    @JsonProperty("total_review")
+    private int totalReview;
+
+    @JsonProperty("average_review")
+    private double averageReview;
+
     private CategoryDto category;
 
     @JsonProperty("info_list")

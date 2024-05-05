@@ -1,10 +1,7 @@
 package com.springboot.courses.service;
 
 import com.springboot.courses.payload.ClassResponse;
-import com.springboot.courses.payload.course.CourseReturnDetailPageResponse;
-import com.springboot.courses.payload.course.CourseReturnHomePageResponse;
-import com.springboot.courses.payload.course.CourseResponse;
-import com.springboot.courses.payload.course.CoursesRequest;
+import com.springboot.courses.payload.course.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -19,4 +16,7 @@ public interface CoursesService {
     CourseReturnDetailPageResponse getCourseDetail(String slug);
     String updateIsEnabled(Integer courseId, boolean isEnabled);
     String updateIsPublished(Integer courseId, boolean isPublished);
+    String updateIsFinished(Integer courseId, boolean isFinished);
+    List<CourseReturnMyLearning> listAllCourseByKeyword(String keyword);
+
 }
