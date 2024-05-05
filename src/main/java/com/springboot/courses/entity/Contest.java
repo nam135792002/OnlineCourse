@@ -29,7 +29,7 @@ public class Contest {
 
     private boolean enabled;
 
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    @Column(name = "created_at", nullable = false)
+    private Date createdAt;
 
 }
