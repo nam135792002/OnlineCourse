@@ -1,10 +1,7 @@
 package com.springboot.courses.controller;
 
 import com.springboot.courses.payload.ClassResponse;
-import com.springboot.courses.payload.course.CourseReturnHomePageResponse;
-import com.springboot.courses.payload.course.CourseResponse;
-import com.springboot.courses.payload.course.CourseReturnMyLearning;
-import com.springboot.courses.payload.course.CoursesRequest;
+import com.springboot.courses.payload.course.*;
 import com.springboot.courses.service.CoursesService;
 import com.springboot.courses.utils.AppConstants;
 import jakarta.validation.Valid;
@@ -98,7 +95,7 @@ public class CourseController {
 
     @GetMapping("/search")
     public ResponseEntity<?> search(@RequestParam(value = "keyword") String keyword){
-        List<CourseReturnMyLearning> listCourses = coursesService.listAllCourseByKeyword(keyword);
+        List<CourseReturnSearch> listCourses = coursesService.listAllCourseByKeyword(keyword);
         if(listCourses.isEmpty()){
             return ResponseEntity.noContent().build();
         }

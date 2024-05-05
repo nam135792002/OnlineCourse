@@ -84,13 +84,14 @@ public class TrackCourseServiceImpl implements TrackCourseService {
                         }
                     }).findFirst();
 
-            Lesson lessonNext = lessonRepository.findById(lessonIdNext.get())
-                    .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonIdNext.get()));
+            if(lessonIdNext.get() != -1 ){
+                Lesson lessonNext = lessonRepository.findById(lessonIdNext.get())
+                        .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonIdNext.get()));
 
-            TrackCourse trackCourseNext = trackCourseRepository.findTrackCourseByLessonAndUser(lessonNext, user);
-
-            if(lessonIdNext.get() != -1 && !trackCourseNext.isUnlock()){
-                trackCourseRepository.updateTrackCourseLessonNext(user.getId(), lessonIdNext.get());
+                TrackCourse trackCourseNext = trackCourseRepository.findTrackCourseByLessonAndUser(lessonNext, user);
+                if(!trackCourseNext.isUnlock()){
+                    trackCourseRepository.updateTrackCourseLessonNext(user.getId(), lessonIdNext.get());
+                }
             }
             return lessonIdNext.get();
         }

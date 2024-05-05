@@ -249,13 +249,17 @@ public class CoursesServiceImpl implements CoursesService {
     }
 
     @Override
-    public List<CourseReturnMyLearning> listAllCourseByKeyword(String keyword) {
+    public List<CourseReturnSearch> listAllCourseByKeyword(String keyword) {
         List<Courses> listCourses = coursesRepository.search(keyword);
 
         return listCourses.stream().map(
                 courses -> {
-                    CourseReturnMyLearning response = modelMapper.map(courses, CourseReturnMyLearning.class);
-                    response.setProcess(0);
+                    CourseReturnSearch response = modelMapper.map(courses, CourseReturnSearch.class);
+                    int totalReview = courses.getListReviews().size();
+                    int totalRating = courses.getListReviews().stream().mapToInt(Review::getRating).sum();
+                    double averageRating = (double) totalRating / totalReview;
+                    averageRating = Math.round(averageRating * 10.0) / 10.0;
+                    response.setAverageReview(averageRating);
                     return response;
                 }
         ).toList();

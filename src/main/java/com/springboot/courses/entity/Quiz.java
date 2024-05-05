@@ -31,6 +31,10 @@ public class Quiz {
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contest_id")
+    private Contest contest;
+
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answerList = new ArrayList<>();
 
@@ -38,6 +42,15 @@ public class Quiz {
         this.question = quiz.getQuestion();
         this.quizType = quiz.getQuizType();
         this.lesson = lesson;
+        for (Answer answer : quiz.getAnswerList()){
+            add(answer.getContent(), answer.isCorrect());
+        }
+    }
+
+    public Quiz(Quiz quiz, Contest contest) {
+        this.question = quiz.getQuestion();
+        this.quizType = quiz.getQuizType();
+        this.contest = contest;
         for (Answer answer : quiz.getAnswerList()){
             add(answer.getContent(), answer.isCorrect());
         }

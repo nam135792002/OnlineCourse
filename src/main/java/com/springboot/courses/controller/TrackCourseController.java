@@ -1,7 +1,12 @@
 package com.springboot.courses.controller;
 
+import com.springboot.courses.entity.Courses;
+import com.springboot.courses.entity.Lesson;
+import com.springboot.courses.payload.lesson.LessonResponse;
 import com.springboot.courses.payload.track.InfoCourseRegistered;
 import com.springboot.courses.payload.track.TrackCourseRequest;
+import com.springboot.courses.service.CertificateService;
+import com.springboot.courses.service.LessonService;
 import com.springboot.courses.service.TrackCourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/track-course")
 public class TrackCourseController {
     @Autowired private TrackCourseService trackCourseService;
+    @Autowired private LessonService lessonService;
+    @Autowired private CertificateService certificateService;
 
     @GetMapping("/get-all")
     public ResponseEntity<InfoCourseRegistered> getAll(@RequestParam(value = "email") String email,
@@ -23,8 +30,9 @@ public class TrackCourseController {
     public ResponseEntity<?> doneLesson(@RequestParam(value = "email") String email ,
                                         @RequestParam(value = "lesson") Integer lessonId){
         Integer lessonIdNext = trackCourseService.confirmLessonLearned(email, lessonId);
+        Courses courses = lessonService.getCourse(lessonId);
         if(lessonIdNext != -1){
-            return ResponseEntity.ok("CONTINUE");
+            return ResponseEntity.ok(certificateService.save(email, courses));
         }else{
             return ResponseEntity.ok("DONE");
         }

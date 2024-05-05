@@ -17,6 +17,6 @@ public interface CoursesService {
     String updateIsEnabled(Integer courseId, boolean isEnabled);
     String updateIsPublished(Integer courseId, boolean isPublished);
     String updateIsFinished(Integer courseId, boolean isFinished);
-    List<CourseReturnMyLearning> listAllCourseByKeyword(String keyword);
+    List<CourseReturnSearch> listAllCourseByKeyword(String keyword);
 
 }

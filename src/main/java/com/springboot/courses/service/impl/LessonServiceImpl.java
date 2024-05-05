@@ -80,6 +80,9 @@ public class LessonServiceImpl implements LessonService {
                             trackCourse.setUnlock(true);
                         }
                     }
+                }else{
+                    trackCourse.setUnlock(true);
+                    trackCourse.setCurrent(true);
                 }
                 trackCourseRepository.save(trackCourse);
             }
@@ -198,6 +201,12 @@ public class LessonServiceImpl implements LessonService {
 
         lessonRepository.delete(lessonInDB);
         return "Xóa bài học thành công";
+    }
+
+    @Override
+    public Courses getCourse(Integer lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId).get();
+        return lesson.getChapter().getCourse();
     }
 
     private LessonResponse convertToResponse(Lesson lesson){
