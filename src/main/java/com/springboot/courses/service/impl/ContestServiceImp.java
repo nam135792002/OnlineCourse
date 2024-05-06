@@ -82,6 +82,7 @@ public class ContestServiceImp implements ContestService {
         return listContests.stream().map(
                 contest -> {
                     ContestResponse response = modelMapper.map(contest, ContestResponse.class);
+                    response.setNumberQuestion(contest.getListQuizzes().size());
                     response.setListQuizzes(null);
                     return response;
         }).toList();
@@ -142,5 +143,17 @@ public class ContestServiceImp implements ContestService {
         quizInDB.setAnswerList(answerList);
 
         return quizInDB;
+    }
+
+    @Override
+    public List<ContestResponse> search(String keyword) {
+        List<Contest> listContests = contestRepository.search(keyword);
+        return listContests.stream().map(
+                contest -> {
+                    ContestResponse response = modelMapper.map(contest, ContestResponse.class);
+                    response.setNumberQuestion(contest.getListQuizzes().size());
+                    response.setListQuizzes(null);
+                    return response;
+                }).toList();
     }
 }

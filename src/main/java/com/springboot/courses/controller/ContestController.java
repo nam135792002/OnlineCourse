@@ -53,4 +53,13 @@ public class ContestController {
                                     @RequestBody @Valid ContestRequest contestRequest){
         return ResponseEntity.ok(contestService.updateContest(contestId, contestRequest));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam(value = "keyword") String keyword){
+        List<ContestResponse> listContest = contestService.search(keyword);
+        if(listContest.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(listContest);
+    }
 }

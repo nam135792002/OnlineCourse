@@ -28,5 +28,8 @@ public class ContestResponse {
 
     private boolean enabled;
 
+    @JsonProperty("number_question")
+    private int numberQuestion;
+
     private List<QuizResponse> listQuizzes = new ArrayList<>();
 }
