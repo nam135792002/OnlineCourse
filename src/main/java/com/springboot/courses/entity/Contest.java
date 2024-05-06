@@ -37,7 +37,7 @@ public class Contest {
     @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Quiz> listQuizzes = new ArrayList<>();
 
-    public void addQuiz(Quiz quiz){
+    public void add(Quiz quiz){
         this.listQuizzes.add(new Quiz(quiz, this));
     }
 

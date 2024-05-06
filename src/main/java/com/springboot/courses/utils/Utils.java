@@ -1,7 +1,11 @@
 package com.springboot.courses.utils;
 
+import com.springboot.courses.entity.Quiz;
+import com.springboot.courses.entity.QuizType;
 import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
+import com.springboot.courses.payload.quiz.AnswerDto;
+import com.springboot.courses.payload.quiz.QuizRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -94,5 +98,25 @@ public class Utils {
         } else {
             return (seconds / 31536000) + " năm trước";
         }
+    }
+
+    public static Quiz convertToQuizEntity(QuizRequest quizRequest){
+        Quiz quiz = new Quiz();
+        quiz.setQuestion(quizRequest.getQuestion());
+        quiz.setQuizType(QuizType.valueOf(quizRequest.getQuizType()));
+
+        boolean flag = false;
+
+        for (AnswerDto answerDto : quizRequest.getAnswerList()){
+            if(answerDto.isCorrect()){
+                flag = true;
+            }
+            quiz.add(answerDto.getContent(), answerDto.isCorrect());
+        }
+
+        if(!flag){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Không có câu trả lời đúng trong danh sách câu trả lời!");
+        }
+        return quiz;
     }
 }

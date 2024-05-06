@@ -11,6 +11,7 @@ import com.springboot.courses.payload.quiz.QuizResponse;
 import com.springboot.courses.repository.*;
 import com.springboot.courses.service.LessonService;
 import com.springboot.courses.utils.UploadFile;
+import com.springboot.courses.utils.Utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,7 +54,7 @@ public class LessonServiceImpl implements LessonService {
 
         if(lessonRequest.getLessonType().equals("QUIZ") && quizRequest != null){
             for (QuizRequest quiz : quizRequest){
-                lesson.add(convertToQuizEntity(quiz));
+                lesson.add(Utils.convertToQuizEntity(quiz));
             }
         }
 
@@ -88,26 +89,6 @@ public class LessonServiceImpl implements LessonService {
             }
         }
         return convertToResponse(savedLesson);
-    }
-
-    private Quiz convertToQuizEntity(QuizRequest quizRequest){
-        Quiz quiz = new Quiz();
-        quiz.setQuestion(quizRequest.getQuestion());
-        quiz.setQuizType(QuizType.valueOf(quizRequest.getQuizType()));
-
-        boolean flag = false;
-
-        for (AnswerDto answerDto : quizRequest.getAnswerList()){
-            if(answerDto.isCorrect()){
-                flag = true;
-            }
-            quiz.add(answerDto.getContent(), answerDto.isCorrect());
-        }
-
-        if(!flag){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Không có câu trả lời đúng trong danh sách câu trả lời!");
-        }
-        return quiz;
     }
 
     @Override
@@ -146,7 +127,7 @@ public class LessonServiceImpl implements LessonService {
         if(lessonRequest.getLessonType().equals("QUIZ") && quizRequest != null){
             List<Quiz> listQuizzes = new ArrayList<>();
             for (QuizRequest quizInList : quizRequest){
-                Quiz quiz = quizInList.getId() == null ? convertToQuizEntity(quizInList) : updateQuiz(quizInList, lessonInDB);
+                Quiz quiz = quizInList.getId() == null ? Utils.convertToQuizEntity(quizInList) : updateQuiz(quizInList, lessonInDB);
                 quiz.setLesson(lessonInDB);
                 listQuizzes.add(quiz);
             }

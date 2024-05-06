@@ -33,6 +33,6 @@ public class ContestRequest {
 
     @NotNull(message = "List quiz can not be null")
     @Valid
-    @JsonProperty("list_quizzes")
-    private List<QuizRequest> listQuiz = new ArrayList<>();
+    @JsonProperty("quiz_list")
+    private List<QuizRequest> quizList = new ArrayList<>();
 }
