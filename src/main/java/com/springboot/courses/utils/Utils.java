@@ -6,6 +6,7 @@ import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.payload.quiz.AnswerDto;
 import com.springboot.courses.payload.quiz.QuizRequest;
+import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class Utils {

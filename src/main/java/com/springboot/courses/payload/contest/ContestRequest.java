@@ -2,7 +2,9 @@ package com.springboot.courses.payload.contest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springboot.courses.payload.quiz.QuizRequest;
+import jakarta.persistence.Column;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -30,6 +32,9 @@ public class ContestRequest {
     private int period;
 
     private boolean enabled;
+
+    @Min(value = 1, message = "Minimal times is one")
+    private int times;
 
     @NotNull(message = "List quiz can not be null")
     @Valid

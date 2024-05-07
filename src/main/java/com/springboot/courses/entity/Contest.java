@@ -31,6 +31,9 @@ public class Contest {
 
     private boolean enabled;
 
+    @Column(nullable = false)
+    private int times;
+
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 

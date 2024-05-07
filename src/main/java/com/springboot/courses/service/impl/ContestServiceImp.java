@@ -5,8 +5,10 @@ import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.contest.ContestRequest;
 import com.springboot.courses.payload.contest.ContestResponse;
+import com.springboot.courses.payload.contest.ContestReturnInTest;
 import com.springboot.courses.payload.quiz.AnswerDto;
 import com.springboot.courses.payload.quiz.QuizRequest;
+import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
 import com.springboot.courses.repository.ContestRepository;
 import com.springboot.courses.repository.QuizRepository;
 import com.springboot.courses.service.ContestService;
@@ -155,5 +157,31 @@ public class ContestServiceImp implements ContestService {
                     response.setListQuizzes(null);
                     return response;
                 }).toList();
+    }
+
+    @Override
+    public ContestReturnInTest joinTest(Integer contestId) {
+        Contest contestInDB = contestRepository.findById(contestId)
+                .orElseThrow(() -> new ResourceNotFoundException("Contest", "id", contestId));
+
+        ContestReturnInTest responseContest = modelMapper.map(contestInDB, ContestReturnInTest.class);
+        List<QuizReturnLearningPage> quizReturnLearningPages = convertToQuizLearningPage(contestInDB.getListQuizzes());
+        responseContest.setListQuizzes(quizReturnLearningPages);
+        responseContest.setNumberQuestion(quizReturnLearningPages.size());
+        return responseContest;
+    }
+
+    private List<QuizReturnLearningPage> convertToQuizLearningPage(List<Quiz> quizzes) {
+        List<QuizReturnLearningPage> listQuizzes = new ArrayList<>();
+        int i = 0;
+        for (Quiz quiz : quizzes) {
+            QuizReturnLearningPage quizReturnLearningPage = modelMapper.map(quiz, QuizReturnLearningPage.class);
+            if (quiz.getQuizType().toString().equals("PERFORATE")) {
+                quizReturnLearningPage.setAnswerList(null);
+            }
+            quizReturnLearningPage.setOrder(++i);
+            listQuizzes.add(quizReturnLearningPage);
+        }
+        return listQuizzes;
     }
 }
