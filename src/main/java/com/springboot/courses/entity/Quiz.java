@@ -38,6 +38,9 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answerList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecordDetail> listRecordDetail = new ArrayList<>();
+
     public Quiz(Quiz quiz, Lesson lesson) {
         this.question = quiz.getQuestion();
         this.quizType = quiz.getQuizType();

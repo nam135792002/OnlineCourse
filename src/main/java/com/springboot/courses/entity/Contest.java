@@ -40,6 +40,9 @@ public class Contest {
     @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Quiz> listQuizzes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Record> listRecords = new ArrayList<>();
+
     public void add(Quiz quiz){
         this.listQuizzes.add(new Quiz(quiz, this));
     }

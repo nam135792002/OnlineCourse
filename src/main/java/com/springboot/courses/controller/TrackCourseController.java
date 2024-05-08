@@ -32,9 +32,9 @@ public class TrackCourseController {
         Integer lessonIdNext = trackCourseService.confirmLessonLearned(email, lessonId);
         Courses courses = lessonService.getCourse(lessonId);
         if(lessonIdNext != -1){
-            return ResponseEntity.ok(certificateService.save(email, courses));
+            return ResponseEntity.ok("CONTINUE");
         }else{
-            return ResponseEntity.ok("DONE");
+            return ResponseEntity.ok(certificateService.save(email, courses));
         }
     }
 
