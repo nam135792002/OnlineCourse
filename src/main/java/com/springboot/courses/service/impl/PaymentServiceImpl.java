@@ -145,13 +145,13 @@ public class PaymentServiceImpl implements PaymentService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         BankRequest transactionRequest = new BankRequest();
-        transactionRequest.setAccountNo("90813535314");
+        transactionRequest.setAccountNo(BANK_NUMBER);
         transactionRequest.setCurrency("VND");
         transactionRequest.setFromDate("20240118");
         transactionRequest.setKeyword("");
         transactionRequest.setMaxAcentrysrno("");
         transactionRequest.setPageNumber(1);
-        transactionRequest.setPageSize(400);
+        transactionRequest.setPageSize(5);
         transactionRequest.setToDate(toDate);
 
         // Chuyển đổi đối tượng Java thành JSON

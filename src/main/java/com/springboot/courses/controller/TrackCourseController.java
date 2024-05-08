@@ -1,8 +1,6 @@
 package com.springboot.courses.controller;
 
 import com.springboot.courses.entity.Courses;
-import com.springboot.courses.entity.Lesson;
-import com.springboot.courses.payload.lesson.LessonResponse;
 import com.springboot.courses.payload.track.InfoCourseRegistered;
 import com.springboot.courses.payload.track.TrackCourseRequest;
 import com.springboot.courses.service.CertificateService;
@@ -10,41 +8,50 @@ import com.springboot.courses.service.LessonService;
 import com.springboot.courses.service.TrackCourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/track-course")
 public class TrackCourseController {
-    @Autowired private TrackCourseService trackCourseService;
-    @Autowired private LessonService lessonService;
-    @Autowired private CertificateService certificateService;
+    @Autowired
+    private TrackCourseService trackCourseService;
+    @Autowired
+    private LessonService lessonService;
+    @Autowired
+    private CertificateService certificateService;
 
     @GetMapping("/get-all")
-    public ResponseEntity<InfoCourseRegistered> getAll(@RequestParam(value = "email") String email,
-                                                       @RequestParam(value = "slug") String slug){
+    public ResponseEntity<InfoCourseRegistered> getAll(@RequestParam(value = "email") String email, @RequestParam(value = "slug") String slug) {
         return ResponseEntity.ok(trackCourseService.listTrackCourse(email, slug));
     }
 
     @PostMapping("/confirm-done")
-    public ResponseEntity<?> doneLesson(@RequestParam(value = "email") String email ,
-                                        @RequestParam(value = "lesson") Integer lessonId){
+    public ResponseEntity<?> doneLesson(@RequestParam(value = "email") String email, @RequestParam(value = "lesson") Integer lessonId) {
         Integer lessonIdNext = trackCourseService.confirmLessonLearned(email, lessonId);
         Courses courses = lessonService.getCourse(lessonId);
+<<<<<<< HEAD
         if(lessonIdNext != -1){
             return ResponseEntity.ok("CONTINUE");
         }else{
             return ResponseEntity.ok(certificateService.save(email, courses));
+=======
+        if (lessonIdNext != -1) {
+            return ResponseEntity.ok("CONTINUE");
+        } else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(certificateService.save(email, courses));
+>>>>>>> 91f3e64ce7126f581c9f333fc5ef492ffa1f1fa4
         }
     }
 
     @GetMapping("/get-lesson")
-    public ResponseEntity<?> learningLesson(@RequestParam(value = "lesson") Integer lessonId){
+    public ResponseEntity<?> learningLesson(@RequestParam(value = "lesson") Integer lessonId) {
         return ResponseEntity.ok(trackCourseService.getLesson(lessonId));
     }
 
     @PostMapping("/update/track-course")
-    public ResponseEntity<?> updatePeriodCurrent(@RequestBody @Valid TrackCourseRequest trackCourseRequest){
+    public ResponseEntity<?> updatePeriodCurrent(@RequestBody @Valid TrackCourseRequest trackCourseRequest) {
         return ResponseEntity.ok(trackCourseService.updatePeriodCurrentOfVideo(trackCourseRequest));
     }
 }
