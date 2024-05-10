@@ -38,4 +38,10 @@ public class RecordDetail {
     @Column(name = "content_perforate")
     private String contentPerforate;
 
+    public RecordDetail(Record record, Quiz quiz, Set<Answer> answer, String contentPerforate) {
+        this.record = record;
+        this.quiz = quiz;
+        this.answer = answer;
+        this.contentPerforate = contentPerforate;
+    }
 }

@@ -23,4 +23,7 @@ public class CourseReturnLearningPageResponse {
 
     @JsonProperty("total_lesson")
     private int totalLesson;
+
+    @JsonProperty("is_finished")
+    private boolean isFinished;
 }

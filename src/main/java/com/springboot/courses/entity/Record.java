@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -41,4 +42,7 @@ public class Record {
     @OneToMany(mappedBy = "record", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecordDetail> listRecordDetails = new ArrayList<>();
 
+    public void add(Quiz quiz, Set<Answer> answer, String contentPerforate){
+        this.listRecordDetails.add(new RecordDetail(this, quiz, answer, contentPerforate));
+    }
 }

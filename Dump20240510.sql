@@ -32,7 +32,7 @@ CREATE TABLE `answers` (
   PRIMARY KEY (`id`),
   KEY `FK1n4e8ccan2bcks3eoid8w2kc4` (`quiz_id`),
   CONSTRAINT `FK1n4e8ccan2bcks3eoid8w2kc4` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=396 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `answers` (
 
 LOCK TABLES `answers` WRITE;
 /*!40000 ALTER TABLE `answers` DISABLE KEYS */;
-INSERT INTO `answers` VALUES (1,'đáp án A',_binary '\0',1),(2,'đáp án B',_binary '\0',1),(3,'đáp án C',_binary '',1),(4,'đáp án D',_binary '\0',1),(5,'đáp án 2A',_binary '',2),(6,'đáp án 2B',_binary '',2),(7,'đáp án 2C',_binary '\0',2),(10,'abc def',_binary '',5),(11,'Abc Def',_binary '',5),(12,'ABC def',_binary '',5),(13,'đáp án 2G',_binary '',2),(16,'NGUYEN PHUONG NAM',_binary '',7),(17,'VAN tu thanh',_binary '',8),(18,'Các dịch vụ được kết nối thông qua một cổng giao tiếp duy nhất.',_binary '\0',9),(19,'Các dịch vụ chia sẻ cùng một cơ sở dữ liệu.',_binary '\0',9),(20,'Các dịch vụ được triển khai và quản lý độc lập.',_binary '',9),(21,'Các dịch vụ chạy trên cùng một máy chủ.',_binary '\0',9),(22,'Tính phân tán.',_binary '',10),(23,'Độc lập và tự quản lý.',_binary '',10),(24,'Sự chia sẻ dữ liệu đồng bộ.',_binary '',10),(25,'Tính sẵn sàng',_binary '\0',10),(26,'phân phối',_binary '',11),(27,'RestTemplate.getForObject()',_binary '',12),(28,'RestTemplate.postForObject()',_binary '\0',12),(29,'RestTemplate.delete()',_binary '\0',12),(30,'RestTemplate.put()',_binary '\0',12),(31,'get()',_binary '\0',13),(32,'exchange()',_binary '\0',13),(33,'getForObject()',_binary '',13),(34,'getForEntity()',_binary '\0',13),(85,'Answer A',_binary '',27),(86,'Answer B',_binary '\0',27),(87,'Answer C',_binary '\0',27),(93,'True',_binary '',29),(94,'Answer A',_binary '',30),(95,'Answer B',_binary '',30),(96,'Answer C',_binary '\0',30),(97,'Answer E',_binary '\0',30),(98,'False',_binary '\0',29),(106,'Answer E',_binary '\0',27),(107,'Answer Nam',_binary '',32);
+INSERT INTO `answers` VALUES (1,'đáp án A',_binary '\0',1),(2,'đáp án B',_binary '\0',1),(3,'đáp án C',_binary '',1),(4,'đáp án D',_binary '\0',1),(5,'đáp án 2A',_binary '',2),(6,'đáp án 2B',_binary '',2),(7,'đáp án 2C',_binary '\0',2),(10,'abc def',_binary '',5),(11,'Abc Def',_binary '',5),(12,'ABC def',_binary '',5),(13,'đáp án 2G',_binary '',2),(16,'NGUYEN PHUONG NAM',_binary '',7),(17,'VAN tu thanh',_binary '',8),(18,'Các dịch vụ được kết nối thông qua một cổng giao tiếp duy nhất.',_binary '\0',9),(19,'Các dịch vụ chia sẻ cùng một cơ sở dữ liệu.',_binary '\0',9),(20,'Các dịch vụ được triển khai và quản lý độc lập.',_binary '',9),(21,'Các dịch vụ chạy trên cùng một máy chủ.',_binary '\0',9),(22,'Tính phân tán.',_binary '',10),(23,'Độc lập và tự quản lý.',_binary '',10),(24,'Sự chia sẻ dữ liệu đồng bộ.',_binary '',10),(25,'Tính sẵn sàng',_binary '\0',10),(26,'phân phối',_binary '',11),(27,'RestTemplate.getForObject()',_binary '',12),(28,'RestTemplate.postForObject()',_binary '\0',12),(29,'RestTemplate.delete()',_binary '\0',12),(30,'RestTemplate.put()',_binary '\0',12),(31,'get()',_binary '\0',13),(32,'exchange()',_binary '\0',13),(33,'getForObject()',_binary '',13),(34,'getForEntity()',_binary '\0',13),(85,'Answer A',_binary '',27),(86,'Answer B',_binary '\0',27),(87,'Answer C',_binary '\0',27),(93,'True',_binary '',29),(94,'Answer A',_binary '',30),(95,'Answer B',_binary '',30),(96,'Answer C',_binary '\0',30),(97,'Answer E',_binary '\0',30),(98,'False',_binary '\0',29),(106,'Answer E',_binary '\0',27),(107,'Answer Nam',_binary '',32),(314,'1234',_binary '',77),(315,'56789',_binary '\0',77),(316,'1010`11',_binary '\0',77),(317,'22222222',_binary '\0',77),(366,'Java là ngôn ngữ lập trình',_binary '',90),(367,'Java là ngôn ngữ máy',_binary '\0',90),(368,'Java là ngôn ngữ dùng để giao tiếp',_binary '\0',90),(369,'Java là hiện tượng do con ngừoi tạo ra.',_binary '\0',90),(374,'ko quan tam',_binary '\0',92),(375,'chắc có ha',_binary '',92),(376,'có cc j chứ',_binary '',92),(377,'no no',_binary '\0',92),(378,'Cpp is Cpp',_binary '\0',93),(379,'Cpp is fuck',_binary '\0',93),(380,'Cpp is conket',_binary '',93),(381,'Cpp is qq',_binary '\0',93),(382,'ko quan tam',_binary '\0',94),(383,'chắc có ha',_binary '',94),(384,'có cc j chứ',_binary '',94),(385,'no no',_binary '\0',94),(386,'cout<<helloworld!',_binary '',95),(387,'yes yes oki oki',_binary '',92),(388,'System.out.println(999);',_binary '',96),(394,'java java',_binary '',92),(395,'System.out.println(9);',_binary '',99);
 /*!40000 ALTER TABLE `answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,9 +142,10 @@ CREATE TABLE `contests` (
   `created_at` datetime(6) NOT NULL,
   `period` int NOT NULL,
   `enabled` bit(1) NOT NULL,
+  `times` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_g1nm0irnykh69s8m1fdu9fg64` (`title`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,6 +154,7 @@ CREATE TABLE `contests` (
 
 LOCK TABLES `contests` WRITE;
 /*!40000 ALTER TABLE `contests` DISABLE KEYS */;
+INSERT INTO `contests` VALUES (10,'Contest: Test Knowledge Basic Java Core Week 01','2024-05-05 23:04:42.770000',50,_binary '',3),(11,'Contest Cpp Week 01','2024-05-06 10:00:09.489000',50,_binary '',2);
 /*!40000 ALTER TABLE `contests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,7 +248,7 @@ CREATE TABLE `lesson` (
   CONSTRAINT `FK48my8s72slh0uu28lu3svaqk2` FOREIGN KEY (`text_id`) REFERENCES `text_lessons` (`id`),
   CONSTRAINT `FK9xcabosqsbjf9eo79xye6xv2c` FOREIGN KEY (`video_id`) REFERENCES `video` (`id`),
   CONSTRAINT `FKbmvsfsb079cs19554dfl2m1id` FOREIGN KEY (`chapter_id`) REFERENCES `chapters` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -255,7 +257,7 @@ CREATE TABLE `lesson` (
 
 LOCK TABLES `lesson` WRITE;
 /*!40000 ALTER TABLE `lesson` DISABLE KEYS */;
-INSERT INTO `lesson` VALUES (1,'Overview Spring Framework','VIDEO','2024-03-17 10:53:28.998000',1,6,NULL,3),(2,'History of Spring Framework','VIDEO','2024-03-17 10:58:26.589000',1,7,NULL,1),(4,'Spring Framework Architecture','VIDEO','2024-03-18 15:54:48.312000',1,8,NULL,2),(7,'Exercise IoC Containers Types','QUIZ','2024-03-19 11:13:34.909000',2,NULL,NULL,1),(8,'Welcome to Spring Boot Microservices!','VIDEO','2024-04-08 12:54:55.246000',7,14,NULL,1),(9,'What you will build in the Spring Boot Microservices Course','VIDEO','2024-04-08 12:57:20.024000',7,15,NULL,2),(10,'Getting the Most out of this Course','VIDEO','2024-04-08 12:59:42.585000',7,16,NULL,3),(11,'Slack Group for Spring Boot Microservices with Spring Cloud B2G','VIDEO','2024-04-08 13:02:02.463000',7,17,NULL,5),(12,'Setting up your Development Environment','VIDEO','2024-04-08 15:55:13.730000',7,18,NULL,4),(13,'Test character 01','QUIZ','2024-04-08 15:57:20.139000',7,NULL,NULL,6),(14,'The Traditional Monolith Application','VIDEO','2024-04-08 16:02:22.884000',8,19,NULL,2),(15,'What is the Cloud?','VIDEO','2024-04-08 16:03:48.414000',8,20,NULL,4),(16,'Introduction to Intro to Microservices Section','VIDEO','2024-04-08 16:04:46.778000',8,21,NULL,1),(17,'What are Microservices?','VIDEO','2024-04-08 16:05:34.480000',8,22,NULL,3),(18,'Test character 02','QUIZ','2024-04-08 16:07:03.184000',8,NULL,NULL,5),(19,'Introduction','VIDEO','2024-04-08 16:18:30.955000',9,23,NULL,1),(20,'HTTP Protocol','VIDEO','2024-04-08 16:21:56.081000',9,24,NULL,2),(21,'Introducing SFG Beer Works','VIDEO','2024-04-08 16:25:32.298000',10,25,NULL,1),(22,'HTTP GET with Spring MVC','VIDEO','2024-04-08 16:28:06.604000',10,26,NULL,2),(23,'HTTP GET with Spring RestTemplate','VIDEO','2024-04-08 16:33:10.803000',12,27,NULL,1),(24,'Test character 05','QUIZ','2024-04-08 16:34:44.467000',12,NULL,NULL,2),(25,'Java Bean Validation','VIDEO','2024-04-08 16:38:45.248000',13,28,NULL,2),(29,'Note #1: Slack Group for Spring Boot Microservices with Spring Cloud B2G','TEXT','2024-04-14 11:37:12.129000',7,NULL,4,7),(30,'Bean Validation Implementation','VIDEO','2024-04-27 11:10:37.343000',13,30,NULL,3),(31,'Note #02: Tham gia cộng đồng.','TEXT','2024-04-27 11:21:44.239000',13,NULL,5,4),(33,'Spring Boot Method Validation and diffrence between Valid and Valided','VIDEO','2024-04-27 12:35:58.367000',13,31,NULL,6),(34,'Note #04: Position Apply Intern/Fresher','TEXT','2024-04-27 12:42:37.841000',13,NULL,6,7),(40,'Quiz: Spring Boot Method Validation(High Level)!','QUIZ','2024-04-27 19:00:14.409000',13,NULL,NULL,10),(41,'Quiz: Spring Boot Method Validation(continue)','QUIZ','2024-04-27 19:02:06.962000',13,NULL,NULL,11),(42,'Quiz: Spring Boot Method Validation Continue0124','QUIZ','2024-04-27 19:03:13.639000',13,NULL,NULL,12);
+INSERT INTO `lesson` VALUES (1,'Overview Spring Framework','VIDEO','2024-03-17 10:53:28.998000',1,6,NULL,3),(2,'History of Spring Framework','VIDEO','2024-03-17 10:58:26.589000',1,7,NULL,1),(4,'Spring Framework Architecture','VIDEO','2024-03-18 15:54:48.312000',1,8,NULL,2),(7,'Exercise IoC Containers Types','QUIZ','2024-03-19 11:13:34.909000',2,NULL,NULL,1),(8,'Welcome to Spring Boot Microservices!','VIDEO','2024-04-08 12:54:55.246000',7,14,NULL,1),(9,'What you will build in the Spring Boot Microservices Course','VIDEO','2024-04-08 12:57:20.024000',7,15,NULL,2),(10,'Getting the Most out of this Course','VIDEO','2024-04-08 12:59:42.585000',7,16,NULL,3),(11,'Slack Group for Spring Boot Microservices with Spring Cloud B2G','VIDEO','2024-04-08 13:02:02.463000',7,17,NULL,5),(12,'Setting up your Development Environment','VIDEO','2024-04-08 15:55:13.730000',7,18,NULL,4),(13,'Test character 01','QUIZ','2024-04-08 15:57:20.139000',7,NULL,NULL,6),(14,'The Traditional Monolith Application','VIDEO','2024-04-08 16:02:22.884000',8,19,NULL,2),(15,'What is the Cloud?','VIDEO','2024-04-08 16:03:48.414000',8,20,NULL,4),(16,'Introduction to Intro to Microservices Section','VIDEO','2024-04-08 16:04:46.778000',8,21,NULL,1),(17,'What are Microservices?','VIDEO','2024-04-08 16:05:34.480000',8,22,NULL,3),(18,'Test character 02','QUIZ','2024-04-08 16:07:03.184000',8,NULL,NULL,5),(19,'Introduction','VIDEO','2024-04-08 16:18:30.955000',9,23,NULL,1),(20,'HTTP Protocol','VIDEO','2024-04-08 16:21:56.081000',9,24,NULL,2),(21,'Introducing SFG Beer Works','VIDEO','2024-04-08 16:25:32.298000',10,25,NULL,1),(22,'HTTP GET with Spring MVC','VIDEO','2024-04-08 16:28:06.604000',10,26,NULL,2),(23,'HTTP GET with Spring RestTemplate','VIDEO','2024-04-08 16:33:10.803000',12,27,NULL,1),(24,'Test character 05','QUIZ','2024-04-08 16:34:44.467000',12,NULL,NULL,2),(25,'Java Bean Validation','VIDEO','2024-04-08 16:38:45.248000',13,28,NULL,2),(29,'Note #1: Slack Group for Spring Boot Microservices with Spring Cloud B2G','TEXT','2024-04-14 11:37:12.129000',7,NULL,4,7),(30,'Bean Validation Implementation','VIDEO','2024-04-27 11:10:37.343000',13,30,NULL,3),(31,'Note #02: Tham gia cộng đồng.','TEXT','2024-04-27 11:21:44.239000',13,NULL,5,4),(33,'Spring Boot Method Validation and diffrence between Valid and Valided','VIDEO','2024-04-27 12:35:58.367000',13,31,NULL,6),(34,'Note #04: Position Apply Intern/Fresher','TEXT','2024-04-27 12:42:37.841000',13,NULL,6,7),(40,'Quiz: Spring Boot Method Validation(High Level)!','QUIZ','2024-04-27 19:00:14.409000',13,NULL,NULL,10),(41,'Quiz: Spring Boot Method Validation(continue)','QUIZ','2024-04-27 19:02:06.962000',13,NULL,NULL,11),(42,'Quiz: Spring Boot Method Validation Continue0124','QUIZ','2024-04-27 19:03:13.639000',13,NULL,NULL,12),(43,'Quiz: Tes Continue0124','QUIZ','2024-05-05 22:57:33.581000',13,NULL,NULL,13);
 /*!40000 ALTER TABLE `lesson` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,10 +370,13 @@ CREATE TABLE `quizzes` (
   `question` varchar(200) NOT NULL,
   `quiz_type` enum('ONE_CHOICE','MULTIPLE_CHOICE','PERFORATE') DEFAULT NULL,
   `lesson_id` int DEFAULT NULL,
+  `contest_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKmjow4dfilxsngm5n27sc44w1o` (`lesson_id`),
-  CONSTRAINT `FKmjow4dfilxsngm5n27sc44w1o` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FKpjwnb7wdueyg306xhxshr36u2` (`contest_id`),
+  CONSTRAINT `FKmjow4dfilxsngm5n27sc44w1o` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`),
+  CONSTRAINT `FKpjwnb7wdueyg306xhxshr36u2` FOREIGN KEY (`contest_id`) REFERENCES `contests` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -380,8 +385,97 @@ CREATE TABLE `quizzes` (
 
 LOCK TABLES `quizzes` WRITE;
 /*!40000 ALTER TABLE `quizzes` DISABLE KEYS */;
-INSERT INTO `quizzes` VALUES (1,'câu hỏi 1: ','ONE_CHOICE',7),(2,'Câu hỏi 2:','MULTIPLE_CHOICE',7),(5,'Câu hỏi 3:','PERFORATE',7),(7,'Câu hỏi 1:','PERFORATE',13),(8,'Câu hỏi 2:','PERFORATE',13),(9,'Trong kiến trúc Microservices, điều gì làm cho các dịch vụ được phân phối và triển khai độc lập?','ONE_CHOICE',18),(10,'Các nguyên tắc cơ bản của kiến trúc Microservices bao gồm:','MULTIPLE_CHOICE',18),(11,'Trong kiến trúc Microservices, việc ____ các dịch vụ cho phép chúng được triển khai và quản lý độc lập.','PERFORATE',18),(12,'Trong HTTP GET với Spring RestTemplate, phương thức nào được sử dụng để thực hiện một yêu cầu GET đến một tài nguyên?','ONE_CHOICE',24),(13,'Trong Spring RestTemplate, để thực hiện một yêu cầu GET và nhận dữ liệu trả về dưới dạng một đối tượng cụ thể, phương thức nào sẽ được sử dụng?','ONE_CHOICE',24),(27,'Choose one choice?','ONE_CHOICE',40),(29,'Choose answer true/false?','ONE_CHOICE',41),(30,'Multiple choice','MULTIPLE_CHOICE',42),(32,'Nguyen Phuong _________','PERFORATE',40);
+INSERT INTO `quizzes` VALUES (1,'câu hỏi 1: ','ONE_CHOICE',7,NULL),(2,'Câu hỏi 2:','MULTIPLE_CHOICE',7,NULL),(5,'Câu hỏi 3:','PERFORATE',7,NULL),(7,'Câu hỏi 1:','PERFORATE',13,NULL),(8,'Câu hỏi 2:','PERFORATE',13,NULL),(9,'Trong kiến trúc Microservices, điều gì làm cho các dịch vụ được phân phối và triển khai độc lập?','ONE_CHOICE',18,NULL),(10,'Các nguyên tắc cơ bản của kiến trúc Microservices bao gồm:','MULTIPLE_CHOICE',18,NULL),(11,'Trong kiến trúc Microservices, việc ____ các dịch vụ cho phép chúng được triển khai và quản lý độc lập.','PERFORATE',18,NULL),(12,'Trong HTTP GET với Spring RestTemplate, phương thức nào được sử dụng để thực hiện một yêu cầu GET đến một tài nguyên?','ONE_CHOICE',24,NULL),(13,'Trong Spring RestTemplate, để thực hiện một yêu cầu GET và nhận dữ liệu trả về dưới dạng một đối tượng cụ thể, phương thức nào sẽ được sử dụng?','ONE_CHOICE',24,NULL),(27,'Choose one choice?','ONE_CHOICE',40,NULL),(29,'Choose answer true/false?','ONE_CHOICE',41,NULL),(30,'Multiple choice','MULTIPLE_CHOICE',42,NULL),(32,'Nguyen Phuong _________','PERFORATE',40,NULL),(77,'1234567890','ONE_CHOICE',43,NULL),(90,'Hãy cho biết Java Core là gì?','ONE_CHOICE',NULL,10),(92,'Java Core quan trọng như thế nào?','MULTIPLE_CHOICE',NULL,10),(93,'Cpp là gì?','ONE_CHOICE',NULL,11),(94,'Cpp quan trọng như thế nào?','MULTIPLE_CHOICE',NULL,11),(95,'Điền vào dòng code sau: _________','PERFORATE',NULL,11),(96,'Hoàn thành đoạn code sau: _________','PERFORATE',NULL,10),(99,'Hoàn thành đoạn code sau đây: _________','PERFORATE',NULL,10);
 /*!40000 ALTER TABLE `quizzes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `record_detail`
+--
+
+DROP TABLE IF EXISTS `record_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `record_detail` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `record_id` int DEFAULT NULL,
+  `quiz_id` int DEFAULT NULL,
+  `content_perforate` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKi492cvghnbsnywv4a9wbc9lk6` (`quiz_id`),
+  KEY `FKhhgtssn1mgxccai4l2xwhj2fj` (`record_id`),
+  CONSTRAINT `FKhhgtssn1mgxccai4l2xwhj2fj` FOREIGN KEY (`record_id`) REFERENCES `records` (`id`),
+  CONSTRAINT `FKi492cvghnbsnywv4a9wbc9lk6` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `record_detail`
+--
+
+LOCK TABLES `record_detail` WRITE;
+/*!40000 ALTER TABLE `record_detail` DISABLE KEYS */;
+INSERT INTO `record_detail` VALUES (1,1,90,NULL),(2,1,92,NULL),(3,1,96,'System.out.println(999);'),(4,1,99,'System.out.println(999);'),(5,2,90,NULL),(6,2,92,NULL),(7,2,96,'System.out.println(999);'),(8,2,99,'System.out.println(9);'),(9,3,90,NULL),(10,3,92,NULL),(11,3,96,'System.out.println(999);'),(12,3,99,'System.out.println(9);');
+/*!40000 ALTER TABLE `record_detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `records`
+--
+
+DROP TABLE IF EXISTS `records`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `records` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `grade` float NOT NULL,
+  `joined_at` datetime(6) NOT NULL,
+  `period` int NOT NULL,
+  `contest_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKt6px0rn2n2xghn9mt497emlt5` (`contest_id`),
+  KEY `FK6p95uajgka0j0dc9vlbjw1sf1` (`user_id`),
+  CONSTRAINT `FK6p95uajgka0j0dc9vlbjw1sf1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKt6px0rn2n2xghn9mt497emlt5` FOREIGN KEY (`contest_id`) REFERENCES `contests` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `records`
+--
+
+LOCK TABLES `records` WRITE;
+/*!40000 ALTER TABLE `records` DISABLE KEYS */;
+INSERT INTO `records` VALUES (1,3.75,'2024-05-10 10:38:27.907000',45,10,27),(2,8.75,'2024-05-10 10:43:44.911000',45,10,27),(3,8.13,'2024-05-10 11:00:40.332000',45,10,27);
+/*!40000 ALTER TABLE `records` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `records_answers`
+--
+
+DROP TABLE IF EXISTS `records_answers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `records_answers` (
+  `record_detail_id` int NOT NULL,
+  `answer_id` int NOT NULL,
+  PRIMARY KEY (`record_detail_id`,`answer_id`),
+  KEY `FKiq5c402iuxggxgxcyg27f2dyh` (`answer_id`),
+  CONSTRAINT `FKiq5c402iuxggxgxcyg27f2dyh` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`id`),
+  CONSTRAINT `FKrgaqktogxv3bc8ehbxnqqfnwi` FOREIGN KEY (`record_detail_id`) REFERENCES `record_detail` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `records_answers`
+--
+
+LOCK TABLES `records_answers` WRITE;
+/*!40000 ALTER TABLE `records_answers` DISABLE KEYS */;
+INSERT INTO `records_answers` VALUES (5,366),(9,366),(1,367),(2,375),(6,375),(2,376),(6,376),(10,376),(2,377),(6,377),(10,377),(2,394),(6,394),(10,394);
+/*!40000 ALTER TABLE `records_answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -490,7 +584,7 @@ CREATE TABLE `track_courses` (
   CONSTRAINT `FKikusfmwuj6n9sy36b9nvltv5q` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FKmav0ebl2kucnmofpncotj1tgx` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`),
   CONSTRAINT `FKmtsrhuk85yo77lx55h9qoumqs` FOREIGN KEY (`chapter_id`) REFERENCES `chapters` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -499,7 +593,7 @@ CREATE TABLE `track_courses` (
 
 LOCK TABLES `track_courses` WRITE;
 /*!40000 ALTER TABLE `track_courses` DISABLE KEYS */;
-INSERT INTO `track_courses` VALUES (19,NULL,_binary '',_binary '',20,7,8,27,_binary '\0'),(20,NULL,_binary '',_binary '',20,7,9,27,_binary '\0'),(21,NULL,_binary '',_binary '',20,7,10,27,_binary '\0'),(22,NULL,_binary '',_binary '',20,7,11,27,_binary '\0'),(23,NULL,_binary '',_binary '',20,7,12,27,_binary '\0'),(24,NULL,_binary '',_binary '',20,7,13,27,_binary '\0'),(25,NULL,_binary '',_binary '',20,8,14,27,_binary '\0'),(26,NULL,_binary '',_binary '',20,8,15,27,_binary '\0'),(27,NULL,_binary '',_binary '',20,8,16,27,_binary '\0'),(28,NULL,_binary '',_binary '',20,8,17,27,_binary '\0'),(29,NULL,_binary '',_binary '',20,8,18,27,_binary '\0'),(30,NULL,_binary '\0',_binary '',20,9,19,27,_binary ''),(31,NULL,_binary '\0',_binary '\0',20,9,20,27,_binary '\0'),(32,NULL,_binary '\0',_binary '\0',20,10,21,27,_binary '\0'),(33,NULL,_binary '\0',_binary '\0',20,10,22,27,_binary '\0'),(34,NULL,_binary '\0',_binary '\0',20,12,23,27,_binary '\0'),(35,NULL,_binary '\0',_binary '\0',20,12,24,27,_binary '\0'),(36,NULL,_binary '\0',_binary '\0',20,13,25,27,_binary '\0'),(37,NULL,_binary '\0',_binary '\0',18,1,1,27,_binary '\0'),(38,'00:00:40.000000',_binary '\0',_binary '',18,1,2,27,_binary ''),(39,NULL,_binary '\0',_binary '\0',18,1,4,27,_binary '\0'),(40,NULL,_binary '\0',_binary '\0',18,2,7,27,_binary '\0'),(41,NULL,_binary '',_binary '',20,7,29,27,_binary '\0'),(42,NULL,_binary '\0',_binary '\0',20,13,30,27,_binary '\0'),(43,NULL,_binary '\0',_binary '\0',20,13,31,27,_binary '\0'),(45,NULL,_binary '\0',_binary '\0',20,13,33,27,_binary '\0'),(46,NULL,_binary '\0',_binary '\0',20,13,34,27,_binary '\0'),(49,NULL,_binary '\0',_binary '\0',20,13,40,27,_binary '\0'),(50,NULL,_binary '\0',_binary '\0',20,13,41,27,_binary '\0'),(51,NULL,_binary '\0',_binary '\0',20,13,42,27,_binary '\0');
+INSERT INTO `track_courses` VALUES (19,NULL,_binary '',_binary '',20,7,8,27,_binary '\0'),(20,NULL,_binary '',_binary '',20,7,9,27,_binary '\0'),(21,NULL,_binary '',_binary '',20,7,10,27,_binary '\0'),(22,NULL,_binary '',_binary '',20,7,11,27,_binary '\0'),(23,NULL,_binary '',_binary '',20,7,12,27,_binary '\0'),(24,NULL,_binary '',_binary '',20,7,13,27,_binary '\0'),(25,NULL,_binary '',_binary '',20,8,14,27,_binary '\0'),(26,NULL,_binary '',_binary '',20,8,15,27,_binary '\0'),(27,NULL,_binary '',_binary '',20,8,16,27,_binary '\0'),(28,NULL,_binary '',_binary '',20,8,17,27,_binary '\0'),(29,NULL,_binary '',_binary '',20,8,18,27,_binary '\0'),(30,NULL,_binary '\0',_binary '',20,9,19,27,_binary ''),(31,NULL,_binary '\0',_binary '\0',20,9,20,27,_binary '\0'),(32,NULL,_binary '\0',_binary '\0',20,10,21,27,_binary '\0'),(33,NULL,_binary '\0',_binary '\0',20,10,22,27,_binary '\0'),(34,NULL,_binary '\0',_binary '\0',20,12,23,27,_binary '\0'),(35,NULL,_binary '\0',_binary '\0',20,12,24,27,_binary '\0'),(36,NULL,_binary '\0',_binary '\0',20,13,25,27,_binary '\0'),(37,NULL,_binary '\0',_binary '\0',18,1,1,27,_binary '\0'),(38,'00:00:40.000000',_binary '\0',_binary '',18,1,2,27,_binary ''),(39,NULL,_binary '\0',_binary '\0',18,1,4,27,_binary '\0'),(40,NULL,_binary '\0',_binary '\0',18,2,7,27,_binary '\0'),(41,NULL,_binary '',_binary '',20,7,29,27,_binary '\0'),(42,NULL,_binary '\0',_binary '\0',20,13,30,27,_binary '\0'),(43,NULL,_binary '\0',_binary '\0',20,13,31,27,_binary '\0'),(45,NULL,_binary '\0',_binary '\0',20,13,33,27,_binary '\0'),(46,NULL,_binary '\0',_binary '\0',20,13,34,27,_binary '\0'),(49,NULL,_binary '\0',_binary '\0',20,13,40,27,_binary '\0'),(50,NULL,_binary '\0',_binary '\0',20,13,41,27,_binary '\0'),(51,NULL,_binary '\0',_binary '\0',20,13,42,27,_binary '\0'),(52,NULL,_binary '\0',_binary '\0',20,13,43,27,_binary '\0');
 /*!40000 ALTER TABLE `track_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -576,4 +670,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-05 16:11:26
+-- Dump completed on 2024-05-10 16:48:27

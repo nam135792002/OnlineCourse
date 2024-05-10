@@ -14,5 +14,5 @@ public interface ContestService {
     String deleteContest(Integer contestId);
     String switchEnabled(Integer contestId, boolean enabled);
     List<ContestResponse> search(String keyword);
-    ContestReturnInTest joinTest(Integer contestId);
+    ContestReturnInTest joinTest(Integer contestId, Integer userId);
 }

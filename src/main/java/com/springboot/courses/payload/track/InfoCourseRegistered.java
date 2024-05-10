@@ -22,4 +22,7 @@ public class InfoCourseRegistered {
 
     @JsonProperty("total_lesson_learned")
     private int totalLessonLearned;
+
+    @JsonProperty("certificate_id")
+    private Integer certificateId;
 }

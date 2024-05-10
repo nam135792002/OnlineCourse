@@ -8,10 +8,7 @@ import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
 import com.springboot.courses.payload.track.InfoCourseRegistered;
 import com.springboot.courses.payload.track.TrackCourseRequest;
 import com.springboot.courses.payload.track.TrackCourseResponse;
-import com.springboot.courses.repository.CoursesRepository;
-import com.springboot.courses.repository.LessonRepository;
-import com.springboot.courses.repository.TrackCourseRepository;
-import com.springboot.courses.repository.UserRepository;
+import com.springboot.courses.repository.*;
 import com.springboot.courses.service.TrackCourseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -30,6 +27,7 @@ public class TrackCourseServiceImpl implements TrackCourseService {
     @Autowired private CoursesRepository coursesRepository;
     @Autowired private LessonRepository lessonRepository;
     @Autowired private ModelMapper modelMapper;
+    @Autowired private CertificateRepository certificateRepository;
 
     @Override
     public InfoCourseRegistered listTrackCourse(String email , String slug) {
@@ -38,6 +36,12 @@ public class TrackCourseServiceImpl implements TrackCourseService {
 
         Courses courses = coursesRepository.findCoursesBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Courses", "slug", slug));
+
+        Integer certificateId = null;
+        Certificate certificate = certificateRepository.findCertificateByUserAndCourses(user, courses);
+        if(certificate != null){
+            certificateId = certificate.getId();
+        }
 
         int averageAchieved = 0;
         int totalLessonLearned = 0;
@@ -54,7 +58,7 @@ public class TrackCourseServiceImpl implements TrackCourseService {
         }
         float percent = (float) (totalLessonLearned * 100) / totalLesson;
         averageAchieved = Math.round(percent);
-        return new InfoCourseRegistered(listTrackCoursesResponse, averageAchieved, totalLessonLearned);
+        return new InfoCourseRegistered(listTrackCoursesResponse, averageAchieved, totalLessonLearned, certificateId);
     }
 
     @Override

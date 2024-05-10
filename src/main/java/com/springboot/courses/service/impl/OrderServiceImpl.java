@@ -10,6 +10,8 @@ import com.springboot.courses.repository.OrderRepository;
 import com.springboot.courses.repository.TrackCourseRepository;
 import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.OrderService;
+import com.springboot.courses.utils.AppConstants;
+import com.springboot.courses.utils.Utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -87,6 +89,7 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalPrice(totalPrice);
 
         Order savedOrder = orderRepository.save(order);
+        Utils.sendEmailForOrder(AppConstants.SUBJECT_ORDER, AppConstants.CONTENT_ORDER, order);
 
         int totalStudent = courses.getStudentCount();
         courses.setStudentCount(totalStudent + 1);

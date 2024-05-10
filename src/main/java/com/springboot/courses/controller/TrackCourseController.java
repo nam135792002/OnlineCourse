@@ -31,17 +31,10 @@ public class TrackCourseController {
     public ResponseEntity<?> doneLesson(@RequestParam(value = "email") String email, @RequestParam(value = "lesson") Integer lessonId) {
         Integer lessonIdNext = trackCourseService.confirmLessonLearned(email, lessonId);
         Courses courses = lessonService.getCourse(lessonId);
-<<<<<<< HEAD
-        if(lessonIdNext != -1){
-            return ResponseEntity.ok("CONTINUE");
-        }else{
-            return ResponseEntity.ok(certificateService.save(email, courses));
-=======
         if (lessonIdNext != -1) {
             return ResponseEntity.ok("CONTINUE");
         } else {
             return ResponseEntity.status(HttpStatus.CREATED).body(certificateService.save(email, courses));
->>>>>>> 91f3e64ce7126f581c9f333fc5ef492ffa1f1fa4
         }
     }
 

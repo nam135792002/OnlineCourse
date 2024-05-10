@@ -1,5 +1,6 @@
 package com.springboot.courses.utils;
 
+import com.springboot.courses.entity.Order;
 import com.springboot.courses.entity.Quiz;
 import com.springboot.courses.entity.QuizType;
 import com.springboot.courses.entity.User;
@@ -78,6 +79,47 @@ public class Utils {
 
 
         content = content.replace("[[URL]]",url);
+        try {
+            helper.setText(content,true);
+        } catch (MessagingException e) {
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Send email failed!");
+        }
+        mailSender.send(message);
+    }
+
+    public static void sendEmailForOrder(String subject, String content, Order order){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("tech.courses.895@gmail.com");
+        mailSender.setPassword("giug qtcr yjag occm");
+        mailSender.setDefaultEncoding("utf-8");
+
+        Properties properties = new Properties();
+        properties.setProperty("mail.smtp.auth","true");
+        properties.setProperty("mail.smtp.starttls.enable","true");
+        mailSender.setJavaMailProperties(properties);
+
+        String toAddress = order.getUser().getEmail();
+
+        subject = subject.replace("[[orderId]]", order.getId().toString());
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom("tech.courses.895@gmail.com","Tech Courses");
+            helper.setTo(toAddress);
+            helper.setSubject(subject);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Send email failed!");
+        }
+
+        content = content.replace("[[orderId]]]",order.getId().toString());
+        content = content.replace("[[orderTime]]",order.getCreatedTime().toString());
+        content = content.replace("[[courseName]]",order.getCourses().getTitle());
+        content = content.replace("[[total]]",Integer.toString(order.getTotalPrice()));
+
         try {
             helper.setText(content,true);
         } catch (MessagingException e) {

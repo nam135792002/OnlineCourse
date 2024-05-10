@@ -15,4 +15,5 @@ public interface ContestRepository extends JpaRepository<Contest, Integer> {
     Contest findContestByTitle(String title);
     @Query("select c from Contest c where c.title like %?1% and c.enabled = true")
     List<Contest> search(String keyword);
+
 }

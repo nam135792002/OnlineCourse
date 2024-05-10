@@ -11,6 +11,8 @@ import com.springboot.courses.payload.quiz.QuizRequest;
 import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
 import com.springboot.courses.repository.ContestRepository;
 import com.springboot.courses.repository.QuizRepository;
+import com.springboot.courses.repository.RecordRepository;
+import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.ContestService;
 import com.springboot.courses.utils.Utils;
 import jakarta.persistence.EntityManager;
@@ -31,6 +33,8 @@ public class ContestServiceImp implements ContestService {
     @Autowired private ContestRepository contestRepository;
     @Autowired private ModelMapper modelMapper;
     @Autowired private QuizRepository quizRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private RecordRepository recordRepository;
 
     @Override
     public ContestResponse saveContest(ContestRequest contestRequest) {
@@ -161,9 +165,18 @@ public class ContestServiceImp implements ContestService {
     }
 
     @Override
-    public ContestReturnInTest joinTest(Integer contestId) {
+    public ContestReturnInTest joinTest(Integer contestId, Integer userId) {
         Contest contestInDB = contestRepository.findById(contestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Contest", "id", contestId));
+
+        User userInDB = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        Long timeJoined = recordRepository.countRecordByContestAndUser(contestInDB, userInDB);
+
+        if(timeJoined == contestInDB.getTimes()){
+            throw new BlogApiException(HttpStatus.NOT_FOUND, "Bài thi chỉ được giới hạn thi trong " + contestInDB.getTimes() + " lần.");
+        }
 
         ContestReturnInTest responseContest = modelMapper.map(contestInDB, ContestReturnInTest.class);
         List<QuizReturnLearningPage> quizReturnLearningPages = convertToQuizLearningPage(contestInDB.getListQuizzes());
