@@ -130,4 +130,16 @@ public class RecordServiceImpl implements RecordService {
         List<Record> listRecords = recordRepository.findAllByUser(user);
         return listRecords.stream().map(this::convertToResponse).toList();
     }
+
+    @Override
+    public List<RecordResponse> listAllRecordByUserAndContest(Integer userId, Integer contestId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        Contest contest = contestRepository.findById(contestId)
+                .orElseThrow(() -> new ResourceNotFoundException("Contest", "id", contestId));
+
+        List<Record> listRecords = recordRepository.findAllByUserAndContest(user, contest);
+        return listRecords.stream().map(this::convertToResponse).toList();
+    }
 }

@@ -115,7 +115,8 @@ public class Utils {
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Send email failed!");
         }
 
-        content = content.replace("[[orderId]]]",order.getId().toString());
+        content = content.replace("[[name]]",order.getUser().getFullName());
+        content = content.replace("[[orderId]]",order.getId().toString());
         content = content.replace("[[orderTime]]",order.getCreatedTime().toString());
         content = content.replace("[[courseName]]",order.getCourses().getTitle());
         content = content.replace("[[total]]",Integer.toString(order.getTotalPrice()));

@@ -15,7 +15,6 @@ import com.springboot.courses.repository.RecordRepository;
 import com.springboot.courses.repository.UserRepository;
 import com.springboot.courses.service.ContestService;
 import com.springboot.courses.utils.Utils;
-import jakarta.persistence.EntityManager;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +44,6 @@ public class ContestServiceImp implements ContestService {
         contest.setTitle(contestRequest.getTitle());
         contest.setPeriod(contestRequest.getPeriod());
         contest.setEnabled(contestRequest.isEnabled());
-        contest.setTimes(contestRequest.getTimes());
         contest.setCreatedAt(new Date());
         for (QuizRequest quizRequest : contestRequest.getQuizList()){
             contest.add(Utils.convertToQuizEntity(quizRequest));
@@ -110,7 +108,6 @@ public class ContestServiceImp implements ContestService {
         contestInDB.setTitle(contestRequest.getTitle());
         contestInDB.setPeriod(contestRequest.getPeriod());
         contestInDB.setEnabled(contestRequest.isEnabled());
-        contestInDB.setTimes(contestRequest.getTimes());
 
         List<Quiz> listQuizzes = new ArrayList<>();
         for (QuizRequest quizRequest : contestRequest.getQuizList()){
@@ -165,18 +162,9 @@ public class ContestServiceImp implements ContestService {
     }
 
     @Override
-    public ContestReturnInTest joinTest(Integer contestId, Integer userId) {
+    public ContestReturnInTest joinTest(Integer contestId) {
         Contest contestInDB = contestRepository.findById(contestId)
                 .orElseThrow(() -> new ResourceNotFoundException("Contest", "id", contestId));
-
-        User userInDB = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
-        Long timeJoined = recordRepository.countRecordByContestAndUser(contestInDB, userInDB);
-
-        if(timeJoined == contestInDB.getTimes()){
-            throw new BlogApiException(HttpStatus.NOT_FOUND, "Bài thi chỉ được giới hạn thi trong " + contestInDB.getTimes() + " lần.");
-        }
 
         ContestReturnInTest responseContest = modelMapper.map(contestInDB, ContestReturnInTest.class);
         List<QuizReturnLearningPage> quizReturnLearningPages = convertToQuizLearningPage(contestInDB.getListQuizzes());

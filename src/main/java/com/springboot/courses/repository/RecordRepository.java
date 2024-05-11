@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RecordRepository extends JpaRepository<Record, Integer> {
-    Long countRecordByContestAndUser(Contest contest, User user);
     List<Record> findAllByUser(User user);
+    List<Record> findAllByUserAndContest(User user, Contest contest);
 }

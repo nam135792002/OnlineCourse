@@ -34,7 +34,7 @@ public class AppConstants {
              12.0pt;font-family:&quot;Times New Roman&quot;,serif;mso-fareast-font-family:&quot;Times New Roman&quot;"><o:p></o:p></span></div>
             \s
              <div><b><span style="font-size: 12pt; font-family: &quot;Courier New&quot;; color: black; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">This email is to confirm that you have
-             successfully purchase&nbsp. Please review the
+             successfully purchase &nbsp. Please review the
              following order summary.</span></b><span style="font-size: 12pt;"><o:p></o:p></span></div>
             \s
              <div><span style="font-size: 12pt;">&nbsp;</span></div>
@@ -53,7 +53,7 @@ public class AppConstants {
             \s
              <div><!--[if !supportLists]--><span style="font-size: 10pt; font-family: Symbol;">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-variant-position: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
              </span></span><!--[endif]--><span style="font-size: 12pt; font-family: &quot;Courier New&quot;; color: black; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">&nbsp;Total:
-             [[total]]</span><span style="font-size: 12pt;"><o:p></o:p></span></div>
+             [[total]] VND</span><span style="font-size: 12pt;"><o:p></o:p></span></div>
             \s
              <div><span style="font-size: 12pt; font-family: &quot;Courier New&quot;; color: black; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><br>
              <!--[if !supportLineBreakNewLine]--><br>

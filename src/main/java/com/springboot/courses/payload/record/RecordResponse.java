@@ -33,4 +33,10 @@ public class RecordResponse {
     private float grade;
 
     private int period;
+
+    @JsonProperty("total_quizzes")
+    private int totalQuizzes;
+
+    @JsonProperty("total_quiz_is_correct")
+    private int totalQuizIsCorrect;
 }

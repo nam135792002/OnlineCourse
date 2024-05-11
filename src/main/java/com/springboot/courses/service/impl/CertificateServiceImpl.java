@@ -4,6 +4,7 @@ import com.springboot.courses.entity.Certificate;
 import com.springboot.courses.entity.Courses;
 import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
+import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.certificate.CertificateResponse;
 import com.springboot.courses.repository.CertificateRepository;
 import com.springboot.courses.repository.UserRepository;
@@ -40,6 +41,17 @@ public class CertificateServiceImpl implements CertificateService {
         CertificateResponse response = modelMapper.map(savedCertificate, CertificateResponse.class);
         response.setStudentName(savedCertificate.getUser().getFullName());
         response.setTitleCourse(savedCertificate.getCourses().getTitle());
+        return response;
+    }
+
+    @Override
+    public CertificateResponse getById(Integer certificateId) {
+        Certificate certificate = certificateRepository.findById(certificateId)
+                .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
+
+        CertificateResponse response = modelMapper.map(certificate, CertificateResponse.class);
+        response.setStudentName(certificate.getUser().getFullName());
+        response.setTitleCourse(certificate.getCourses().getTitle());
         return response;
     }
 }
