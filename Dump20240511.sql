@@ -41,7 +41,7 @@ CREATE TABLE `answers` (
 
 LOCK TABLES `answers` WRITE;
 /*!40000 ALTER TABLE `answers` DISABLE KEYS */;
-INSERT INTO `answers` VALUES (1,'đáp án A',_binary '\0',1),(2,'đáp án B',_binary '\0',1),(3,'đáp án C',_binary '',1),(4,'đáp án D',_binary '\0',1),(5,'đáp án 2A',_binary '',2),(6,'đáp án 2B',_binary '',2),(7,'đáp án 2C',_binary '\0',2),(10,'abc def',_binary '',5),(11,'Abc Def',_binary '',5),(12,'ABC def',_binary '',5),(13,'đáp án 2G',_binary '',2),(16,'NGUYEN PHUONG NAM',_binary '',7),(17,'VAN tu thanh',_binary '',8),(18,'Các dịch vụ được kết nối thông qua một cổng giao tiếp duy nhất.',_binary '\0',9),(19,'Các dịch vụ chia sẻ cùng một cơ sở dữ liệu.',_binary '\0',9),(20,'Các dịch vụ được triển khai và quản lý độc lập.',_binary '',9),(21,'Các dịch vụ chạy trên cùng một máy chủ.',_binary '\0',9),(22,'Tính phân tán.',_binary '',10),(23,'Độc lập và tự quản lý.',_binary '',10),(24,'Sự chia sẻ dữ liệu đồng bộ.',_binary '',10),(25,'Tính sẵn sàng',_binary '\0',10),(26,'phân phối',_binary '',11),(27,'RestTemplate.getForObject()',_binary '',12),(28,'RestTemplate.postForObject()',_binary '\0',12),(29,'RestTemplate.delete()',_binary '\0',12),(30,'RestTemplate.put()',_binary '\0',12),(31,'get()',_binary '\0',13),(32,'exchange()',_binary '\0',13),(33,'getForObject()',_binary '',13),(34,'getForEntity()',_binary '\0',13),(85,'Answer A',_binary '',27),(86,'Answer B',_binary '\0',27),(87,'Answer C',_binary '\0',27),(93,'True',_binary '',29),(94,'Answer A',_binary '',30),(95,'Answer B',_binary '',30),(96,'Answer C',_binary '\0',30),(97,'Answer E',_binary '\0',30),(98,'False',_binary '\0',29),(106,'Answer E',_binary '\0',27),(107,'Answer Nam',_binary '',32),(314,'1234',_binary '',77),(315,'56789',_binary '\0',77),(316,'1010`11',_binary '\0',77),(317,'22222222',_binary '\0',77),(366,'Java là ngôn ngữ lập trình',_binary '',90),(367,'Java là ngôn ngữ máy',_binary '\0',90),(368,'Java là ngôn ngữ dùng để giao tiếp',_binary '\0',90),(369,'Java là hiện tượng do con ngừoi tạo ra.',_binary '\0',90),(374,'ko quan tam',_binary '\0',92),(375,'chắc có ha',_binary '',92),(376,'có cc j chứ',_binary '',92),(377,'no no',_binary '\0',92),(378,'Cpp is Cpp',_binary '\0',93),(379,'Cpp is fuck',_binary '\0',93),(380,'Cpp is conket',_binary '',93),(381,'Cpp is qq',_binary '\0',93),(382,'ko quan tam',_binary '\0',94),(383,'chắc có ha',_binary '',94),(384,'có cc j chứ',_binary '',94),(385,'no no',_binary '\0',94),(386,'cout<<helloworld!',_binary '',95),(387,'yes yes oki oki',_binary '',92),(388,'System.out.println(999);',_binary '',96),(394,'java java',_binary '',92),(395,'System.out.println(9);',_binary '',99);
+INSERT INTO `answers` VALUES (1,'đáp án A',_binary '\0',1),(2,'đáp án B',_binary '\0',1),(3,'đáp án C',_binary '',1),(4,'đáp án D',_binary '\0',1),(5,'đáp án 2A',_binary '',2),(6,'đáp án 2B',_binary '',2),(7,'đáp án 2C',_binary '\0',2),(10,'abc def',_binary '',5),(13,'đáp án 2G',_binary '',2),(16,'NGUYEN PHUONG NAM',_binary '',7),(17,'VAN tu thanh',_binary '',8),(18,'Các dịch vụ được kết nối thông qua một cổng giao tiếp duy nhất.',_binary '\0',9),(19,'Các dịch vụ chia sẻ cùng một cơ sở dữ liệu.',_binary '\0',9),(20,'Các dịch vụ được triển khai và quản lý độc lập.',_binary '',9),(21,'Các dịch vụ chạy trên cùng một máy chủ.',_binary '\0',9),(22,'Tính phân tán.',_binary '',10),(23,'Độc lập và tự quản lý.',_binary '',10),(24,'Sự chia sẻ dữ liệu đồng bộ.',_binary '',10),(25,'Tính sẵn sàng',_binary '\0',10),(26,'phân phối',_binary '',11),(27,'RestTemplate.getForObject()',_binary '',12),(28,'RestTemplate.postForObject()',_binary '\0',12),(29,'RestTemplate.delete()',_binary '\0',12),(30,'RestTemplate.put()',_binary '\0',12),(31,'get()',_binary '\0',13),(32,'exchange()',_binary '\0',13),(33,'getForObject()',_binary '',13),(34,'getForEntity()',_binary '\0',13),(85,'Answer A',_binary '',27),(86,'Answer B',_binary '\0',27),(87,'Answer C',_binary '\0',27),(93,'True',_binary '',29),(94,'Answer A',_binary '',30),(95,'Answer B',_binary '',30),(96,'Answer C',_binary '\0',30),(97,'Answer E',_binary '\0',30),(98,'False',_binary '\0',29),(106,'Answer E',_binary '\0',27),(107,'Answer Nam',_binary '',32),(314,'1234',_binary '',77),(315,'56789',_binary '\0',77),(316,'1010`11',_binary '\0',77),(317,'22222222',_binary '\0',77),(366,'Java là ngôn ngữ lập trình',_binary '',90),(367,'Java là ngôn ngữ máy',_binary '\0',90),(368,'Java là ngôn ngữ dùng để giao tiếp',_binary '\0',90),(369,'Java là hiện tượng do con ngừoi tạo ra.',_binary '\0',90),(374,'ko quan tam',_binary '\0',92),(375,'chắc có ha',_binary '',92),(376,'có cc j chứ',_binary '',92),(377,'no no',_binary '\0',92),(378,'Cpp is Cpp',_binary '\0',93),(379,'Cpp is fuck',_binary '\0',93),(380,'Cpp is conket',_binary '',93),(381,'Cpp is qq',_binary '\0',93),(382,'ko quan tam',_binary '\0',94),(383,'chắc có ha',_binary '',94),(384,'có cc j chứ',_binary '',94),(385,'no no',_binary '\0',94),(386,'cout<<helloworld!',_binary '',95),(387,'yes yes oki oki',_binary '',92),(388,'System.out.println(999);',_binary '',96),(394,'java java',_binary '',92),(395,'System.out.println(9);',_binary '',99);
 /*!40000 ALTER TABLE `answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +142,6 @@ CREATE TABLE `contests` (
   `created_at` datetime(6) NOT NULL,
   `period` int NOT NULL,
   `enabled` bit(1) NOT NULL,
-  `times` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_g1nm0irnykh69s8m1fdu9fg64` (`title`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -154,7 +153,7 @@ CREATE TABLE `contests` (
 
 LOCK TABLES `contests` WRITE;
 /*!40000 ALTER TABLE `contests` DISABLE KEYS */;
-INSERT INTO `contests` VALUES (10,'Contest: Test Knowledge Basic Java Core Week 01','2024-05-05 23:04:42.770000',50,_binary '',3),(11,'Contest Cpp Week 01','2024-05-06 10:00:09.489000',50,_binary '',2);
+INSERT INTO `contests` VALUES (10,'Contest: Test Knowledge Basic Java Core Week 01','2024-05-05 23:04:42.770000',50,_binary ''),(11,'Contest Cpp Week 01','2024-05-06 10:00:09.489000',50,_binary '');
 /*!40000 ALTER TABLE `contests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -406,7 +405,7 @@ CREATE TABLE `record_detail` (
   KEY `FKhhgtssn1mgxccai4l2xwhj2fj` (`record_id`),
   CONSTRAINT `FKhhgtssn1mgxccai4l2xwhj2fj` FOREIGN KEY (`record_id`) REFERENCES `records` (`id`),
   CONSTRAINT `FKi492cvghnbsnywv4a9wbc9lk6` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -415,7 +414,7 @@ CREATE TABLE `record_detail` (
 
 LOCK TABLES `record_detail` WRITE;
 /*!40000 ALTER TABLE `record_detail` DISABLE KEYS */;
-INSERT INTO `record_detail` VALUES (1,1,90,NULL),(2,1,92,NULL),(3,1,96,'System.out.println(999);'),(4,1,99,'System.out.println(999);'),(5,2,90,NULL),(6,2,92,NULL),(7,2,96,'System.out.println(999);'),(8,2,99,'System.out.println(9);'),(9,3,90,NULL),(10,3,92,NULL),(11,3,96,'System.out.println(999);'),(12,3,99,'System.out.println(9);');
+INSERT INTO `record_detail` VALUES (1,1,90,NULL),(2,1,92,NULL),(3,1,96,'System.out.println(999);'),(4,1,99,'System.out.println(999);'),(5,2,90,NULL),(6,2,92,NULL),(7,2,96,'System.out.println(999);'),(8,2,99,'System.out.println(9);'),(9,3,90,NULL),(10,3,92,NULL),(11,3,96,'System.out.println(999);'),(12,3,99,'System.out.println(9);'),(13,4,90,NULL),(14,4,92,NULL),(15,4,96,'System.out.println(999);'),(16,4,99,'System.out.println(99);'),(17,5,90,NULL),(18,5,92,NULL),(19,5,96,'System.out.println(999);'),(20,5,99,'System.out.println(99);'),(21,6,90,NULL),(22,6,92,NULL),(23,6,96,'System.out.println(999);'),(24,6,99,'System.out.println(9);'),(25,7,90,NULL),(26,7,92,NULL),(27,7,96,'System.out.println(999);'),(28,7,99,'System.out.println(9);'),(29,8,90,NULL),(30,8,92,NULL),(31,8,96,'System.out.println(999);'),(32,8,99,'System.out.println(9);');
 /*!40000 ALTER TABLE `record_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -438,7 +437,7 @@ CREATE TABLE `records` (
   KEY `FK6p95uajgka0j0dc9vlbjw1sf1` (`user_id`),
   CONSTRAINT `FK6p95uajgka0j0dc9vlbjw1sf1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FKt6px0rn2n2xghn9mt497emlt5` FOREIGN KEY (`contest_id`) REFERENCES `contests` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -447,7 +446,7 @@ CREATE TABLE `records` (
 
 LOCK TABLES `records` WRITE;
 /*!40000 ALTER TABLE `records` DISABLE KEYS */;
-INSERT INTO `records` VALUES (1,3.75,'2024-05-10 10:38:27.907000',45,10,27),(2,8.75,'2024-05-10 10:43:44.911000',45,10,27),(3,8.13,'2024-05-10 11:00:40.332000',45,10,27);
+INSERT INTO `records` VALUES (1,3.75,'2024-05-10 10:38:27.907000',45,10,27),(2,8.75,'2024-05-10 10:43:44.911000',45,10,27),(3,8.13,'2024-05-10 11:00:40.332000',45,10,27),(4,6.25,'2024-05-11 20:50:32.629000',45,10,27),(5,6.25,'2024-05-11 22:50:28.516000',25,10,18),(6,8.75,'2024-05-11 22:51:56.675000',45,10,18),(7,8.75,'2024-05-11 22:53:01.906000',15,10,19),(8,6.25,'2024-05-11 22:53:21.922000',40,10,20);
 /*!40000 ALTER TABLE `records` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -474,7 +473,7 @@ CREATE TABLE `records_answers` (
 
 LOCK TABLES `records_answers` WRITE;
 /*!40000 ALTER TABLE `records_answers` DISABLE KEYS */;
-INSERT INTO `records_answers` VALUES (5,366),(9,366),(1,367),(2,375),(6,375),(2,376),(6,376),(10,376),(2,377),(6,377),(10,377),(2,394),(6,394),(10,394);
+INSERT INTO `records_answers` VALUES (5,366),(9,366),(13,366),(17,366),(21,366),(25,366),(1,367),(29,367),(2,375),(6,375),(14,375),(18,375),(22,375),(26,375),(30,375),(2,376),(6,376),(10,376),(14,376),(18,376),(22,376),(26,376),(30,376),(2,377),(6,377),(10,377),(14,377),(18,377),(22,377),(26,377),(30,377),(2,394),(6,394),(10,394),(14,394),(18,394),(22,394),(26,394),(30,394);
 /*!40000 ALTER TABLE `records_answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -670,4 +669,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-10 16:48:27
+-- Dump completed on 2024-05-11 23:42:13

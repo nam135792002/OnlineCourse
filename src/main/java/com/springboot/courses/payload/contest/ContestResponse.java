@@ -28,10 +28,11 @@ public class ContestResponse {
 
     private boolean enabled;
 
-    private int times;
-
     @JsonProperty("number_question")
     private int numberQuestion;
+
+    @JsonProperty("number_of_joined")
+    private int numberOfJoined;
 
     private List<QuizResponse> listQuizzes = new ArrayList<>();
 }

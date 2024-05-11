@@ -12,20 +12,9 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecordResponse {
-
-    private Integer id;
+public class RecordReturnInRank {
 
     private String username;
-
-    @JsonProperty("user_id")
-    private Integer userId;
-
-    @JsonProperty("title_contest")
-    private String titleContest;
-
-    @JsonProperty("contest_id")
-    private Integer contestId;
 
     @JsonProperty("joined_at")
     private Date joinedAt;
@@ -34,9 +23,4 @@ public class RecordResponse {
 
     private int period;
 
-    @JsonProperty("total_quizzes")
-    private float totalQuizzes;
-
-    @JsonProperty("total_quiz_is_correct")
-    private float totalQuizIsCorrect;
 }

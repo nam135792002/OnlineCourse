@@ -32,7 +32,6 @@ public class ContestServiceImp implements ContestService {
     @Autowired private ContestRepository contestRepository;
     @Autowired private ModelMapper modelMapper;
     @Autowired private QuizRepository quizRepository;
-    @Autowired private UserRepository userRepository;
     @Autowired private RecordRepository recordRepository;
 
     @Override
@@ -88,6 +87,8 @@ public class ContestServiceImp implements ContestService {
                     ContestResponse response = modelMapper.map(contest, ContestResponse.class);
                     response.setNumberQuestion(contest.getListQuizzes().size());
                     response.setListQuizzes(null);
+                    int numberOfJoined = recordRepository.countAllByContest(contest);
+                    response.setNumberOfJoined(numberOfJoined);
                     return response;
         }).toList();
     }

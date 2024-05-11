@@ -28,8 +28,6 @@ public class ContestReturnInTest {
 
     private boolean enabled;
 
-    private int times;
-
     @JsonProperty("number_question")
     private int numberQuestion;
 

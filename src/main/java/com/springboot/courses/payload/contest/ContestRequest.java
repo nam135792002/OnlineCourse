@@ -33,9 +33,6 @@ public class ContestRequest {
 
     private boolean enabled;
 
-    @Min(value = 1, message = "Minimal times is one")
-    private int times;
-
     @NotNull(message = "List quiz can not be null")
     @Valid
     @JsonProperty("quiz_list")

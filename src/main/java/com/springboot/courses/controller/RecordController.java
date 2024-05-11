@@ -40,4 +40,9 @@ public class RecordController {
         }
         return ResponseEntity.ok(listRecords);
     }
+
+    @GetMapping("/review/{id}")
+    public ResponseEntity<?> review(@PathVariable(value = "id") Integer recordId){
+        return ResponseEntity.ok(recordService.review(recordId));
+    }
 }

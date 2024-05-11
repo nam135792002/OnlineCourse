@@ -3,6 +3,7 @@ package com.springboot.courses.controller;
 import com.springboot.courses.payload.contest.ContestRequest;
 import com.springboot.courses.payload.contest.ContestResponse;
 import com.springboot.courses.service.ContestService;
+import com.springboot.courses.service.RecordService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ContestController {
 
     @Autowired private ContestService contestService;
+    @Autowired private RecordService recordService;
 
     @PostMapping("/create")
     public ResponseEntity<?> save(@RequestBody @Valid ContestRequest contestRequest){
@@ -66,5 +68,10 @@ public class ContestController {
     @GetMapping("/join/{contest_id}")
     public ResponseEntity<?> join(@PathVariable(value = "contest_id") Integer contestId){
         return ResponseEntity.ok(contestService.joinTest(contestId));
+    }
+
+    @GetMapping("/ranking/contest/{id}")
+    public ResponseEntity<?> rank(@PathVariable(value = "id") Integer contestId){
+        return ResponseEntity.ok(recordService.ranking(contestId));
     }
 }
