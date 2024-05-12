@@ -29,6 +29,6 @@ public class QuizReturnInRecord {
     @JsonProperty("is_correct_for_answer")
     private boolean isCorrectForAnswer;
 
-    @JsonProperty("list_answers")
+    @JsonProperty("answer_list")
     private List<AnswerReturnInRecord> answerList = new ArrayList<>();
 }
