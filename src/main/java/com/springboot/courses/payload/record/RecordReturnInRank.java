@@ -16,6 +16,9 @@ public class RecordReturnInRank {
 
     private String username;
 
+    @JsonProperty("avatar_user")
+    private String avatarUser;
+
     @JsonProperty("joined_at")
     private Date joinedAt;
 

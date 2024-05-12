@@ -2,6 +2,7 @@ package com.springboot.courses.controller;
 
 import com.springboot.courses.payload.contest.ContestRequest;
 import com.springboot.courses.payload.contest.ContestResponse;
+import com.springboot.courses.payload.record.RecordReturnInRank;
 import com.springboot.courses.service.ContestService;
 import com.springboot.courses.service.RecordService;
 import jakarta.validation.Valid;
@@ -72,6 +73,15 @@ public class ContestController {
 
     @GetMapping("/ranking/contest/{id}")
     public ResponseEntity<?> rank(@PathVariable(value = "id") Integer contestId){
-        return ResponseEntity.ok(recordService.ranking(contestId));
+        List<RecordReturnInRank> listRanks = recordService.ranking(contestId);
+        if(listRanks.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(listRanks);
+    }
+
+    @DeleteMapping("/ranking/reset/{id}")
+    public ResponseEntity<?> resetRanking(@PathVariable(value = "id") Integer contestId){
+        return ResponseEntity.ok(contestService.resetRanking(contestId));
     }
 }

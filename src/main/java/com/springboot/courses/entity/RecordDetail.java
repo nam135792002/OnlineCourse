@@ -29,7 +29,7 @@ public class RecordDetail {
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "records_answers",
                 joinColumns = @JoinColumn(name = "record_detail_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "answer_id", referencedColumnName = "id"))

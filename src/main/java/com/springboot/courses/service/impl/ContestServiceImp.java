@@ -174,6 +174,15 @@ public class ContestServiceImp implements ContestService {
         return responseContest;
     }
 
+    @Override
+    public String resetRanking(Integer contestId) {
+        Contest contestInDB = contestRepository.findById(contestId)
+                .orElseThrow(() -> new ResourceNotFoundException("Contest", "id", contestId));
+
+        recordRepository.deleteAllByContest(contestInDB);
+        return "SUCCESS";
+    }
+
     private List<QuizReturnLearningPage> convertToQuizLearningPage(List<Quiz> quizzes) {
         List<QuizReturnLearningPage> listQuizzes = new ArrayList<>();
         int i = 0;

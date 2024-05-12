@@ -39,6 +39,9 @@ public class Record {
 
     private int period;
 
+    @Column(nullable = false, name = "total_answer_correct")
+    private float totalAnswerCorrect;
+
     @OneToMany(mappedBy = "record", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecordDetail> listRecordDetails = new ArrayList<>();
 

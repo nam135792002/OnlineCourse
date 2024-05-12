@@ -110,12 +110,11 @@ public class RecordServiceImpl implements RecordService {
         grade = (float) (Math.round(grade * 100.0) / 100.0);
 
         record.setGrade(grade);
-
+        record.setTotalAnswerCorrect(correctTotalQuizzes);
 
         Record savedRecord = recordRepository.save(record);
         RecordResponse response =  convertToResponse(savedRecord);
         response.setTotalQuizzes(totalQuizzes);
-        response.setTotalQuizIsCorrect(correctTotalQuizzes);
         return response;
     }
 
@@ -126,6 +125,7 @@ public class RecordServiceImpl implements RecordService {
         recordResponse.setContestId(record.getContest().getId());
         recordResponse.setTitleContest(record.getContest().getTitle());
         recordResponse.setTotalQuizzes(record.getContest().getListQuizzes().size());
+        recordResponse.setTotalQuizIsCorrect(record.getTotalAnswerCorrect());
 
         return recordResponse;
     }
@@ -274,6 +274,7 @@ public class RecordServiceImpl implements RecordService {
     private RecordReturnInRank convertToRank(Record record){
         RecordReturnInRank rank = modelMapper.map(record, RecordReturnInRank.class);
         rank.setUsername(record.getUser().getUsername());
+        rank.setAvatarUser(record.getUser().getPhoto());
 
         return rank;
     }
