@@ -136,6 +136,7 @@ public class ReviewServiceImpl implements ReviewService {
         response.setUsername(savedReview.getUser().getUsername());
         response.setPhotoUser(savedReview.getUser().getPhoto());
         response.setCourseId(savedReview.getCourses().getId());
+        response.setTitleCourse(savedReview.getCourses().getTitle());
 
         return response;
     }

@@ -31,4 +31,7 @@ public class ReviewResponse {
 
     @JsonProperty("course_id")
     private Integer courseId;
+
+    @JsonProperty("title_course")
+    private String titleCourse;
 }
