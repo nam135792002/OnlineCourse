@@ -25,6 +25,7 @@ public class Utils {
     public static String removeVietnameseAccents(String input) {
         String result = input;
 
+        // Remove Vietnamese accents
         result = result.replaceAll("[àáạảãâầấậẩẫăằắặẳẵ]", "a");
         result = result.replaceAll("[èéẹẻẽêềếệểễ]", "e");
         result = result.replaceAll("[ìíịỉĩ]", "i");
@@ -33,21 +34,16 @@ public class Utils {
         result = result.replaceAll("[ỳýỵỷỹ]", "y");
         result = result.replaceAll("đ", "d");
 
-        String slug = result.trim().toLowerCase();
+        // Replace non-alphanumeric characters with empty string
+        result = result.replaceAll("[^a-zA-Z0-9\\s]", "");
 
+        // Trim and convert spaces to dashes
+        String slug = result.trim().toLowerCase();
         slug = slug.replaceAll("\\s+", "-");
 
         return slug;
     }
 
-    public static String getEmailOfAuthenticatedCustomer(HttpServletRequest request){
-        Object principal = request.getUserPrincipal();
-
-        if(principal == null)
-            return null;
-        else
-            return request.getUserPrincipal().getName();
-    }
 
     public static void sendEmail(String url, String subject, String content, User user){
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

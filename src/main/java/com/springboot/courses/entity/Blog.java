@@ -24,6 +24,9 @@ public class Blog {
     @Column(nullable = false, unique = true, length = 70)
     private String title;
 
+    @Column(nullable = false, unique = true)
+    private String slug;
+
     @Column(nullable = false)
     private String thumbnail;
 

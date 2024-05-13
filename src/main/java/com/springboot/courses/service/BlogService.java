@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BlogService {
     BlogResponse save(BlogRequest blogRequest, MultipartFile img);
-    BlogResponse get(Integer blogId);
+    BlogResponse get(String slug);
     BlogResponse update(Integer blogId, BlogRequest blogRequest, MultipartFile img);
     String delete(Integer blogId);
     List<BlogResponse> getAll();

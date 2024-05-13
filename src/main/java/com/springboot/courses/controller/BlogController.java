@@ -24,9 +24,9 @@ public class BlogController {
         return new ResponseEntity<>(blogService.save(blogRequest, img), HttpStatus.CREATED);
     }
 
-    @GetMapping("/get/{id}")
-    public  ResponseEntity<?> get(@PathVariable(value = "id") Integer blogId){
-        return ResponseEntity.ok(blogService.get(blogId));
+    @GetMapping("/get/{slug}")
+    public  ResponseEntity<?> get(@PathVariable(value = "slug") String slug){
+        return ResponseEntity.ok(blogService.get(slug));
     }
 
     @PutMapping("/update/{id}")

@@ -2,6 +2,7 @@ package com.springboot.courses.service.impl;
 
 import com.springboot.courses.entity.Blog;
 import com.springboot.courses.entity.User;
+import com.springboot.courses.exception.BlogApiException;
 import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.blog.BlogRequest;
 import com.springboot.courses.payload.blog.BlogResponse;
@@ -12,6 +13,7 @@ import com.springboot.courses.utils.UploadFile;
 import com.springboot.courses.utils.Utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +21,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -32,10 +35,20 @@ public class BlogServiceImpl implements BlogService {
     public BlogResponse save(BlogRequest blogRequest, MultipartFile img) {
         User user = userRepository.findById(blogRequest.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", blogRequest.getUserId()));
+
+        if(blogRepository.existsBlogByTitle(blogRequest.getTitle())){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên blog này đã tồn tại!");
+        }
         
         Blog blog = modelMapper.map(blogRequest, Blog.class);
         blog.setUser(user);
         blog.setCreatedAt(new Date());
+
+        String slug = Utils.removeVietnameseAccents(blogRequest.getTitle());
+        if(blogRepository.existsBlogBySlug(slug)){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Vui lòng thay đổi tên blog: Tên Slug bị trùng");
+        }
+        blog.setSlug(slug);
         
         String thumbnail = uploadFile.uploadFileOnCloudinary(img);
         blog.setThumbnail(thumbnail);
@@ -46,9 +59,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public BlogResponse get(Integer blogId) {
-        Blog blog = blogRepository.findById(blogId)
-                .orElseThrow(() -> new ResourceNotFoundException("Blog", "id", blogId));
+    public BlogResponse get(String slug) {
+        Blog blog = blogRepository.findBlogBySlug(slug);
+        if(blog == null){
+            throw new ResourceNotFoundException("Blog", "slug", slug);
+        }
 
         return convertToResponse(blog);
     }
@@ -57,6 +72,19 @@ public class BlogServiceImpl implements BlogService {
     public BlogResponse update(Integer blogId, BlogRequest blogRequest, MultipartFile img) {
         Blog blogInDB = blogRepository.findById(blogId)
                 .orElseThrow(() -> new ResourceNotFoundException("Blog", "id", blogId));
+
+        Blog checkBlogDuplicate = blogRepository.findBlogByTitle(blogRequest.getTitle());
+        if(checkBlogDuplicate != null){
+            if(!(Objects.equals(blogInDB.getId(), checkBlogDuplicate.getId()))){
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên blog đã tồn tại trước đây");
+            }
+        }
+
+        String slug = Utils.removeVietnameseAccents(blogRequest.getTitle());
+        if(blogRepository.existsBlogBySlug(slug)){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Vui lòng thay đổi tên blog: Tên Slug bị trùng");
+        }
+        blogInDB.setSlug(slug);
 
         if(img != null){
             uploadFile.deleteImageInCloudinary(blogInDB.getThumbnail());
