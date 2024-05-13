@@ -151,6 +151,7 @@ public class BlogServiceImpl implements BlogService {
         response.setCreatedAtFormat(Utils.formatDuration(Duration.between(savedBlog.getCreatedAt().toInstant(), now)));
         response.setUsername(savedBlog.getUser().getUsername());
         response.setAvatarUser(savedBlog.getUser().getPhoto());
+        response.setCreatedAt(savedBlog.getCreatedAt().toString());
 
         return response;
     }

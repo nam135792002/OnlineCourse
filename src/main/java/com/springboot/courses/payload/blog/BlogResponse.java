@@ -26,6 +26,8 @@ public class BlogResponse {
 
     @JsonProperty("created_at_format")
     private String createdAtFormat;
+    @JsonProperty("created_at")
+    private String createdAt;
 
     private int view;
 
