@@ -13,6 +13,7 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     List<Blog> search(String keyword);
     boolean existsBlogByTitle(String title);
     Blog findBlogByTitle(String title);
-    boolean existsBlogBySlug(String slug);
     Blog findBlogBySlug(String slug);
+    Blog findBlogByTitleOrSlug(String title, String slug);
+    boolean existsBlogBySlug(String slug);
 }

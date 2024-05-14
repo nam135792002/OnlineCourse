@@ -25,6 +25,7 @@ public class BlogRequest {
     @NotEmpty(message = "Content can not be empty")
     private String content;
 
+    @NotNull(message = "User ID can not be null")
     @JsonProperty("user_id")
     private Integer userId;
 

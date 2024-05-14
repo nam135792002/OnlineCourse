@@ -73,17 +73,19 @@ public class BlogServiceImpl implements BlogService {
         Blog blogInDB = blogRepository.findById(blogId)
                 .orElseThrow(() -> new ResourceNotFoundException("Blog", "id", blogId));
 
-        Blog checkBlogDuplicate = blogRepository.findBlogByTitle(blogRequest.getTitle());
-        if(checkBlogDuplicate != null){
-            if(!(Objects.equals(blogInDB.getId(), checkBlogDuplicate.getId()))){
-                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên blog đã tồn tại trước đây");
-            }
+        if(!Objects.equals(blogRequest.getId(), blogInDB.getUser().getId())){
+            throw new BlogApiException(HttpStatus.FORBIDDEN, "Bạn không phải tác giả bài viết nên không thể truy cập tính năng này!");
         }
 
         String slug = Utils.removeVietnameseAccents(blogRequest.getTitle());
-        if(blogRepository.existsBlogBySlug(slug)){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Vui lòng thay đổi tên blog: Tên Slug bị trùng");
+
+        Blog checkBlogDuplicate = blogRepository.findBlogByTitleOrSlug(blogRequest.getTitle(), slug);
+        if(checkBlogDuplicate != null){
+            if(!(Objects.equals(blogInDB.getId(), checkBlogDuplicate.getId()))){
+                throw new BlogApiException(HttpStatus.BAD_REQUEST, "Tên blog/slug đã tồn tại trước đây");
+            }
         }
+
         blogInDB.setSlug(slug);
 
         if(img != null){

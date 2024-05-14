@@ -34,4 +34,10 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Courses courses;
+
+    public Order(Integer id, Date createdTime, int totalPrice) {
+        this.id = id;
+        this.createdTime = createdTime;
+        this.totalPrice = totalPrice;
+    }
 }

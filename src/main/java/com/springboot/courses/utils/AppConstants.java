@@ -34,7 +34,7 @@ public class AppConstants {
              12.0pt;font-family:&quot;Times New Roman&quot;,serif;mso-fareast-font-family:&quot;Times New Roman&quot;"><o:p></o:p></span></div>
             \s
              <div><b><span style="font-size: 12pt; font-family: &quot;Courier New&quot;; color: black; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">This email is to confirm that you have
-             successfully purchase &nbsp. Please review the
+             successfully purchase. Please review the
              following order summary.</span></b><span style="font-size: 12pt;"><o:p></o:p></span></div>
             \s
              <div><span style="font-size: 12pt;">&nbsp;</span></div>
@@ -67,7 +67,7 @@ public class AppConstants {
             \s
              <div><span style="font-size: 12pt; font-family: &quot;Courier New&quot;; color: black; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">Thanks for purchasing products at Tech Courses.</span><span style="font-size: 12pt;"><o:p></o:p></span></div>
             \s
-             <div><span style="font-size: 12pt; font-family: &quot;Courier New&quot;; color: black; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">The TechCourse Team.</span><span style="font-size: 12pt;"><o:p></o:p></span></div>
+             <div><span style="font-size: 12pt; font-family: &quot;Courier New&quot;; color: black; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">The Tech Course Team.</span><span style="font-size: 12pt;"><o:p></o:p></span></div>
             \s
              <div><span style="font-size:15.0pt;
              font-family:&quot;Times New Roman&quot;,serif">&nbsp;</span></div></div></div>""";
