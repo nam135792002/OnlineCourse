@@ -19,12 +19,19 @@ public class ReportItem {
     @JsonProperty("total_income")
     private int totalIncome;
 
+    @JsonProperty("order_count")
+    private int orderCount;
+
     public ReportItem(String identifier) {
         this.identifier = identifier;
     }
 
     public void addIncome(int income){
         this.totalIncome += income;
+    }
+
+    public void addOrder(){
+        ++this.orderCount;
     }
 
     @Override

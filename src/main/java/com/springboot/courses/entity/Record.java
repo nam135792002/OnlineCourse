@@ -48,4 +48,9 @@ public class Record {
     public void add(Quiz quiz, Set<Answer> answer, String contentPerforate){
         this.listRecordDetails.add(new RecordDetail(this, quiz, answer, contentPerforate));
     }
+
+    public Record(String title, float grade){
+        this.contest = new Contest(title);
+        this.grade = grade;
+    }
 }

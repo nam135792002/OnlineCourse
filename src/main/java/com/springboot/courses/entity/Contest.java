@@ -50,4 +50,8 @@ public class Contest {
             this.listQuizzes.addAll(quizList);
         }
     }
+
+    public Contest(String title) {
+        this.title = title;
+    }
 }

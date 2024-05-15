@@ -12,15 +12,15 @@ import java.util.List;
 public abstract class AbstractReportService {
     protected DateFormat dateFormat;
 
-    public List<ReportItem> getReportDateLast7Days(ReportType reportType){
+    public List<?> getReportDateLast7Days(ReportType reportType){
         return getReportDateLastXDays(7, reportType);
     }
 
-    public List<ReportItem> getReportDateLast28Days(ReportType reportType){
+    public List<?> getReportDateLast28Days(ReportType reportType){
         return getReportDateLastXDays(28, reportType);
     }
 
-    protected List<ReportItem> getReportDateLastXDays(int days, ReportType reportType) {
+    protected List<?> getReportDateLastXDays(int days, ReportType reportType) {
         Date endTime = new Date();
         Calendar calendar = Calendar.getInstance();
 
@@ -31,15 +31,15 @@ public abstract class AbstractReportService {
         return getReportDateByDateRangeInternal(startTime, endTime, reportType);
     }
 
-    public List<ReportItem> getReportDateLast6Months(ReportType reportType){
+    public List<?> getReportDateLast6Months(ReportType reportType){
         return getReportDateLastXMonths(6, reportType);
     }
 
-    public List<ReportItem> getReportDateLastYear(ReportType reportType){
+    public List<?> getReportDateLastYear(ReportType reportType){
         return getReportDateLastXMonths(12, reportType);
     }
 
-    protected List<ReportItem> getReportDateLastXMonths(int months, ReportType reportType) {
+    protected List<?> getReportDateLastXMonths(int months, ReportType reportType) {
         Date endTime = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -(months-1));
@@ -49,6 +49,6 @@ public abstract class AbstractReportService {
         return getReportDateByDateRangeInternal(startTime, endTime ,reportType);
     }
 
-    protected abstract List<ReportItem> getReportDateByDateRangeInternal(Date startTime, Date endTime, ReportType reportType);
+    protected abstract List<?> getReportDateByDateRangeInternal(Date startTime, Date endTime, ReportType reportType);
 
 }

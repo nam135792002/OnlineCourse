@@ -40,4 +40,15 @@ public class Order {
         this.createdTime = createdTime;
         this.totalPrice = totalPrice;
     }
+
+    public Order(String categoryName, int total){
+        this.courses = new Courses();
+        this.courses.setCategory(new Category(categoryName));
+        this.totalPrice = total;
+    }
+
+    public Order(int total, String productName){
+        this.courses = new Courses(productName);
+        this.totalPrice = total;
+    }
 }

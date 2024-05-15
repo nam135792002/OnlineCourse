@@ -97,4 +97,8 @@ public class Courses {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+    public Courses(String title) {
+        this.title = title;
+    }
 }
