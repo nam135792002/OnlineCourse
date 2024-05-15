@@ -15,4 +15,5 @@ public interface BlogService {
     List<BlogResponse> getAllByUser(Integer userId);
     List<BlogResponse> search(String keyword);
     String view(Integer blogId);
+    String checkAuthorOfBlog(Integer blogId, Integer userId);
 }

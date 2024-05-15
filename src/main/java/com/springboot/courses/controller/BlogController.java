@@ -74,4 +74,10 @@ public class BlogController {
     public ResponseEntity<?> view(@PathVariable(value = "id") Integer blogId){
         return ResponseEntity.ok(blogService.view(blogId));
     }
+
+    @GetMapping("/check-author")
+    public ResponseEntity<?> checkAuthor(@RequestParam(value = "user") Integer userId,
+                                         @RequestParam(value = "blog") Integer blogId){
+        return ResponseEntity.ok(blogService.checkAuthorOfBlog(blogId, userId));
+    }
 }

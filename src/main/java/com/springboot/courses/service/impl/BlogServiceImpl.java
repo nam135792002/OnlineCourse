@@ -73,7 +73,7 @@ public class BlogServiceImpl implements BlogService {
         Blog blogInDB = blogRepository.findById(blogId)
                 .orElseThrow(() -> new ResourceNotFoundException("Blog", "id", blogId));
 
-        if(!Objects.equals(blogRequest.getId(), blogInDB.getUser().getId())){
+        if(!Objects.equals(blogRequest.getUserId(), blogInDB.getUser().getId())){
             throw new BlogApiException(HttpStatus.FORBIDDEN, "Bạn không phải tác giả bài viết nên không thể truy cập tính năng này!");
         }
 
@@ -143,6 +143,18 @@ public class BlogServiceImpl implements BlogService {
         blogInDB.setView(++view);
 
         blogRepository.save(blogInDB);
+
+        return "SUCCESS";
+    }
+
+    @Override
+    public String checkAuthorOfBlog(Integer blogId, Integer userId) {
+        Blog blogInDB = blogRepository.findById(blogId)
+                .orElseThrow(() -> new ResourceNotFoundException("Blog", "id", blogId));
+
+        if(!Objects.equals(userId, blogInDB.getUser().getId())){
+            throw new BlogApiException(HttpStatus.FORBIDDEN, "Bạn không phải tác giả bài viết nên không thể truy cập tính năng này!");
+        }
 
         return "SUCCESS";
     }

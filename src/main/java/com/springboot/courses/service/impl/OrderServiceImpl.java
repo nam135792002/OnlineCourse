@@ -49,11 +49,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(user);
 
-        Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, -6);
-
-        order.setCreatedTime(calendar.getTime());
+        order.setCreatedTime(new Date());
         order.setCourses(courses);
         order.setTotalPrice(orderRequest.getTotalPrice());
 
