@@ -41,10 +41,8 @@ public class RecordServiceImpl implements RecordService {
         record.setUser(user);
         record.setContest(contest);
         record.setPeriod(recordRequest.getPeriod());
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, -6);
 
-        record.setJoinedAt(calendar.getTime());
+        record.setJoinedAt(new Date());
 
         float totalQuizzes = contest.getListQuizzes().size();
         float correctTotalQuizzes = 0;
