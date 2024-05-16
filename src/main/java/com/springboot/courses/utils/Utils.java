@@ -5,6 +5,7 @@ import com.springboot.courses.entity.Quiz;
 import com.springboot.courses.entity.QuizType;
 import com.springboot.courses.entity.User;
 import com.springboot.courses.exception.BlogApiException;
+import com.springboot.courses.payload.feedback.SendEmail;
 import com.springboot.courses.payload.quiz.AnswerDto;
 import com.springboot.courses.payload.quiz.QuizRequest;
 import com.springboot.courses.payload.quiz.QuizReturnLearningPage;
@@ -116,6 +117,43 @@ public class Utils {
         content = content.replace("[[orderTime]]",order.getCreatedTime().toString());
         content = content.replace("[[courseName]]",order.getCourses().getTitle());
         content = content.replace("[[total]]",Integer.toString(order.getTotalPrice()));
+
+        try {
+            helper.setText(content,true);
+        } catch (MessagingException e) {
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Send email failed!");
+        }
+        mailSender.send(message);
+    }
+
+    public static void sendEmailForFeedback(SendEmail sendEmail){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("tech.courses.895@gmail.com");
+        mailSender.setPassword("giug qtcr yjag occm");
+        mailSender.setDefaultEncoding("utf-8");
+
+        Properties properties = new Properties();
+        properties.setProperty("mail.smtp.auth","true");
+        properties.setProperty("mail.smtp.starttls.enable","true");
+        mailSender.setJavaMailProperties(properties);
+
+        String toAddress = sendEmail.getToEmail();
+        String subject = sendEmail.getSubject();
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom("tech.courses.895@gmail.com","Tech Courses");
+            helper.setTo(toAddress);
+            helper.setSubject(subject);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Send email failed!");
+        }
+
+        String content = sendEmail.getContent();
 
         try {
             helper.setText(content,true);

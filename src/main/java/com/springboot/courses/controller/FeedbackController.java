@@ -1,6 +1,7 @@
 package com.springboot.courses.controller;
 
 import com.springboot.courses.payload.feedback.FeedbackRequest;
+import com.springboot.courses.payload.feedback.SendEmail;
 import com.springboot.courses.service.FeedbackService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,10 @@ public class FeedbackController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Integer feedbackId){
         return ResponseEntity.ok(feedbackService.delete(feedbackId));
+    }
+
+    @PutMapping("/send-email")
+    public ResponseEntity<?> sendEmail(@RequestBody @Valid SendEmail sendEmail){
+        return ResponseEntity.ok(feedbackService.sendMail(sendEmail));
     }
 }

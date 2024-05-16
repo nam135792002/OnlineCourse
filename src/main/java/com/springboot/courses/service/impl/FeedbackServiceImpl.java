@@ -5,8 +5,10 @@ import com.springboot.courses.entity.FeedbackStatus;
 import com.springboot.courses.exception.ResourceNotFoundException;
 import com.springboot.courses.payload.feedback.FeedbackRequest;
 import com.springboot.courses.payload.feedback.FeedbackResponse;
+import com.springboot.courses.payload.feedback.SendEmail;
 import com.springboot.courses.repository.FeedbackRepository;
 import com.springboot.courses.service.FeedbackService;
+import com.springboot.courses.utils.Utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +50,17 @@ public class FeedbackServiceImpl implements FeedbackService {
                 .orElseThrow(() -> new ResourceNotFoundException("Feedback", "id", feedbackId));
         feedbackRepository.delete(feedbackInDB);
         return "SUCCESS";
+    }
+
+    @Override
+    public String sendMail(SendEmail sendEmail) {
+        Utils.sendEmailForFeedback(sendEmail);
+
+        Feedback feedbackInDB = feedbackRepository.findById(sendEmail.getFeedbackId())
+                .orElseThrow(() -> new ResourceNotFoundException("Feedback", "id", sendEmail.getFeedbackId()));
+
+        feedbackInDB.setStatus(FeedbackStatus.SENT);
+        feedbackRepository.save(feedbackInDB);
+        return "Send email successfully!";
     }
 }
