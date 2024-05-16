@@ -31,4 +31,6 @@ public class Feedback {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    private FeedbackStatus status;
 }

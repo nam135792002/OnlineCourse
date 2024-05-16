@@ -24,4 +24,6 @@ public class FeedbackResponse {
     private String phoneNumber;
 
     private String content;
+
+    private String status;
 }
