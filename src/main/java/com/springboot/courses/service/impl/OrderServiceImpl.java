@@ -105,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
                 trackCourse.setLesson(lesson);
                 trackCourse.setUser(user);
                 trackCourse.setCompleted(false);
-                if (chapter.getOrders() == 1 && lesson.getOrders() == 1) {
+                if (chapter.getOrders() == 0 && lesson.getOrders() == 1) {
                     trackCourse.setUnlock(true);
                     trackCourse.setCurrent(true);
                 }
