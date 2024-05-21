@@ -51,7 +51,9 @@ public class SecurityConfig {
         });
         httpSecurity.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        authorize.anyRequest().permitAll()
+                        authorize.requestMatchers("/api/auth/handle/reset-password", "/api/auth/reset-password").hasAuthority("ROLE_CUSTOMER")
+                                .requestMatchers("/api/auth/**").permitAll()
+
                 ).exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 ).sessionManagement(session -> session
