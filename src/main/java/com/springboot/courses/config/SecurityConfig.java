@@ -51,14 +51,29 @@ public class SecurityConfig {
         });
         httpSecurity.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/api/auth/handle/reset-password", "/api/auth/reset-password").hasAuthority("ROLE_CUSTOMER")
-                                .requestMatchers("/api/auth/**").permitAll()
+                        authorize.requestMatchers("/api/categories/create","/api/categories/update/**", "/api/categories/delete/**",
+                                        "/api/courses/*/chapters/**", "/api/contest/create", "/api/contest/delete/**", "/api/contest/switch-enabled",
+                                        "/api/contest/get/**", "/api/contest/update/**", "/api/contest/ranking/reset/**",
+                                        "/api/courses/create", "/api/courses/get/**", "/api/courses/update/**", "/api/courses/delete/**", "/api/courses/list-all",
+                                        "/api/courses/switch-enabled", "/api/courses/switch-published", "/api/courses/switch-finished", "/api/lessons/**",
+                                        "/api/feedback/get/**", "/api/feedback/list-all", "/api/feedback/delete/**", "/api/feedback/send-email",
+                                        "/api/orders/list-all", "/api/orders/delete/**", "/api/quiz/delete/**", "/api/report/**", "/api/reviews/get-all",
+                                        "/api/users/create", "/api/users/list-all", "/api/users/get/**", "/api/users/update/**", "/api/users/delete/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/api/blog/get-all/user/**", "/api/feedback/send", "/api/orders/get-all/user/**","/api/blog/update/**", "/api/blog/save", "/api/blog/delete/**", "/api/certificate/get/**",
+                                        "/api/contest/join/**", "/api/learning/**", "/api/notes/**", "/api/orders/create", "/api/payment/**", "/api/qa/**",
+                                        "/api/quiz/**", "/api/record/**", "/api/reviews/create", "/api/reviews/update/**", "/api/reviews/delete/**", "/api/reviews/check-reviewed/**",
+                                        "/api/track-course/**", "/api/users/**").authenticated()
+                                .requestMatchers("/api/auth/**","/api/blog/**", "/api/categories/**", "/api/contest/**", "/api/courses/**", "/api/reviews/**").permitAll()
 
                 ).exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 ).sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                )
+                .oauth2Login(oath2->{
+
+                })
+                ;
 
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
