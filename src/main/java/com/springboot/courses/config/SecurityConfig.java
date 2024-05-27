@@ -25,6 +25,7 @@ public class SecurityConfig {
 
     @Autowired private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired private JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
 
     @Bean
@@ -71,7 +72,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .oauth2Login(oath2->{
-
+                    oath2.successHandler(oAuth2LoginSuccessHandler);
                 })
                 ;
 
