@@ -2,6 +2,8 @@ package com.springboot.courses.config;
 
 import com.springboot.courses.security.JwtAuthenticationEntryPoint;
 import com.springboot.courses.security.JwtAuthenticationFilter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,12 @@ import java.util.Arrays;
 
 @Configuration
 @EnableMethodSecurity
+@SecurityScheme(
+        name = "Bear Authentication",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 
 public class SecurityConfig {
 
@@ -64,7 +72,9 @@ public class SecurityConfig {
                                         "/api/contest/join/**", "/api/learning/**", "/api/notes/**", "/api/orders/create", "/api/payment/**", "/api/qa/**",
                                         "/api/quiz/**", "/api/record/**", "/api/reviews/create", "/api/reviews/update/**", "/api/reviews/delete/**", "/api/reviews/check-reviewed/**",
                                         "/api/track-course/**", "/api/users/**").authenticated()
-                                .requestMatchers("/api/auth/**","/api/blog/**", "/api/categories/**", "/api/contest/**", "/api/courses/**", "/api/reviews/**").permitAll()
+                                .requestMatchers("/api/auth/**","/api/blog/**", "/api/categories/**", "/api/contest/**", "/api/courses/**", "/api/reviews/**",
+                                        "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+//                        authorize.anyRequest().permitAll()
 
                 ).exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
