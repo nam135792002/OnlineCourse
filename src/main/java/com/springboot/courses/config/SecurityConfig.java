@@ -68,14 +68,12 @@ public class SecurityConfig {
                                         "/api/feedback/get/**", "/api/feedback/list-all", "/api/feedback/delete/**", "/api/feedback/send-email",
                                         "/api/orders/list-all", "/api/orders/delete/**", "/api/quiz/delete/**", "/api/report/**", "/api/reviews/get-all",
                                         "/api/users/create", "/api/users/list-all", "/api/users/get/**", "/api/users/update/**", "/api/users/delete/**").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/api/blog/get-all/user/**", "/api/feedback/send", "/api/orders/get-all/user/**","/api/blog/update/**", "/api/blog/save", "/api/blog/delete/**", "/api/certificate/get/**",
+                                .requestMatchers("/api/blog/get-all/user/**", "/api/orders/get-all/user/**","/api/blog/update/**", "/api/blog/save", "/api/blog/delete/**", "/api/certificate/get/**",
                                         "/api/contest/join/**", "/api/learning/**", "/api/notes/**", "/api/orders/create", "/api/payment/**", "/api/qa/**",
                                         "/api/quiz/**", "/api/record/**", "/api/reviews/create", "/api/reviews/update/**", "/api/reviews/delete/**", "/api/reviews/check-reviewed/**",
                                         "/api/track-course/**", "/api/users/**").authenticated()
-                                .requestMatchers("/api/auth/**","/api/blog/**", "/api/categories/**", "/api/contest/**", "/api/courses/**", "/api/reviews/**",
+                                .requestMatchers("/api/auth/**","/api/blog/**", "/api/categories/**", "/api/contest/**", "/api/courses/**", "/api/reviews/**", "/api/feedback/send",
                                         "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-//                        authorize.anyRequest().permitAll()
-
                 ).exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 ).sessionManagement(session -> session
