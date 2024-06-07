@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/onlinecourse_db
+    username: root
+    password: Nam@135792002
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    show-sql: false
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23liTJ9iurdbP659Xi
+            client-secret: ef85b24530e8c40fdccd101ba6b578f9fada1544
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+app:
+  jwt-secret: 1e402ebbb616551c23af31108b49364249c62d4712d31cbab8309b6d8fef253c
+app-jwt-expiration-milliseconds: 604800000
