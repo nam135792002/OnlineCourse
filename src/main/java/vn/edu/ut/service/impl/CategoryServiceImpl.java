@@ -1,74 +1,55 @@
 package vn.edu.ut.service.impl;
 
-import vn.edu.ut.entity.Category;
-import vn.edu.ut.exception.AppException;
-import vn.edu.ut.exception.ResourceNotFoundException;
-import vn.edu.ut.payload.CategoryDto;
-import vn.edu.ut.payload.ClassResponse;
-import vn.edu.ut.repository.CategoryRepository;
-import vn.edu.ut.service.CategoryService;
-import vn.edu.ut.utils.Utils;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import vn.edu.ut.entity.Category;
+import vn.edu.ut.enums.ErrorCode;
+import vn.edu.ut.exception.AppApiException;
+import vn.edu.ut.exception.ResourceNotFoundException;
+import vn.edu.ut.payload.CategoryDto;
+import vn.edu.ut.payload.ClassResponse;
+import vn.edu.ut.repository.CategoryRepository;
+import vn.edu.ut.service.ICategoryService;
+import vn.edu.ut.utils.Utils;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
-
-    @Autowired private CategoryRepository categoryRepository;
-    @Autowired private ModelMapper modelMapper;
+@RequiredArgsConstructor
+public class CategoryServiceImpl implements ICategoryService {
+    private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public CategoryDto createCategory(CategoryDto categoryRequest) {
-
-        // check duplicate category name.
-        if(categoryRepository.existsCategoriesByName(categoryRequest.getName())){
-            throw new AppException(HttpStatus.BAD_REQUEST, "Tên danh mục khóa học đã từng tồn tại!");
-        }
-
-        // check duplicate category slug
-        if(categoryRepository.existsCategoriesBySlug(categoryRequest.getSlug())){
-            throw new AppException(HttpStatus.BAD_REQUEST, "Slug của danh mục khóa học đã từng tồn tại!");
-        }
-
+        checkNameAndSlugCategory(categoryRequest);
         Category category = modelMapper.map(categoryRequest, Category.class);
-
-        // code convert name to slug
-        String slug = Utils.removeVietnameseAccents(category.getName());
-
-        category.setSlug(slug);
-
-        Category savedCategory = categoryRepository.save(category);
-
-        return modelMapper.map(savedCategory, CategoryDto.class);
+        categoryRepository.save(category);
+        return modelMapper.map(category, CategoryDto.class);
     }
 
     @Override
     public ClassResponse getAll(int pageNo, int pageSize, String sortBy, String sortDir, String keyword) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
                 ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-
-        Page<Category> categories = null;
-        if(keyword != null && !keyword.isEmpty()){
+        Page<Category> categories;
+        if (StringUtils.isNotEmpty(keyword)) {
             categories = categoryRepository.search(keyword, pageable);
-        }else{
+        } else {
             categories = categoryRepository.findAll(pageable);
         }
-
         List<Category> listCategories = categories.getContent();
-
-        List<CategoryDto> content = listCategories.stream().map(category -> modelMapper.map(category, CategoryDto.class)).collect(Collectors.toList());
+        List<CategoryDto> content = listCategories.stream().map(category ->
+                modelMapper.map(category, CategoryDto.class)).collect(Collectors.toList());
 
         return ClassResponse.convertToClassResponse(categories, content);
     }
@@ -85,28 +66,32 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto update(Integer categoryId, CategoryDto categoryRequest) {
         Category categoryInDB = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
-
-        Category category = categoryRepository.findByNameOrSlug(categoryRequest.getName(), categoryRequest.getSlug());
-
-        if(category != null){
-            if(!Objects.equals(category.getId(), categoryInDB.getId())){
-                throw new AppException(HttpStatus.BAD_REQUEST, "Tên/Slug của danh mục khóa học đã từng tồn tại.");
-            }
-        }
-
-        String name = categoryRequest.getName();
-        categoryInDB.setName(name);
-        categoryInDB.setSlug(Utils.removeVietnameseAccents(name));
+        checkNameAndSlugCategory(categoryRequest);
+        categoryInDB.setName(categoryRequest.getName());
+        categoryInDB.setSlug(categoryRequest.getSlug());
         Category updatedCategory = categoryRepository.save(categoryInDB);
         return modelMapper.map(updatedCategory, CategoryDto.class);
     }
 
     @Override
-    public String delete(Integer categoryId) {
+    public void delete(Integer categoryId) {
         Category categoryInDB = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
 
         categoryRepository.delete(categoryInDB);
-        return "Xóa danh mục khóa học thành công";
+    }
+
+    private void checkNameAndSlugCategory(CategoryDto categoryRequest) {
+        String categoryName = categoryRequest.getName();
+        String slug = Utils.removeVietnameseAccents(categoryName);
+        Optional<Category> categoryCheckDuplicate = categoryRepository.findByNameOrSlug(categoryName, slug);
+
+        categoryCheckDuplicate.filter(c -> c.getName().equals(categoryName)).ifPresent(t -> {
+            throw new AppApiException(ErrorCode.CATEGORY_NAME_EXISTED);
+        });
+        categoryCheckDuplicate.filter(c -> c.getSlug().equals(slug)).ifPresent(t -> {
+            throw new AppApiException(ErrorCode.CATEGORY_SLUG_EXISTED);
+        });
+        categoryRequest.setSlug(slug);
     }
 }

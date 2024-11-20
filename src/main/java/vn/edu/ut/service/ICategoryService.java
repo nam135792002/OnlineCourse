@@ -3,7 +3,7 @@ package vn.edu.ut.service;
 import vn.edu.ut.payload.CategoryDto;
 import vn.edu.ut.payload.ClassResponse;
 
-public interface CategoryService {
+public interface ICategoryService {
     CategoryDto createCategory(CategoryDto categoryRequest);
 
     ClassResponse getAll(int pageNo, int pageSize, String sortBy, String sortDir, String keyword);
@@ -12,5 +12,5 @@ public interface CategoryService {
 
     CategoryDto update(Integer categoryId, CategoryDto categoryRequest);
 
-    String delete(Integer categoryId);
+    void delete(Integer categoryId);
 }

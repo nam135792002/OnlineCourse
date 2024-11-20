@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryDto {
-
     private Integer id;
 
     @NotEmpty(message = "Category name can not be empty")

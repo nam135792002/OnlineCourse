@@ -1,28 +1,28 @@
 package vn.edu.ut.controller;
 
-import vn.edu.ut.payload.CategoryDto;
-import vn.edu.ut.payload.ClassResponse;
-import vn.edu.ut.service.CategoryService;
-import vn.edu.ut.constant.AppConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.edu.ut.constant.AppConstants;
+import vn.edu.ut.payload.CategoryDto;
+import vn.edu.ut.payload.ClassResponse;
+import vn.edu.ut.service.ICategoryService;
 
 import java.net.URI;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/categories")
 @Tag(
         name = "CRUD REST APIs for Category Resource"
 )
 public class CategoryController {
-
-    @Autowired private CategoryService categoryService;
+    private final ICategoryService iCategoryService;
 
     @Operation(
             summary = "Create category REST API",
@@ -36,8 +36,8 @@ public class CategoryController {
             name = "Bear Authentication"
     )
     @PostMapping("/create")
-    public ResponseEntity<CategoryDto> add(@RequestBody @Valid CategoryDto categoryRequest){
-        CategoryDto savedCategory = categoryService.createCategory(categoryRequest);
+    public ResponseEntity<CategoryDto> add(@RequestBody @Valid CategoryDto categoryRequest) {
+        CategoryDto savedCategory = iCategoryService.createCategory(categoryRequest);
         URI uri = URI.create("/api/categories/" + savedCategory.getId());
 
         return ResponseEntity.created(uri).body(savedCategory);
@@ -58,14 +58,14 @@ public class CategoryController {
     )
     @GetMapping("/list-all")
     public ResponseEntity<ClassResponse> listAllCategories(
-        @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-        @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-        @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-        @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir,
-        @RequestParam(value = "keyword", required = false) String keyword
-    ){
-        ClassResponse classResponse = categoryService.getAll(pageNo, pageSize, sortBy, sortDir, keyword);
-        if(classResponse.getContent().isEmpty()){
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir,
+            @RequestParam(value = "keyword", required = false) String keyword
+    ) {
+        ClassResponse classResponse = iCategoryService.getAll(pageNo, pageSize, sortBy, sortDir, keyword);
+        if (classResponse.getContent().isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(classResponse);
@@ -84,8 +84,8 @@ public class CategoryController {
             description = "Http Status 404 NOT FOUND"
     )
     @GetMapping("/get/{id}")
-    public ResponseEntity<CategoryDto> get(@PathVariable(value = "id") Integer categoryId){
-        return ResponseEntity.ok(categoryService.get(categoryId));
+    public ResponseEntity<CategoryDto> get(@PathVariable(value = "id") Integer categoryId) {
+        return ResponseEntity.ok(iCategoryService.get(categoryId));
     }
 
     @Operation(
@@ -105,8 +105,8 @@ public class CategoryController {
     )
     @PutMapping("/update/{id}")
     public ResponseEntity<CategoryDto> updatedCategory(@PathVariable(value = "id") Integer categoryId,
-                                                       @RequestBody @Valid CategoryDto categoryRequest){
-        return ResponseEntity.ok(categoryService.update(categoryId, categoryRequest));
+                                                       @RequestBody @Valid CategoryDto categoryRequest) {
+        return ResponseEntity.ok(iCategoryService.update(categoryId, categoryRequest));
     }
 
     @Operation(
@@ -125,7 +125,8 @@ public class CategoryController {
             name = "Bear Authentication"
     )
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable(value = "id") Integer categoryId){
-        return ResponseEntity.ok(categoryService.delete(categoryId));
+    public ResponseEntity<Void> deleteCategory(@PathVariable(value = "id") Integer categoryId) {
+        iCategoryService.delete(categoryId);
+        return ResponseEntity.ok().build();
     }
 }
