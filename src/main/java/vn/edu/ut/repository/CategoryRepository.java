@@ -1,19 +1,25 @@
 package vn.edu.ut.repository;
 
-import vn.edu.ut.entity.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import vn.edu.ut.entity.Category;
+
+import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
-
-    boolean existsCategoriesByName(String name);
-
-    boolean existsCategoriesBySlug(String slug);
-
-    @Query("select c from Category c where c.name like %?1%")
+    @Query(value = """
+            SELECT c.*
+            FROM categories c
+            WHERE c.category_name LIKE CONCAT('%', :keyword, '%')
+            """, nativeQuery = true)
     Page<Category> search(String keyword, Pageable pageable);
 
-    Category findByNameOrSlug(String name, String slug);
+    @Query(value = """
+            SELECT c.*
+            FROM categories c
+            WHERE c.category_name = :name OR c.category_slug = :slug
+            """, nativeQuery = true)
+    Optional<Category> findByNameOrSlug(String name, String slug);
 }

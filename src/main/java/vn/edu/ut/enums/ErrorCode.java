@@ -13,7 +13,8 @@ public enum ErrorCode {
     PHONE_NUMBER_EXISTED(1005, "Phone number has been registered before", HttpStatus.CONFLICT),
     UNAUTHENTICATED(1006, "UnAuthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "UnAuthorized", HttpStatus.FORBIDDEN),
-    NOT_FOUND_RESOURCE(1008, "%s not found with %s: '%s'", HttpStatus.NOT_FOUND);
+    CATEGORY_NAME_EXISTED(1008, "Category name is existed before", HttpStatus.CONFLICT),
+    CATEGORY_SLUG_EXISTED(1009, "Category slug is existed before", HttpStatus.CONFLICT);
 
     private final int code;
     private final String message;
