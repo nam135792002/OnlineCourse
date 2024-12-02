@@ -1,19 +1,29 @@
 package vn.edu.ut.repository;
 
-import vn.edu.ut.entity.Courses;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import vn.edu.ut.entity.Courses;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CoursesRepository extends JpaRepository<Courses, Integer> {
 
+    @Query(value = """
+            SELECT CASE WHEN COUNT(*) > 0 THEN 'true' ELSE 'false' END
+            FROM courses
+            WHERE course_title = :title
+            """, nativeQuery = true)
     boolean existsCoursesByTitle(String title);
 
+    @Query(value = """
+            SELECT CASE WHEN COUNT(*) > 0 THEN 'true' ELSE 'false' END
+            FROM courses
+            WHERE course_slug = :slug
+            """, nativeQuery = true)
     boolean existsCoursesBySlug(String slug);
 
     @Query("select c from Courses c where c.title like %?1% or c.slug like %?1%" +
@@ -26,6 +36,7 @@ public interface CoursesRepository extends JpaRepository<Courses, Integer> {
 
     @Query("select c from Courses c where c.category.id = ?1")
     Page<Courses> findAllInCategory(Integer categoryId, Pageable pageable);
+
     Courses findByTitleOrSlug(String title, String slug);
 
     @Query("select c from Courses c where c.category.id = ?1")

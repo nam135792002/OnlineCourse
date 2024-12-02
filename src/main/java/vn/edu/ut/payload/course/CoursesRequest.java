@@ -6,19 +6,18 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
-@Setter
-@Getter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CoursesRequest {
-
     private Integer id;
 
     @NotEmpty(message = "Title can not be empty")
@@ -48,8 +47,8 @@ public class CoursesRequest {
     @JsonProperty("category_id")
     private Integer categoryId;
 
-    @NotEmpty(message = "Course info can not be empty")
     @Valid
+    @NotEmpty(message = "Course info can not be empty")
     @JsonProperty("info_list")
     private List<CourseInfoRequest> infoList;
 }
