@@ -1,15 +1,22 @@
+# Stage 1: build
+# Start with a Maven image that includes JDK 21
+FROM maven:3.9.8-amazoncorretto-21 AS build
 
-# Use OpenJDK 11 as the base image
-FROM openjdk:11-jre-slim
-
-# Set the working directory inside the container
+# Copy source code and pom.xml file to /app folder
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
 
-# Copy the Spring Boot application JAR file into the container
-COPY target/BackEnd-0.0.1-SNAPSHOT.jar /app/spring-hello-web.jar
+# Build source code with maven
+RUN mvn package -DskipTests
 
-# Expose the port that the Spring Boot application uses
-EXPOSE 8080
+#Stage 2: create image
+# Start with Amazon Correto JDK 21
+FROM amazoncorretto:21.0.4
 
-# Command to run the Spring Boot application when the container starts
-CMD ["java", "-jar", "spring-hello-web.jar"]
+# Set working folder to App and copy complied file from above step
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+
+# Command to run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
