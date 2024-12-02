@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:mysql://34.87.92.126:3306/online_course_db
+    username: ${DB_BETA_USERNAME}
+    password: ${DB_BETA_PASSWORD}

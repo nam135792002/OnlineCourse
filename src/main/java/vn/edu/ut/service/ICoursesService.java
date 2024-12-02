@@ -6,7 +6,7 @@ import vn.edu.ut.payload.course.*;
 
 import java.util.List;
 
-public interface CoursesService {
+public interface ICoursesService {
     CourseResponse createCourse(CoursesRequest coursesRequest, MultipartFile image);
 
     ClassResponse getAll(int pageNo, int pageSize, String sortBy, String sortDir, String keyword, Integer categoryId);
