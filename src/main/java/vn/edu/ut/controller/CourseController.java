@@ -46,7 +46,7 @@ public class CourseController {
                                           @RequestParam(value = "img") MultipartFile img) {
         CourseResponse courseResponse = iCoursesService.createCourse(coursesRequest, img);
         URI uri = URI.create("/api/courses/create/" + courseResponse.getId());
-
+      
         return ResponseEntity.created(uri).body(courseResponse);
     }
 
