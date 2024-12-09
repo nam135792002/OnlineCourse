@@ -1,34 +1,41 @@
 package vn.edu.ut.entity;
 
-import vn.edu.ut.enums.InformationType;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import vn.edu.ut.enums.InformationType;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-
 @Entity
 @Table(name = "courses")
-public class Courses {
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Courses extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "course_id")
     private Integer id;
 
-    @Column(length = 60, nullable = false, unique = true)
+    @Column(name = "course_title", length = 60, nullable = false, unique = true)
     private String title;
 
-    @Column(length = 70, nullable = false, unique = true)
+    @Column(name = "course_slug", length = 70, nullable = false, unique = true)
     private String slug;
 
     @Column(nullable = false, columnDefinition = "TEXT")

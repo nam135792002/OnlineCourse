@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:mysql://google/online_course_db?cloudSqlInstance=alert-vim-443402-u5:asia-southeast1:databaseringuyen&socketFactory=com.google.cloud.sql.mysql.SocketFactory
+    username: ${DB_BETA_USERNAME:root}
+    password: ${DB_BETA_PASSWORD:Q0*j[Q,~'>YTHDSB}

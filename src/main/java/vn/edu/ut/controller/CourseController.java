@@ -15,7 +15,7 @@ import vn.edu.ut.payload.course.CourseResponse;
 import vn.edu.ut.payload.course.CourseReturnHomePageResponse;
 import vn.edu.ut.payload.course.CourseReturnSearch;
 import vn.edu.ut.payload.course.CoursesRequest;
-import vn.edu.ut.service.CoursesService;
+import vn.edu.ut.service.ICoursesService;
 
 import java.net.URI;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
 public class CourseController {
 
     @Autowired
-    private CoursesService coursesService;
+    private ICoursesService iCoursesService;
 
     @Operation(
             summary = "Create course REST API",
@@ -44,7 +44,7 @@ public class CourseController {
     @PostMapping("/create")
     public ResponseEntity<?> createCourse(@RequestPart(value = "course") @Valid CoursesRequest coursesRequest,
                                           @RequestParam(value = "img") MultipartFile img) {
-        CourseResponse courseResponse = coursesService.createCourse(coursesRequest, img);
+        CourseResponse courseResponse = iCoursesService.createCourse(coursesRequest, img);
         URI uri = URI.create("/api/courses/create/" + courseResponse.getId());
 
         return ResponseEntity.created(uri).body(courseResponse);
@@ -75,7 +75,7 @@ public class CourseController {
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "categoryId", required = false) Integer categoryId
     ) {
-        ClassResponse classResponse = coursesService.getAll(pageNo, pageSize, sortBy, sortDir, keyword, categoryId);
+        ClassResponse classResponse = iCoursesService.getAll(pageNo, pageSize, sortBy, sortDir, keyword, categoryId);
         if (classResponse.getContent().isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -99,7 +99,7 @@ public class CourseController {
     )
     @GetMapping("/get/{id}")
     public ResponseEntity<CourseResponse> getCourseById(@PathVariable(value = "id") Integer courseId) {
-        return ResponseEntity.ok(coursesService.get(courseId));
+        return ResponseEntity.ok(iCoursesService.get(courseId));
     }
 
     @Operation(
@@ -116,7 +116,7 @@ public class CourseController {
     )
     @GetMapping("/home-page")
     public ResponseEntity<?> getCourseReturnHomePage(@RequestParam(value = "categoryId", required = false) Integer categoryId) {
-        List<CourseReturnHomePageResponse> listCourses = coursesService.getCourseIntoHomePage(categoryId);
+        List<CourseReturnHomePageResponse> listCourses = iCoursesService.getCourseIntoHomePage(categoryId);
         if (listCourses.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -137,7 +137,7 @@ public class CourseController {
     )
     @GetMapping("/get-detail/{slug}")
     public ResponseEntity<?> getCourseDetailById(@PathVariable(value = "slug") String slug) {
-        return ResponseEntity.ok(coursesService.getCourseDetail(slug));
+        return ResponseEntity.ok(iCoursesService.getCourseDetail(slug));
     }
 
     @Operation(
@@ -159,7 +159,7 @@ public class CourseController {
     public ResponseEntity<CourseResponse> updateCourse(@PathVariable(value = "id") Integer courseId,
                                                        @RequestPart(value = "course") @Valid CoursesRequest coursesRequest,
                                                        @RequestParam(value = "img", required = false) MultipartFile img) {
-        return ResponseEntity.ok(coursesService.update(courseId, coursesRequest, img));
+        return ResponseEntity.ok(iCoursesService.update(courseId, coursesRequest, img));
     }
 
     @Operation(
@@ -179,7 +179,7 @@ public class CourseController {
     )
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteCourse(@PathVariable(value = "id") Integer courseId) {
-        return ResponseEntity.ok(coursesService.delete(courseId));
+        return ResponseEntity.ok(iCoursesService.delete(courseId));
     }
 
     @Operation(
@@ -196,7 +196,7 @@ public class CourseController {
     @PostMapping("/switch-enabled")
     public ResponseEntity<?> updateIsEnabled(@RequestParam(value = "course") Integer courseId,
                                              @RequestParam(value = "enabled") boolean isEnabled) {
-        return ResponseEntity.ok(coursesService.updateIsEnabled(courseId, isEnabled));
+        return ResponseEntity.ok(iCoursesService.updateIsEnabled(courseId, isEnabled));
     }
 
     @Operation(
@@ -213,7 +213,7 @@ public class CourseController {
     @PostMapping("/switch-published")
     public ResponseEntity<?> updateIsPublished(@RequestParam(value = "course") Integer courseId,
                                                @RequestParam(value = "published") boolean isPublished) {
-        return ResponseEntity.ok(coursesService.updateIsPublished(courseId, isPublished));
+        return ResponseEntity.ok(iCoursesService.updateIsPublished(courseId, isPublished));
     }
 
     @Operation(
@@ -230,7 +230,7 @@ public class CourseController {
     @PostMapping("/switch-finished")
     public ResponseEntity<?> updateIsFinished(@RequestParam(value = "course") Integer courseId,
                                               @RequestParam(value = "finished") boolean isFinished) {
-        return ResponseEntity.ok(coursesService.updateIsFinished(courseId, isFinished));
+        return ResponseEntity.ok(iCoursesService.updateIsFinished(courseId, isFinished));
     }
 
     @Operation(
@@ -247,7 +247,7 @@ public class CourseController {
     )
     @GetMapping("/search")
     public ResponseEntity<?> search(@RequestParam(value = "keyword") String keyword) {
-        List<CourseReturnSearch> listCourses = coursesService.listAllCourseByKeyword(keyword);
+        List<CourseReturnSearch> listCourses = iCoursesService.listAllCourseByKeyword(keyword);
         if (listCourses.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

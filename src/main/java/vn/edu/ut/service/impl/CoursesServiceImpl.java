@@ -1,6 +1,7 @@
 package vn.edu.ut.service.impl;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +11,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import vn.edu.ut.entity.*;
+import vn.edu.ut.entity.Category;
+import vn.edu.ut.entity.CourseInfo;
+import vn.edu.ut.entity.Courses;
+import vn.edu.ut.entity.Lesson;
+import vn.edu.ut.entity.Review;
+import vn.edu.ut.entity.Video;
 import vn.edu.ut.enums.InformationType;
 import vn.edu.ut.enums.LessonType;
 import vn.edu.ut.exception.AppException;
@@ -18,42 +24,44 @@ import vn.edu.ut.exception.ResourceNotFoundException;
 import vn.edu.ut.payload.ClassResponse;
 import vn.edu.ut.payload.chapter.ChapterDto;
 import vn.edu.ut.payload.chapter.ChapterReturnDetailResponse;
-import vn.edu.ut.payload.course.*;
+import vn.edu.ut.payload.course.CourseInfoRequest;
+import vn.edu.ut.payload.course.CourseResponse;
+import vn.edu.ut.payload.course.CourseReturnDetailPageResponse;
+import vn.edu.ut.payload.course.CourseReturnHomePageResponse;
+import vn.edu.ut.payload.course.CourseReturnSearch;
+import vn.edu.ut.payload.course.CoursesRequest;
 import vn.edu.ut.payload.lesson.LessonResponse;
 import vn.edu.ut.payload.lesson.LessonReturnDetailResponse;
 import vn.edu.ut.repository.CategoryRepository;
 import vn.edu.ut.repository.CoursesRepository;
 import vn.edu.ut.repository.LessonRepository;
 import vn.edu.ut.repository.VideoRepository;
-import vn.edu.ut.service.CoursesService;
+import vn.edu.ut.service.ICoursesService;
 import vn.edu.ut.utils.UploadFile;
 import vn.edu.ut.utils.Utils;
 
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
-public class CoursesServiceImpl implements CoursesService {
-
-    @Autowired
-    private CoursesRepository coursesRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private UploadFile uploadFile;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private LessonRepository lessonRepository;
-    @Autowired
-    private VideoRepository videoRepository;
+public class CoursesServiceImpl implements ICoursesService {
+    private final CoursesRepository coursesRepository;
+    private final ModelMapper modelMapper;
+    private final UploadFile uploadFile;
+    private final CategoryRepository categoryRepository;
+    private final LessonRepository lessonRepository;
+    private final VideoRepository videoRepository;
 
     @Override
     public CourseResponse createCourse(CoursesRequest coursesRequest, MultipartFile image) {
-
         if (coursesRepository.existsCoursesByTitle(coursesRequest.getTitle())) {
             throw new AppException(HttpStatus.BAD_REQUEST, "Tên khóa học đã được tạo trước đó!");
         }
