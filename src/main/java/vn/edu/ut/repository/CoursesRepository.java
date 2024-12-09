@@ -37,7 +37,7 @@ public interface CoursesRepository extends JpaRepository<Courses, Integer> {
     @Query("select c from Courses c where c.category.id = ?1")
     Page<Courses> findAllInCategory(Integer categoryId, Pageable pageable);
 
-    Courses findByTitleOrSlug(String title, String slug);
+    Optional<Courses> findByTitleOrSlug(String title, String slug);
 
     @Query("select c from Courses c where c.category.id = ?1")
     List<Courses> findAllByCategoryId(Integer categoryId);

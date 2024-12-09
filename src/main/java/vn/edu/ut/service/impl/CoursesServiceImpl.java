@@ -3,7 +3,6 @@ package vn.edu.ut.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,8 +16,10 @@ import vn.edu.ut.entity.Courses;
 import vn.edu.ut.entity.Lesson;
 import vn.edu.ut.entity.Review;
 import vn.edu.ut.entity.Video;
+import vn.edu.ut.enums.ErrorCode;
 import vn.edu.ut.enums.InformationType;
 import vn.edu.ut.enums.LessonType;
+import vn.edu.ut.exception.AppApiException;
 import vn.edu.ut.exception.AppException;
 import vn.edu.ut.exception.ResourceNotFoundException;
 import vn.edu.ut.payload.ClassResponse;
@@ -63,11 +64,11 @@ public class CoursesServiceImpl implements ICoursesService {
     @Override
     public CourseResponse createCourse(CoursesRequest coursesRequest, MultipartFile image) {
         if (coursesRepository.existsCoursesByTitle(coursesRequest.getTitle())) {
-            throw new AppException(HttpStatus.BAD_REQUEST, "Tên khóa học đã được tạo trước đó!");
+            throw new AppApiException(ErrorCode.COURSE_NAME_EXISTED);
         }
 
         if (coursesRepository.existsCoursesBySlug(coursesRequest.getSlug())) {
-            throw new AppException(HttpStatus.BAD_REQUEST, "Slug khóa học đã được tạo trước đó!");
+            throw new AppApiException(ErrorCode.COURSE_SLUG_EXISTED);
         }
 
         Category category = categoryRepository.findById(coursesRequest.getCategoryId())
@@ -147,16 +148,15 @@ public class CoursesServiceImpl implements ICoursesService {
     public CourseResponse update(Integer courseId, CoursesRequest coursesRequest, MultipartFile img) {
         Courses courseInDB = coursesRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
-
         Category categoryInDB = categoryRepository.findById(coursesRequest.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", coursesRequest.getCategoryId()));
 
-        Courses courses = coursesRepository.findByTitleOrSlug(coursesRequest.getTitle(), coursesRequest.getSlug());
+        Courses courses = coursesRepository.findByTitleOrSlug(coursesRequest.getTitle(), coursesRequest.getSlug())
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "name/slug", coursesRequest.getTitle()
+                        .concat("/").concat(coursesRequest.getSlug())));
 
-        if (courses != null) {
-            if (!Objects.equals(courses.getId(), courseInDB.getId())) {
-                throw new AppException(HttpStatus.BAD_REQUEST, "Tên/Slug khóa học đã tồn tại trước đó");
-            }
+        if (!Objects.equals(courses.getId(), courseInDB.getId())) {
+            throw new AppApiException(ErrorCode.COURSE_SLUG_OR_NAME_EXISTED);
         }
 
         if (img != null) {
@@ -189,20 +189,16 @@ public class CoursesServiceImpl implements ICoursesService {
     }
 
     @Override
-    public String delete(Integer courseId) {
+    public void delete(Integer courseId) {
         Courses courseInDB = coursesRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
-
         uploadFile.deleteImageInCloudinary(courseInDB.getThumbnail());
-
         coursesRepository.delete(courseInDB);
-
-        return "Xóa khóa học thành công";
     }
 
     @Override
     public List<CourseReturnHomePageResponse> getCourseIntoHomePage(Integer categoryId) {
-        List<Courses> listCourses = null;
+        List<Courses> listCourses;
 
         if (categoryId == null) {
             listCourses = coursesRepository.findAll();

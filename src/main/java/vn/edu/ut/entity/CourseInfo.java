@@ -1,20 +1,29 @@
 package vn.edu.ut.entity;
 
-import vn.edu.ut.enums.InformationType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import vn.edu.ut.enums.InformationType;
 
-@Setter
-@Getter
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "course_informations")
-public class CourseInfo {
-
+public class CourseInfo extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -1,8 +1,8 @@
 package vn.edu.ut.repository;
 
+import org.springframework.data.repository.CrudRepository;
 import vn.edu.ut.entity.CourseInfo;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CourseInfoRepository extends JpaRepository<CourseInfo, Integer> {
+public interface CourseInfoRepository extends CrudRepository<CourseInfo, Integer> {
 
 }
