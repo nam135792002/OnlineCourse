@@ -33,7 +33,8 @@ springdoc:
   api-docs:
     path: /v3/api-docs
 app:
-  jwt-secret: ${JWT_SECRET}
+  jwt-secret: ${JWT_SECRET:1e402ebbb616551c23af31108b49364249c62d4712d31cbab8309b6d8fef253c}
+  credentials: ${GOOGLE_APPLICATION_CREDENTIALS:alert-vim-443402-u5-6b0c8b68374a.json}
 app-jwt-expiration-milliseconds: 604800000
 server:
   port: ${PORT:8080}
