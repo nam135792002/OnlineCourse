@@ -1,17 +1,17 @@
 package vn.edu.ut.payload.course;
 
-import vn.edu.ut.enums.InformationType;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import vn.edu.ut.enums.InformationType;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseInfoResponse {
     private Integer id;
+
     private String value;
+
     private InformationType type;
 }

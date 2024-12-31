@@ -2,12 +2,11 @@ package vn.edu.ut.payload.course;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import vn.edu.ut.payload.CategoryDto;
-import vn.edu.ut.payload.chapter.ChapterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vn.edu.ut.payload.CategoryDto;
 
 import java.util.Date;
 import java.util.List;
@@ -60,6 +59,8 @@ public class CourseResponse {
     @JsonProperty("info_list")
     private List<CourseInfoResponse> infoList;
 
+    /* TODO: update again chapter list, total chapter and total lesson
+    when you create chapter table and lesson table.
     @JsonProperty("chapter_list")
     private List<ChapterDto> chapterList;
 
@@ -68,4 +69,5 @@ public class CourseResponse {
 
     @JsonProperty("total_lesson")
     private int totalLesson;
+    */
 }

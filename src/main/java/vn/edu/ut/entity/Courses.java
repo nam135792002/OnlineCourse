@@ -12,9 +12,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import vn.edu.ut.enums.InformationType;
+import vn.edu.ut.payload.course.CoursesRequest;
+import vn.edu.ut.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +27,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "courses")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Courses extends AuditEntity {
@@ -85,6 +89,21 @@ public class Courses extends AuditEntity {
 
     @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Certificate> listCertificates = new ArrayList<>();
+
+    public Courses(CoursesRequest request) {
+        this.setTitle(request.getTitle());
+        String slug = Utils.removeVietnameseAccents(request.getTitle());
+        this.setSlug(slug);
+        this.setDescription(request.getDescription());
+        this.setPrice(request.getPrice());
+        this.setDiscount(request.getDiscount());
+        this.setEnabled(request.isEnabled());
+        this.setPublished(request.isPublished());
+        this.setFinished(request.isFinished());
+        if (request.isPublished()) {
+            this.setPublishedAt(new Date());
+        }
+    }
 
     public void addInfoList(String value, InformationType type) {
         this.infoList.add(new CourseInfo(value, type, this));

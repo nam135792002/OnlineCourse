@@ -26,18 +26,28 @@ public interface CoursesRepository extends JpaRepository<Courses, Integer> {
             """, nativeQuery = true)
     boolean existsCoursesBySlug(String slug);
 
-    @Query("select c from Courses c where c.title like %?1% or c.slug like %?1%" +
+    @Query("select c from Courses c where c.title like %?1% or c.slug like %?1% " +
             "or c.description like %?1% or c.category.name like %?1%")
     Page<Courses> search(String keyword, Pageable pageable);
 
-    @Query("select c from Courses c where (c.category.id = ?2) and (c.title like %?1% or c.slug like %?1%" +
+    @Query("select c from Courses c where (c.category.id = ?2) and (c.title like %?1% or c.slug like %?1% " +
             "or c.description like %?1% or c.category.name like %?1%)")
     Page<Courses> searchInCategory(String keyword, Integer categoryId, Pageable pageable);
 
     @Query("select c from Courses c where c.category.id = ?1")
     Page<Courses> findAllInCategory(Integer categoryId, Pageable pageable);
 
-    Courses findByTitleOrSlug(String title, String slug);
+    @Query(value = """
+            SELECT CASE
+                    WHEN NOT EXISTS (
+                    SELECT 1
+                    FROM online_course_db.courses c1
+                    WHERE (c1.course_title = :title OR c1.course_slug = :slug)
+                      AND c1.course_id != :id
+                     ) THEN 'true'
+                ELSE 'false' END AS result
+            """, nativeQuery = true)
+    boolean existsCoursesByTitleOrSlugAndId(String title, String slug, Integer id);
 
     @Query("select c from Courses c where c.category.id = ?1")
     List<Courses> findAllByCategoryId(Integer categoryId);
@@ -57,6 +67,6 @@ public interface CoursesRepository extends JpaRepository<Courses, Integer> {
     @Modifying
     void switchFinished(Integer courseId, boolean isFinished);
 
-    @Query("select c from Courses c where c.isEnabled = true and concat(c.title, ' ', c.category.name) like %?1% ")
+    @Query("select c from Courses c where c.isEnabled = true and concat(c.title, ' ', c.category.name, ' ', c.description) like %?1% ")
     List<Courses> search(String keyword);
 }
