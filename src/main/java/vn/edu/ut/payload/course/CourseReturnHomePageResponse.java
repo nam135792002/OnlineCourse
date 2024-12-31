@@ -1,6 +1,9 @@
 package vn.edu.ut.payload.course;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +15,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CourseReturnHomePageResponse {
 
     private Integer id;
@@ -22,14 +26,15 @@ public class CourseReturnHomePageResponse {
 
     private String thumbnail;
 
-    private int price;
+    private Integer price;
 
-    private float discount;
+    private Float discount;
 
     @JsonProperty("student_count")
-    private int studentCount;
+    private Integer studentCount;
 
     @JsonProperty("published_at")
+    @Temporal(TemporalType.DATE)
     private Date publishedAt;
 
     @JsonProperty("is_enabled")
@@ -39,8 +44,8 @@ public class CourseReturnHomePageResponse {
     private boolean isPublished;
 
     @JsonProperty("total_review")
-    private int totalReview;
+    private Integer totalReview;
 
     @JsonProperty("average_review")
-    private double averageReview;
+    private Double averageReview;
 }

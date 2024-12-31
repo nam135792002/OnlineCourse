@@ -5,9 +5,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import vn.edu.ut.constant.AppConstants;
 import vn.edu.ut.payload.ClassResponse;
@@ -22,13 +30,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/courses")
+@RequiredArgsConstructor
 @Tag(
         name = "CRUD REST APIs for Course Resource"
 )
 public class CourseController {
-
-    @Autowired
-    private ICoursesService iCoursesService;
+    private final ICoursesService iCoursesService;
 
     @Operation(
             summary = "Create course REST API",
@@ -42,11 +49,11 @@ public class CourseController {
             name = "Bear Authentication"
     )
     @PostMapping("/create")
-    public ResponseEntity<?> createCourse(@RequestPart(value = "course") @Valid CoursesRequest coursesRequest,
-                                          @RequestParam(value = "img") MultipartFile img) {
+    public ResponseEntity<CourseResponse> createCourse(@RequestPart(value = "course") @Valid CoursesRequest coursesRequest,
+                                                       @RequestParam(value = "img") MultipartFile img) {
         CourseResponse courseResponse = iCoursesService.createCourse(coursesRequest, img);
-        URI uri = URI.create("/api/courses/create/" + courseResponse.getId());
-      
+        URI uri = URI.create("/api/courses/get/" + courseResponse.getId());
+
         return ResponseEntity.created(uri).body(courseResponse);
     }
 
@@ -178,8 +185,9 @@ public class CourseController {
             name = "Bear Authentication"
     )
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCourse(@PathVariable(value = "id") Integer courseId) {
-        return ResponseEntity.ok(iCoursesService.delete(courseId));
+    public ResponseEntity<Void> deleteCourse(@PathVariable(value = "id") Integer courseId) {
+        iCoursesService.delete(courseId);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(
@@ -194,9 +202,10 @@ public class CourseController {
             name = "Bear Authentication"
     )
     @PostMapping("/switch-enabled")
-    public ResponseEntity<?> updateIsEnabled(@RequestParam(value = "course") Integer courseId,
-                                             @RequestParam(value = "enabled") boolean isEnabled) {
-        return ResponseEntity.ok(iCoursesService.updateIsEnabled(courseId, isEnabled));
+    public ResponseEntity<Void> updateIsEnabled(@RequestParam(value = "course") Integer courseId,
+                                                @RequestParam(value = "enabled") boolean isEnabled) {
+        iCoursesService.updateIsEnabled(courseId, isEnabled);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(
@@ -211,9 +220,10 @@ public class CourseController {
             name = "Bear Authentication"
     )
     @PostMapping("/switch-published")
-    public ResponseEntity<?> updateIsPublished(@RequestParam(value = "course") Integer courseId,
-                                               @RequestParam(value = "published") boolean isPublished) {
-        return ResponseEntity.ok(iCoursesService.updateIsPublished(courseId, isPublished));
+    public ResponseEntity<Void> updateIsPublished(@RequestParam(value = "course") Integer courseId,
+                                                  @RequestParam(value = "published") boolean isPublished) {
+        iCoursesService.updateIsPublished(courseId, isPublished);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(
@@ -228,9 +238,10 @@ public class CourseController {
             name = "Bear Authentication"
     )
     @PostMapping("/switch-finished")
-    public ResponseEntity<?> updateIsFinished(@RequestParam(value = "course") Integer courseId,
-                                              @RequestParam(value = "finished") boolean isFinished) {
-        return ResponseEntity.ok(iCoursesService.updateIsFinished(courseId, isFinished));
+    public ResponseEntity<Void> updateIsFinished(@RequestParam(value = "course") Integer courseId,
+                                                 @RequestParam(value = "finished") boolean isFinished) {
+        iCoursesService.updateIsFinished(courseId, isFinished);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(

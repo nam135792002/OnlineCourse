@@ -1,8 +1,8 @@
 package vn.edu.ut.exception;
 
-import vn.edu.ut.enums.ErrorCode;
 import lombok.Getter;
 import lombok.Setter;
+import vn.edu.ut.enums.ErrorCode;
 
 @Setter
 @Getter

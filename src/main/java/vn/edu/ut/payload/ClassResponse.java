@@ -19,7 +19,7 @@ public class ClassResponse {
     private boolean last;
 
 
-    public static ClassResponse convertToClassResponse(Page<?> pages, List<?> lists){
+    public static ClassResponse convertToClassResponse(Page<?> pages, List<?> lists) {
         ClassResponse classResponse = new ClassResponse();
         classResponse.setContent(lists);
         classResponse.setPageNo(pages.getNumber());

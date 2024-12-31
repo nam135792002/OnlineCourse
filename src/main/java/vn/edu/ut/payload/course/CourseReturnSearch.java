@@ -1,6 +1,9 @@
 package vn.edu.ut.payload.course;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +15,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CourseReturnSearch {
 
     private Integer id;
@@ -28,8 +32,9 @@ public class CourseReturnSearch {
     private boolean isPublished;
 
     @JsonProperty("published_at")
+    @Temporal(TemporalType.DATE)
     private Date publishedAt;
 
     @JsonProperty("average_review")
-    private double averageReview;
+    private Double averageReview;
 }

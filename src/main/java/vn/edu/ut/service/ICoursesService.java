@@ -2,7 +2,11 @@ package vn.edu.ut.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import vn.edu.ut.payload.ClassResponse;
-import vn.edu.ut.payload.course.*;
+import vn.edu.ut.payload.course.CourseResponse;
+import vn.edu.ut.payload.course.CourseReturnDetailPageResponse;
+import vn.edu.ut.payload.course.CourseReturnHomePageResponse;
+import vn.edu.ut.payload.course.CourseReturnSearch;
+import vn.edu.ut.payload.course.CoursesRequest;
 
 import java.util.List;
 
@@ -15,17 +19,17 @@ public interface ICoursesService {
 
     CourseResponse update(Integer courseId, CoursesRequest coursesRequest, MultipartFile img);
 
-    String delete(Integer courseId);
+    void delete(Integer courseId);
 
     List<CourseReturnHomePageResponse> getCourseIntoHomePage(Integer categoryId);
 
     CourseReturnDetailPageResponse getCourseDetail(String slug);
 
-    String updateIsEnabled(Integer courseId, boolean isEnabled);
+    void updateIsEnabled(Integer courseId, boolean isEnabled);
 
-    String updateIsPublished(Integer courseId, boolean isPublished);
+    void updateIsPublished(Integer courseId, boolean isPublished);
 
-    String updateIsFinished(Integer courseId, boolean isFinished);
+    void updateIsFinished(Integer courseId, boolean isFinished);
 
     List<CourseReturnSearch> listAllCourseByKeyword(String keyword);
 
