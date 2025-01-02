@@ -59,8 +59,7 @@ public class CourseResponse {
     @JsonProperty("info_list")
     private List<CourseInfoResponse> infoList;
 
-    /* TODO: update again chapter list, total chapter and total lesson
-    when you create chapter table and lesson table.
+    /* TODO: update again chapter list, total chapter and total lesson when you create chapter table and lesson table.
     @JsonProperty("chapter_list")
     private List<ChapterDto> chapterList;
 

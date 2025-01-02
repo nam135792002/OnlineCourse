@@ -17,7 +17,9 @@ public enum ErrorCode {
     CATEGORY_SLUG_EXISTED(1009, "Category slug is existed before", HttpStatus.CONFLICT),
     COURSE_NAME_EXISTED(1010, "Course name is existed before", HttpStatus.CONFLICT),
     COURSE_SLUG_EXISTED(1011, "Course slug is existed before", HttpStatus.CONFLICT),
-    COURSE_SLUG_NAME_EXISTED(1012, "Course slug/name is existed before", HttpStatus.CONFLICT);
+    COURSE_SLUG_NAME_EXISTED(1012, "Course slug/name is existed before", HttpStatus.CONFLICT),
+    DUPLICATE_NAME_CHAPTER_WITHIN_COURSE(1013, "Name of chapter have existed within same course",
+            HttpStatus.CONFLICT);
 
     private final int code;
     private final String message;
