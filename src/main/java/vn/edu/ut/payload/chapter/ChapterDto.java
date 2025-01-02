@@ -1,31 +1,29 @@
 package vn.edu.ut.payload.chapter;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import vn.edu.ut.payload.lesson.LessonResponse;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.List;
-
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ChapterDto {
     private Integer id;
 
-    @NotEmpty
-    @Length(min = 5, max = 190, message = "Chapter name must have 5 - 190 characters")
+    @NotBlank(message = "Chapter name can not be empty")
+    @Length(min = 5, max = 100, message = "Chapter name must have 5 - 190 characters")
     private String name;
 
-    @JsonProperty("total_lesson")
-    private int totalLesson;
-
-    private List<LessonResponse> lessonList;
-
     private int orders;
+
+    @JsonProperty("total_lesson")
+    private Integer totalLesson;
+
+//    private List<LessonResponse> lessonList;
+
 }

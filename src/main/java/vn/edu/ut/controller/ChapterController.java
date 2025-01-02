@@ -1,26 +1,32 @@
 package vn.edu.ut.controller;
 
-import vn.edu.ut.payload.chapter.ChapterDto;
-import vn.edu.ut.service.ChapterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import vn.edu.ut.payload.chapter.ChapterDto;
+import vn.edu.ut.service.ChapterService;
 
 import java.net.URI;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/courses")
 @Tag(
         name = "Create, Update and Delete REST APIs for Chapter Resource"
 )
 public class ChapterController {
-
-    @Autowired private ChapterService chapterService;
+    private final ChapterService chapterService;
 
     @Operation(
             summary = "Create chapter in a course REST API",
@@ -35,7 +41,7 @@ public class ChapterController {
     )
     @PostMapping("/{courseId}/chapters/create")
     public ResponseEntity<ChapterDto> addChapter(@RequestBody @Valid ChapterDto chapterDto,
-                                                 @PathVariable(value = "courseId") Integer courseId){
+                                                 @PathVariable(value = "courseId") Integer courseId) {
         ChapterDto response = chapterService.createChapter(courseId, chapterDto);
 
         URI uri = URI.create("/api/chapters/" + response.getId());
@@ -60,7 +66,7 @@ public class ChapterController {
     @PutMapping("/{courseId}/chapters/{chapterId}/update")
     public ResponseEntity<ChapterDto> updateChapter(@PathVariable(value = "courseId") Integer courseId,
                                                     @PathVariable(value = "chapterId") Integer chapterId,
-                                                    @RequestBody @Valid ChapterDto chapterDto){
+                                                    @RequestBody @Valid ChapterDto chapterDto) {
         return ResponseEntity.ok(chapterService.updateChapter(courseId, chapterId, chapterDto));
     }
 
@@ -80,8 +86,9 @@ public class ChapterController {
             name = "Bear Authentication"
     )
     @DeleteMapping("/{courseId}/chapters/{chapterId}/delete")
-    public ResponseEntity<String> deleteChapter(@PathVariable(value = "courseId") Integer courseId,
-                                                @PathVariable(value = "chapterId") Integer chapterId){
-        return ResponseEntity.ok(chapterService.deleteChapter(courseId, chapterId));
+    public ResponseEntity<Void> deleteChapter(@PathVariable(value = "courseId") Integer courseId,
+                                              @PathVariable(value = "chapterId") Integer chapterId) {
+        chapterService.deleteChapter(courseId, chapterId);
+        return ResponseEntity.ok().build();
     }
 }

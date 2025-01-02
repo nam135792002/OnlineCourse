@@ -1,32 +1,43 @@
 package vn.edu.ut.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "chapters")
-public class Chapter {
-
+public class Chapter extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "chapter_id")
     private Integer id;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "chapter_name", nullable = false, length = 100)
     private String name;
 
+    @Column(name = "chapter_orders", nullable = false)
+    private int orders;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", nullable = false)
     private Courses course;
 
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -35,7 +46,11 @@ public class Chapter {
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrackCourse> trackCourseList = new ArrayList<>();
 
-    private int orders;
+    public Chapter(String name, int orders, Courses course) {
+        this.name = name;
+        this.orders = orders;
+        this.course = course;
+    }
 
     @Override
     public boolean equals(Object o) {
