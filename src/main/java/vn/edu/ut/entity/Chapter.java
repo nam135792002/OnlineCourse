@@ -40,11 +40,12 @@ public class Chapter extends AuditEntity {
     @JoinColumn(name = "course_id", nullable = false)
     private Courses course;
 
-    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Lesson> lessonList = new ArrayList<>();
+    /*TODO: update lesson list and track course list after update lesson entity*/
+//    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Lesson> lessonList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TrackCourse> trackCourseList = new ArrayList<>();
+//    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<TrackCourse> trackCourseList = new ArrayList<>();
 
     public Chapter(String name, int orders, Courses course) {
         this.name = name;

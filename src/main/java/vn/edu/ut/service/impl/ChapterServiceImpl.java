@@ -70,7 +70,7 @@ public class ChapterServiceImpl implements ChapterService {
 
         Chapter chapter = chapterRepository.findById(chapterId)
                 .orElseThrow(() -> new ResourceNotFoundException("Chapter", "id", chapterId));
-
+        chapterRepository.updateChapterOrderByCourseIdAfterDeleteChapter(courseId, chapter.getOrders());
         chapterRepository.delete(chapter);
     }
 }

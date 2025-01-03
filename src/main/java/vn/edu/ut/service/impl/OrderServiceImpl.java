@@ -62,22 +62,23 @@ public class OrderServiceImpl implements OrderService {
         orderResponse.setCustomerName(savedOrder.getUser().getFullName());
         orderResponse.setCourseName(savedOrder.getCourses().getTitle());
 
-        for (Chapter chapter : courses.getChapterList()) {
-            for (Lesson lesson : chapter.getLessonList()) {
-                TrackCourse trackCourse = new TrackCourse();
-                trackCourse.setCourses(courses);
-                trackCourse.setChapter(chapter);
-                trackCourse.setLesson(lesson);
-                trackCourse.setUser(user);
-                trackCourse.setCompleted(false);
-                if (chapter.getOrders() == 1 && lesson.getOrders() == 1) {
-                    trackCourse.setUnlock(true);
-                    trackCourse.setCurrent(true);
-                }
-
-                trackCourseRepository.save(trackCourse);
-            }
-        }
+        /*TODO: Restore code after update lesson*/
+//        for (Chapter chapter : courses.getChapterList()) {
+//            for (Lesson lesson : chapter.getLessonList()) {
+//                TrackCourse trackCourse = new TrackCourse();
+//                trackCourse.setCourses(courses);
+//                trackCourse.setChapter(chapter);
+//                trackCourse.setLesson(lesson);
+//                trackCourse.setUser(user);
+//                trackCourse.setCompleted(false);
+//                if (chapter.getOrders() == 1 && lesson.getOrders() == 1) {
+//                    trackCourse.setUnlock(true);
+//                    trackCourse.setCurrent(true);
+//                }
+//
+//                trackCourseRepository.save(trackCourse);
+//            }
+//        }
         return orderResponse;
     }
 
@@ -96,22 +97,23 @@ public class OrderServiceImpl implements OrderService {
         courses.setStudentCount(totalStudent + 1);
         coursesRepository.save(courses);
 
-        for (Chapter chapter : courses.getChapterList()) {
-            for (Lesson lesson : chapter.getLessonList()) {
-                TrackCourse trackCourse = new TrackCourse();
-                trackCourse.setCourses(courses);
-                trackCourse.setChapter(chapter);
-                trackCourse.setLesson(lesson);
-                trackCourse.setUser(user);
-                trackCourse.setCompleted(false);
-                if (chapter.getOrders() == 0 && lesson.getOrders() == 1) {
-                    trackCourse.setUnlock(true);
-                    trackCourse.setCurrent(true);
-                }
-
-                trackCourseRepository.save(trackCourse);
-            }
-        }
+        /*TODO: Restore code after update lesson*/
+//        for (Chapter chapter : courses.getChapterList()) {
+//            for (Lesson lesson : chapter.getLessonList()) {
+//                TrackCourse trackCourse = new TrackCourse();
+//                trackCourse.setCourses(courses);
+//                trackCourse.setChapter(chapter);
+//                trackCourse.setLesson(lesson);
+//                trackCourse.setUser(user);
+//                trackCourse.setCompleted(false);
+//                if (chapter.getOrders() == 0 && lesson.getOrders() == 1) {
+//                    trackCourse.setUnlock(true);
+//                    trackCourse.setCurrent(true);
+//                }
+//
+//                trackCourseRepository.save(trackCourse);
+//            }
+//        }
     }
 
     @Override
