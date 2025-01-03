@@ -4,7 +4,7 @@ import vn.edu.ut.entity.Courses;
 import vn.edu.ut.payload.track.InfoCourseRegistered;
 import vn.edu.ut.payload.track.TrackCourseRequest;
 import vn.edu.ut.service.CertificateService;
-import vn.edu.ut.service.LessonService;
+import vn.edu.ut.service.ILessonService;
 import vn.edu.ut.service.TrackCourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,7 +28,7 @@ public class TrackCourseController {
     @Autowired
     private TrackCourseService trackCourseService;
     @Autowired
-    private LessonService lessonService;
+    private ILessonService ILessonService;
     @Autowired
     private CertificateService certificateService;
 
@@ -63,7 +63,7 @@ public class TrackCourseController {
     @PostMapping("/confirm-done")
     public ResponseEntity<?> doneLesson(@RequestParam(value = "email") String email, @RequestParam(value = "lesson") Integer lessonId) {
         Integer lessonIdNext = trackCourseService.confirmLessonLearned(email, lessonId);
-        Courses courses = lessonService.getCourse(lessonId);
+        Courses courses = ILessonService.getCourse(lessonId);
         if (lessonIdNext != -1) {
             return ResponseEntity.ok("CONTINUE");
         } else {

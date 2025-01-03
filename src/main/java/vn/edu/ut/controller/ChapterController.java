@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.edu.ut.payload.chapter.ChapterDto;
-import vn.edu.ut.service.ChapterService;
+import vn.edu.ut.service.IChapterService;
 
 import java.net.URI;
 
@@ -26,7 +26,7 @@ import java.net.URI;
         name = "Create, Update and Delete REST APIs for Chapter Resource"
 )
 public class ChapterController {
-    private final ChapterService chapterService;
+    private final IChapterService iChapterService;
 
     @Operation(
             summary = "Create chapter in a course REST API",
@@ -42,7 +42,7 @@ public class ChapterController {
     @PostMapping("/{courseId}/chapters/create")
     public ResponseEntity<ChapterDto> addChapter(@RequestBody @Valid ChapterDto chapterDto,
                                                  @PathVariable(value = "courseId") Integer courseId) {
-        ChapterDto response = chapterService.createChapter(courseId, chapterDto);
+        ChapterDto response = iChapterService.createChapter(courseId, chapterDto);
 
         URI uri = URI.create("/api/chapters/" + response.getId());
         return ResponseEntity.created(uri).body(response);
@@ -67,7 +67,7 @@ public class ChapterController {
     public ResponseEntity<ChapterDto> updateChapter(@PathVariable(value = "courseId") Integer courseId,
                                                     @PathVariable(value = "chapterId") Integer chapterId,
                                                     @RequestBody @Valid ChapterDto chapterDto) {
-        return ResponseEntity.ok(chapterService.updateChapter(courseId, chapterId, chapterDto));
+        return ResponseEntity.ok(iChapterService.updateChapter(courseId, chapterId, chapterDto));
     }
 
     @Operation(
@@ -88,7 +88,7 @@ public class ChapterController {
     @DeleteMapping("/{courseId}/chapters/{chapterId}/delete")
     public ResponseEntity<Void> deleteChapter(@PathVariable(value = "courseId") Integer courseId,
                                               @PathVariable(value = "chapterId") Integer chapterId) {
-        chapterService.deleteChapter(courseId, chapterId);
+        iChapterService.deleteChapter(courseId, chapterId);
         return ResponseEntity.ok().build();
     }
 }

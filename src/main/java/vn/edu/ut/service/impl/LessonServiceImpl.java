@@ -1,10 +1,18 @@
 package vn.edu.ut.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import vn.edu.ut.entity.*;
+import vn.edu.ut.entity.Answer;
+import vn.edu.ut.entity.Chapter;
+import vn.edu.ut.entity.Courses;
+import vn.edu.ut.entity.Lesson;
+import vn.edu.ut.entity.Order;
+import vn.edu.ut.entity.Quiz;
+import vn.edu.ut.entity.TextLesson;
+import vn.edu.ut.entity.TrackCourse;
+import vn.edu.ut.entity.Video;
 import vn.edu.ut.enums.LessonType;
 import vn.edu.ut.enums.QuizType;
 import vn.edu.ut.exception.AppException;
@@ -13,33 +21,29 @@ import vn.edu.ut.payload.lesson.LessonRequest;
 import vn.edu.ut.payload.lesson.LessonResponse;
 import vn.edu.ut.payload.quiz.AnswerDto;
 import vn.edu.ut.payload.quiz.QuizRequest;
-import vn.edu.ut.repository.*;
-import vn.edu.ut.service.LessonService;
+import vn.edu.ut.repository.ChapterRepository;
+import vn.edu.ut.repository.LessonRepository;
+import vn.edu.ut.repository.OrderRepository;
+import vn.edu.ut.repository.QuizRepository;
+import vn.edu.ut.repository.TrackCourseRepository;
+import vn.edu.ut.service.ILessonService;
 import vn.edu.ut.utils.UploadFile;
 import vn.edu.ut.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Service
-public class LessonServiceImpl implements LessonService {
-
-    @Autowired
-    private LessonRepository lessonRepository;
-    @Autowired
-    private ChapterRepository chapterRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private UploadFile uploadFile;
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private TrackCourseRepository trackCourseRepository;
-    @Autowired
-    private QuizRepository quizRepository;
+@RequiredArgsConstructor
+public class LessonServiceImpl implements ILessonService {
+    private final LessonRepository lessonRepository;
+    private final ChapterRepository chapterRepository;
+    private final ModelMapper modelMapper;
+    private final UploadFile uploadFile;
+    private final OrderRepository orderRepository;
+    private final TrackCourseRepository trackCourseRepository;
+    private final QuizRepository quizRepository;
 
     @Override
     public LessonResponse createLesson(LessonRequest lessonRequest, Video video, TextLesson textLesson, QuizRequest[] quizRequest) {
@@ -53,7 +57,6 @@ public class LessonServiceImpl implements LessonService {
 
         Lesson lesson = new Lesson();
         lesson.setName(lessonRequest.getName());
-        lesson.setCreatedAt(new Date());
         lesson.setLessonType(LessonType.valueOf(lessonRequest.getLessonType()));
         lesson.setChapter(chapter);
         lesson.setVideo(video);

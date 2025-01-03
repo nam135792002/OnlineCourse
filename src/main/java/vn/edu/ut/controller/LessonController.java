@@ -7,7 +7,7 @@ import vn.edu.ut.payload.lesson.LessonRequest;
 import vn.edu.ut.payload.lesson.LessonResponse;
 import vn.edu.ut.payload.quiz.QuizRequest;
 import vn.edu.ut.payload.video.VideoDto;
-import vn.edu.ut.service.LessonService;
+import vn.edu.ut.service.ILessonService;
 import vn.edu.ut.service.TextLessonService;
 import vn.edu.ut.service.VideoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 )
 public class LessonController {
 
-    @Autowired private LessonService lessonService;
+    @Autowired private ILessonService ILessonService;
     @Autowired private VideoService videoService;
     @Autowired private TextLessonService textLessonService;
 
@@ -56,7 +56,7 @@ public class LessonController {
             case "TEXT" -> savedText = textLessonService.createTextLesson(textLessonDto);
         }
 
-        return new ResponseEntity<>(lessonService.createLesson(lessonRequest, savedVideo, savedText, quizRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(ILessonService.createLesson(lessonRequest, savedVideo, savedText, quizRequest), HttpStatus.CREATED);
     }
 
     @Operation(
@@ -76,7 +76,7 @@ public class LessonController {
     )
     @GetMapping("/get/{id}")
     public ResponseEntity<LessonResponse> get(@PathVariable(value = "id") Integer lessonId){
-        return ResponseEntity.ok(lessonService.get(lessonId));
+        return ResponseEntity.ok(ILessonService.get(lessonId));
     }
 
     @Operation(
@@ -107,7 +107,7 @@ public class LessonController {
             case "VIDEO" -> savedVideo = videoService.updateVideo(videoDto, videoUpload);
             case "TEXT" -> savedText = textLessonService.updateTextLesson(textLessonDto);
         }
-        return ResponseEntity.ok(lessonService.updateLesson(lessonId, lessonRequest, savedVideo, savedText, quizRequest));
+        return ResponseEntity.ok(ILessonService.updateLesson(lessonId, lessonRequest, savedVideo, savedText, quizRequest));
     }
 
     @Operation(
@@ -127,6 +127,6 @@ public class LessonController {
     )
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable(value = "id") Integer lessonId){
-        return ResponseEntity.ok(lessonService.deleteLesson(lessonId));
+        return ResponseEntity.ok(ILessonService.deleteLesson(lessonId));
     }
 }

@@ -12,12 +12,12 @@ import vn.edu.ut.exception.ResourceNotFoundException;
 import vn.edu.ut.payload.chapter.ChapterDto;
 import vn.edu.ut.repository.ChapterRepository;
 import vn.edu.ut.repository.CoursesRepository;
-import vn.edu.ut.service.ChapterService;
+import vn.edu.ut.service.IChapterService;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ChapterServiceImpl implements ChapterService {
+public class ChapterServiceImpl implements IChapterService {
     private final ChapterRepository chapterRepository;
     private final CoursesRepository coursesRepository;
     private final ModelMapper modelMapper;
