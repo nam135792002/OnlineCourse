@@ -54,4 +54,12 @@ public interface ChapterRepository extends JpaRepository<Chapter, Integer> {
             """, nativeQuery = true)
     void updateChapterOrderByCourseIdAfterUpdateChapterPushUp(Integer courseId, Integer chapterOrderCurrent,
                                                               Integer chapterOrderRequest);
+
+    @Modifying
+    @Query(value = """
+            UPDATE chapters c
+            SET c.chapter_orders = c.chapter_orders - 1
+            WHERE c.course_id = :courseId AND c.chapter_orders >= :chapterOrder
+            """, nativeQuery = true)
+    void updateChapterOrderByCourseIdAfterDeleteChapter(Integer courseId, Integer chapterOrder);
 }
